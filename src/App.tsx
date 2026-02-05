@@ -21,7 +21,7 @@ function App() {
       <Header setSideBarOpen={setSideBarOpen} />
       <ClassNavbar />
       <Sidebar ref={sideBarRef} isOpen={isSideBarOpen} />
-      <main className="p-5 grid gap-3 min-[668px]:grid-cols-2">
+      <main className="p-3 grid gap-3 min-[668px]:grid-cols-2">
         {/* <ClassCard className="Big Data Analytics" teacherName="Omar Usman Khan"/>
         <ClassCard className="Big Data Analytics" teacherName="Omar Usman Khan"/>
         <ClassCard className="Big Data Analytics" teacherName="Omar Usman Khan"/> */}
