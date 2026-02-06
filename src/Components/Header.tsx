@@ -3,6 +3,7 @@ import { Cog6ToothIcon } from "@heroicons/react/24/outline"
 import { useDropdown } from "../hooks/useDropdown.tsx"
 import Menu from "@mui/material/Menu"
 import MenuItem from "@mui/material/MenuItem"
+import { useDialogContext } from "../hooks/useDialogContext.tsx"
 
 interface HeaderProps {
     setSideBarOpen: (state: boolean) => void
@@ -11,10 +12,12 @@ interface HeaderProps {
 }
 
 
+
 export const Header = ({ setSideBarOpen, className = 'Database Systems', classSection = '4B Spring26' }: HeaderProps) => {
 
-    const { anchorElem, handleClick, handleClose } = useDropdown()
-    const open: boolean = anchorElem ? true : false
+    const [joinDialog, createDialog] = useDialogContext()
+
+    const { anchorElem, handleClick, handleClose, open } = useDropdown()
 
 
     return (
@@ -30,8 +33,14 @@ export const Header = ({ setSideBarOpen, className = 'Database Systems', classSe
                     <PlusIcon className="size-6 text-gray-700" />
                 </button>
                 <Menu open={open} onClose={handleClose} anchorEl={anchorElem}>
-                    <MenuItem onClick={handleClose}>Join class</MenuItem>
-                    <MenuItem onClick={handleClose}>Create class</MenuItem>
+                    <MenuItem onClick={() => {
+                        joinDialog.setIsDialogOpen(true)
+                        handleClose()
+                    }}>Join class</MenuItem>
+                    <MenuItem onClick={() => {
+                        createDialog.setIsDialogOpen(true)
+                        handleClose()
+                    }}>Create class</MenuItem>
                 </Menu>
             </div>
         </header>

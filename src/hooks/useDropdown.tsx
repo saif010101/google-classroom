@@ -4,12 +4,13 @@ interface DropdownData {
     anchorElem: HTMLElement | null
     handleClick: (event: React.MouseEvent<HTMLElement>) => void
     handleClose: () => void
+    open : boolean
 }
 
 export const useDropdown = (): DropdownData => {
 
     const [anchorElem, setAnchorElem] = useState<HTMLElement | null>(null)
-    const open = anchorElem ? true : false
+    const open = Boolean(anchorElem)
 
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElem(event.currentTarget)
@@ -19,5 +20,5 @@ export const useDropdown = (): DropdownData => {
         setAnchorElem(null)
     }
 
-    return { anchorElem, handleClick, handleClose }
+    return { anchorElem, handleClick, handleClose, open }
 }

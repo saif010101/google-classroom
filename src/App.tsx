@@ -2,14 +2,15 @@ import { useState, useRef } from "react"
 import { Header } from "./Components/Header.tsx"
 import { Sidebar } from "./Components/Sidebar/Sidebar.tsx"
 import { useClickOutside } from "./hooks/useClickOutside.tsx"
-import { ClassCard } from "./Components/ClassCard.tsx"
-import { ClassNavbar } from "./Components/ClassNavbar.tsx"
-import { ClassStream } from "./Components/Class/ClassStream.tsx"
+import { Home } from "./Components/Home/Home.tsx"
+import { DialogContext } from "./contexts/DialogContext.tsx"
 
 function App() {
 
   const sideBarRef = useRef<HTMLDivElement>(null)
-  const [isSideBarOpen, setSideBarOpen] = useState(false)
+  const [isSideBarOpen, setSideBarOpen] = useState<boolean>(false)
+  const [isJoinDialogOpen, setisJoinDialogOpen] = useState<boolean>(false)
+  const [isCreateDialogOpen, setisCreateDialogOpen] = useState<boolean>(false)
 
   // a custom hook which closes the sidebar when clicked outside of it
   useClickOutside(sideBarRef, () => {
@@ -17,17 +18,24 @@ function App() {
   })
 
   return (
-    <>
+    <DialogContext.Provider
+      value={
+        [
+          {
+            isDialogOpen: isJoinDialogOpen,
+            setIsDialogOpen: setisJoinDialogOpen
+          },
+          {
+            isDialogOpen: isCreateDialogOpen,
+            setIsDialogOpen: setisCreateDialogOpen
+          }
+        ]
+      }
+    >
       <Header setSideBarOpen={setSideBarOpen} />
-      <ClassNavbar />
       <Sidebar ref={sideBarRef} isOpen={isSideBarOpen} />
-      <main className="p-3 grid gap-3 min-[668px]:grid-cols-2">
-        {/* <ClassCard className="Big Data Analytics" teacherName="Omar Usman Khan"/>
-        <ClassCard className="Big Data Analytics" teacherName="Omar Usman Khan"/>
-        <ClassCard className="Big Data Analytics" teacherName="Omar Usman Khan"/> */}
-        <ClassStream />
-      </main>
-    </>
+      <Home />
+    </DialogContext.Provider>
   )
 }
 

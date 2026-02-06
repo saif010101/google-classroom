@@ -12,8 +12,7 @@ interface ClassCardProps {
 
 export const ClassCard = ({ className, teacherName, profileUrl }: ClassCardProps) => {
 
-    const { anchorElem, handleClick, handleClose } = useDropdown()
-    const open: boolean = anchorElem ? true : false
+    const { anchorElem, handleClick, handleClose, open } = useDropdown()
 
     return (
         <div className="w-80 grid grid-rows-[2fr 3fr 1fr] shadow-xl inset-shadow-md border border-gray-400 rounded-xl overflow-hidden">
