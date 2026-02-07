@@ -10,11 +10,11 @@ import { useDialogContext } from '../hooks/useDialogContext';
 export function JoinClassDialog() {
 
 
-    const [joinDialog] = useDialogContext()
+    const { activeDialog, closeDialog } = useDialogContext()
 
 
     const handleClose = () => {
-        joinDialog.setIsDialogOpen(false);
+        closeDialog()
     };
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -28,7 +28,7 @@ export function JoinClassDialog() {
 
     return (
         <>
-            <Dialog open={joinDialog.isDialogOpen} onClose={handleClose}>
+            <Dialog open={activeDialog === "join"} onClose={handleClose}>
                 <DialogTitle>Join Class</DialogTitle>
                 <DialogContent>
                     <DialogContentText>

@@ -1,13 +1,16 @@
-import { useContext, type Dispatch, type SetStateAction } from "react"
+import { useContext } from "react"
 import { DialogContext } from "../contexts/DialogContext.tsx"
 
+type DialogType = "join" | "create" | null
 
 interface ContextShape {
-    isDialogOpen: boolean
-    setIsDialogOpen: Dispatch<SetStateAction<boolean>>
+    activeDialog: DialogType,
+    openJoinDialog: () => void
+    openCreateDialog: () => void,
+    closeDialog: () => void
 }
 
-export const useDialogContext = (): ContextShape[] => {
+export const useDialogContext = (): ContextShape => {
     const context = useContext(DialogContext)
 
     if (context === undefined) {

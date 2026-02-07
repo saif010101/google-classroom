@@ -1,16 +1,14 @@
 import { EllipsisVerticalIcon } from "@heroicons/react/16/solid"
 import Menu from "@mui/material/Menu"
 import MenuItem from "@mui/material/MenuItem"
-import profilePic from "../assets/profile.png"
 import { useDropdown } from "../hooks/useDropdown.tsx"
 
 interface ClassCardProps {
     className: string
     teacherName: string
-    profileUrl?: string
 }
 
-export const ClassCard = ({ className, teacherName, profileUrl }: ClassCardProps) => {
+export const ClassCard = ({ className, teacherName}: ClassCardProps) => {
 
     const { anchorElem, handleClick, handleClose, open } = useDropdown()
 
@@ -22,9 +20,9 @@ export const ClassCard = ({ className, teacherName, profileUrl }: ClassCardProps
             </div>
             <div className="h-30 relative">
                 {/* teacher image */}
-                <div className="absolute right-5 -translate-y-[50%] rounded-full overflow-hidden">
+                {/* <div className="absolute right-5 -translate-y-[50%] rounded-full overflow-hidden">
                     <img className="size-15" src={profilePic} alt="" />
-                </div>
+                </div> */}
             </div>
             <div className="p-3 flex justify-end border-t-1 border-gray-400">
                 <button id="basic-button" className="cursor-pointer" onClick={handleClick} >

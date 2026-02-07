@@ -9,8 +9,11 @@ function App() {
 
   const sideBarRef = useRef<HTMLDivElement>(null)
   const [isSideBarOpen, setSideBarOpen] = useState<boolean>(false)
-  const [isJoinDialogOpen, setisJoinDialogOpen] = useState<boolean>(false)
-  const [isCreateDialogOpen, setisCreateDialogOpen] = useState<boolean>(false)
+
+  const [activeDialog, setActiveDialog] = useState<"join" | "create" | null>(null)
+  // const [isJoinDialogOpen, setisJoinDialogOpen] = useState<boolean>(false)
+  // const [isCreateDialogOpen, setisCreateDialogOpen] = useState<boolean>(false)
+
 
   // a custom hook which closes the sidebar when clicked outside of it
   useClickOutside(sideBarRef, () => {
@@ -20,16 +23,12 @@ function App() {
   return (
     <DialogContext.Provider
       value={
-        [
-          {
-            isDialogOpen: isJoinDialogOpen,
-            setIsDialogOpen: setisJoinDialogOpen
-          },
-          {
-            isDialogOpen: isCreateDialogOpen,
-            setIsDialogOpen: setisCreateDialogOpen
-          }
-        ]
+        {
+          activeDialog,
+          openJoinDialog: () => setActiveDialog("join"),
+          openCreateDialog: () => setActiveDialog("create"),
+          closeDialog: () => setActiveDialog(null)
+        }
       }
     >
       <Header setSideBarOpen={setSideBarOpen} />

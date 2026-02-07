@@ -9,10 +9,10 @@ import { useDialogContext } from '../hooks/useDialogContext';
 export function CreateClassDialog() {
 
     // the order matters here, refer to App.tsx to know which index belongs to which dialog
-    const [joinDialog, createDialog] = useDialogContext()
+    const { activeDialog, closeDialog } = useDialogContext()
 
     const handleClose = () => {
-        createDialog.setIsDialogOpen(false);
+        closeDialog()
     };
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -26,7 +26,7 @@ export function CreateClassDialog() {
 
     return (
         <>
-            <Dialog open={createDialog.isDialogOpen} onClose={handleClose}>
+            <Dialog open={activeDialog === "create"} onClose={handleClose}>
                 <DialogTitle>Create Class</DialogTitle>
                 <DialogContent>
                     <form onSubmit={handleSubmit} id="subscription-form">
