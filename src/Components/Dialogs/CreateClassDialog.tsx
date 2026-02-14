@@ -3,15 +3,13 @@ import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import { useDialogContext } from '../hooks/useDialogContext';
+import { useDialogContext } from '../../hooks/useDialogContext';
 
-export function JoinClassDialog() {
+export function CreateClassDialog() {
 
-
+    // the order matters here, refer to App.tsx to know which index belongs to which dialog
     const { activeDialog, closeDialog } = useDialogContext()
-
 
     const handleClose = () => {
         closeDialog()
@@ -28,12 +26,9 @@ export function JoinClassDialog() {
 
     return (
         <>
-            <Dialog open={activeDialog === "join"} onClose={handleClose}>
-                <DialogTitle>Join Class</DialogTitle>
+            <Dialog open={activeDialog === "create"} onClose={handleClose}>
+                <DialogTitle>Create Class</DialogTitle>
                 <DialogContent>
-                    <DialogContentText>
-                        Ask your teacher for the class code, then enter it here
-                    </DialogContentText>
                     <form onSubmit={handleSubmit} id="subscription-form">
                         <TextField
                             autoFocus
@@ -41,7 +36,18 @@ export function JoinClassDialog() {
                             margin="dense"
                             id="name"
                             name="email"
-                            label="Class code"
+                            label="Class name"
+                            type="text"
+                            fullWidth
+                            variant="standard"
+                        />
+                        <TextField
+                            autoFocus
+                            required
+                            margin="dense"
+                            id="name"
+                            name="email"
+                            label="Section"
                             type="text"
                             fullWidth
                             variant="standard"
@@ -51,7 +57,7 @@ export function JoinClassDialog() {
                 <DialogActions>
                     <Button onClick={handleClose}>Cancel</Button>
                     <Button type="submit" form="subscription-form">
-                        Join
+                        Create
                     </Button>
                 </DialogActions>
             </Dialog>

@@ -4,6 +4,7 @@ import { Sidebar } from "./Components/Sidebar/Sidebar.tsx"
 import { useClickOutside } from "./hooks/useClickOutside.tsx"
 import { Home } from "./Components/Home/Home.tsx"
 import { DialogContext } from "./contexts/DialogContext.tsx"
+import { DialogHost } from "./Components/Dialogs/DialogHost.tsx"
 
 function App() {
 
@@ -11,9 +12,6 @@ function App() {
   const [isSideBarOpen, setSideBarOpen] = useState<boolean>(false)
 
   const [activeDialog, setActiveDialog] = useState<"join" | "create" | null>(null)
-  // const [isJoinDialogOpen, setisJoinDialogOpen] = useState<boolean>(false)
-  // const [isCreateDialogOpen, setisCreateDialogOpen] = useState<boolean>(false)
-
 
   // a custom hook which closes the sidebar when clicked outside of it
   useClickOutside(sideBarRef, () => {
@@ -34,6 +32,7 @@ function App() {
       <Header setSideBarOpen={setSideBarOpen} />
       <Sidebar ref={sideBarRef} isOpen={isSideBarOpen} />
       <Home />
+      <DialogHost />
     </DialogContext.Provider>
   )
 }

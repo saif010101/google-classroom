@@ -2,7 +2,10 @@ import { UserCard } from "./UserCard.tsx"
 import profileUrl from '../../assets/profile.png'
 import { HomeIcon } from "@heroicons/react/24/outline"
 import { MiniClassCard } from "./MiniClassCard.tsx"
-
+import { useQuery } from "@tanstack/react-query"
+import { getAllClasses } from "../../api/getAllClasses.ts"
+import { type ClassData } from "../../types/ClassData.ts"
+// import { type ClassData } from "../../types/ClassData.ts"
 import type { RefObject } from "react"
 
 interface SidebarProps {
@@ -11,6 +14,12 @@ interface SidebarProps {
 }
 
 export const Sidebar = ({ ref, isOpen }: SidebarProps) => {
+
+    const { data } = useQuery({
+        queryKey: ['classData'],
+        queryFn: getAllClasses
+    })
+
 
     const closedStyle = !isOpen ? '-translate-x-[100%]' : ''
 
@@ -26,16 +35,22 @@ export const Sidebar = ({ ref, isOpen }: SidebarProps) => {
                         <span>Home</span>
                     </li>
                 </ul>
-                <span>Teaching</span>
+                <span className="font-[500] text-gray-800">Teaching</span>
                 <ul className="flex flex-col">
-                    <li>
-                        <MiniClassCard />
-                    </li>
+                    {data?.data.filter((item: ClassData) => item.role === 'teacher').map((course: ClassData) => (
+                        <li className="px-6 py-2 rounded-full hover:bg-gray-200 cursor-pointer">
+                            <MiniClassCard name={course.class_name} section={course.section} />
+                        </li>
+                    ))}
                 </ul>
-                {/* <span>Enrolled</span>
+                <span className="font-[500] text-gray-800">Enrolled</span>
                 <ul>
-                    <li></li>
-                </ul> */}
+                    {data?.data.filter((item: ClassData) => item.role === 'student').map((course: ClassData) => (
+                        <li className="px-6 py-2 rounded-full hover:bg-gray-200 cursor-pointer">
+                            <MiniClassCard name={course.class_name} section={course.section} />
+                        </li>
+                    ))}
+                </ul>
             </aside>
         </>
     )
