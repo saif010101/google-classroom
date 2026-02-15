@@ -1,10 +1,10 @@
 import { useState, useRef } from "react"
-import { Header } from "./Components/Header.tsx"
-import { Sidebar } from "./Components/Sidebar/Sidebar.tsx"
+import { Header } from "./components/Header.tsx"
+import { Sidebar } from "./components/Sidebar/Sidebar.tsx"
 import { useClickOutside } from "./hooks/useClickOutside.tsx"
-import { Home } from "./Components/Home/Home.tsx"
+import { Home } from "./components/Home/Home.tsx"
 import { DialogContext } from "./contexts/DialogContext.tsx"
-import { DialogHost } from "./Components/Dialogs/DialogHost.tsx"
+import { DialogHost } from "./components/Dialogs/DialogHost.tsx"
 
 function App() {
 
