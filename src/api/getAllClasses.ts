@@ -2,6 +2,6 @@ import axios from 'axios'
 import { type ClassData } from '../types/ClassData'
 
 export const getAllClasses = async (): Promise<ClassData[]> => {
-    const { data } = await axios.get('http://localhost:3000/api/classes/')
+    const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/api/classes/`)
     return data
 }

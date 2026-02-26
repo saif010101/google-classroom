@@ -5,6 +5,12 @@ import { useClickOutside } from "./hooks/useClickOutside.tsx"
 import { Home } from "./components/Home/Home.tsx"
 import { DialogContext } from "./contexts/DialogContext.tsx"
 import { DialogHost } from "./components/Dialogs/DialogHost.tsx"
+import { useUserData } from "./hooks/useUserData.tsx"
+import { Signup } from "./pages/Signup.tsx"
+import { Login } from "./pages/Login.tsx"
+import { Routes, Route } from "react-router"
+
+
 
 function App() {
 
@@ -18,6 +24,9 @@ function App() {
     setSideBarOpen(false)
   })
 
+  const { data } = useUserData(2)
+
+
   return (
     <DialogContext.Provider
       value={
@@ -30,8 +39,12 @@ function App() {
       }
     >
       <Header setSideBarOpen={setSideBarOpen} />
-      <Sidebar ref={sideBarRef} isOpen={isSideBarOpen} />
-      <Home />
+      <Sidebar ref={sideBarRef} isOpen={isSideBarOpen} user={data} />
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/" element={<Home />} />
+      </Routes>
       <DialogHost />
     </DialogContext.Provider>
   )
