@@ -2,16 +2,15 @@ import bcrypt from "bcrypt";
 import type { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import userService from "../services/UserService.js";
-import { db } from "../utils/db.js";
 
 
 export const getUser = async (req: Request, res: Response) => {
-    const { id } = req.params
 
+    const { user_id } = req.user
 
     try {
 
-        const user = await userService.getUserById(id)
+        const user = await userService.getUserById(user_id)
         if (!user) {
             return res.status(404).json({ message: 'User not found' })
         }

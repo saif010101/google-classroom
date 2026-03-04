@@ -1,7 +1,10 @@
 import { Router } from "express";
-import { getAllClasses } from "../controllers/class.controller.js";
+import { createClass, getAllClasses } from "../controllers/class.controller.js";
+import { verifyToken } from "../middlewares/verifyToken.js";
+
 const router = Router()
 
-router.get('/', getAllClasses)
+router.get('/', verifyToken, getAllClasses)
+router.post('/create',verifyToken,createClass)
 
 export default router

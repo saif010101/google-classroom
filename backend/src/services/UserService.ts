@@ -20,13 +20,13 @@ class UserService {
     }
 
     async getUserById(id: string | string[] | undefined) {
-        const { rows } = await db.query(`select first_name || ' ' || last_name as full_name,email
+        const { rows } = await db.query(`select user_id,first_name || ' ' || last_name as full_name,email
                                from users where user_id = $1`, [id])
-        
+
         return rows.length > 0 ? rows[0] : null
     }
 
-    async getUserByEmail(email : string){
+    async getUserByEmail(email: string) {
         const { rows } = await db.query(`select user_id,password from users where email = $1`, [email])
         return rows.length > 0 ? rows[0] : null
     }

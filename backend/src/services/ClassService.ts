@@ -1,20 +1,54 @@
 import { db } from "../utils/db.js";
 
+const alphanumericLowercase = [
+    'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
+    'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+    '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'
+]
+
 class ClassService {
-    async getClasses() {
+    async getClasses(user_id: number) {
         return await db.query(`select t1.role,t1.class_code,t1.class_name, t1.section, t2.teacher_name from 
                           (select e.role,c.class_code, c.name as class_name, c.section 
                           from enrollment as e inner join classes as c
-                          on c.class_code = e.class_code where e.user_id = 2) as t1
+                          on c.class_code = e.class_code where e.user_id = $1) as t1
                           inner join
                           (select e.class_code,u.first_name || ' ' || u.last_name as teacher_name 
                           from users u inner join enrollment e
                           on u.user_id = e.user_id where e.role = 'teacher') as t2
-                          on t1.class_code = t2.class_code`)
+                          on t1.class_code = t2.class_code`, [user_id])
+    }
+
+    async createClass(user_id: number, class_name: string, section: string) {
+        const client = await db.connect()
+        const class_code = this.generateClassCode()
+        try {
+            await client.query(`begin;`)
+            await client.query(`
+                insert into classes (class_code,name,section)
+                values ($1,$2,$3);
+            `, [class_code, class_name, section])
+            await client.query(`
+                insert into enrollment (class_code,user_id,role)
+                values ($1,$2,'teacher');
+            `, [class_code, user_id])
+            await client.query(`commit;`)
+        } catch (error) {
+            await client.query(`rollback;`)
+            throw error
+        }
+
+    }
+
+    generateClassCode() {
+        let code = ''
+        for (let i = 0; i < 6; i++) {
+            const idx = Math.floor(Math.random() * 35)
+            code += alphanumericLowercase[idx]
+        }
+        return code
     }
 }
-
-
 
 
 export default new ClassService()

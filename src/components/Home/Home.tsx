@@ -6,7 +6,7 @@ export const Home = () => {
     const { data } = useClassData()
     return (
         <>
-            <div className="p-4 grid min-[668px]:grid-cols-2 gap-3 items-center ">
+            <div className="p-4 grid min-[668px]:grid-cols-2 min-[1100px]:grid-cols-3 gap-3 items-center ">
                 {data?.map(item => (
                     <ClassCard key={item.class_code} courseName={item.class_name} teacherName={item.teacher_name} section={item.section} />
                 ))}
