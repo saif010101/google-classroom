@@ -15,9 +15,9 @@ export const getAllClasses = async (req: Request, res: Response) => {
 
 export const createClass = async (req: Request, res: Response) => {
     const { user_id } = req.user
-    const { class_name, section } = req.body
+    const { name, section } = req.body
     try {
-        await classService.createClass(user_id, class_name, section)
+        await classService.createClass(user_id, name, section)
         res.status(201).json({ message: 'Class created successfully' })
     } catch (error) {
         res.status(500).json({ message: 'Internal server error.' })
