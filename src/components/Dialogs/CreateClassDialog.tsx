@@ -8,7 +8,7 @@ import { useDialogContext } from '../../hooks/useDialogContext';
 
 export function CreateClassDialog() {
 
-    // the order matters here, refer to App.tsx to know which index belongs to which dialog
+    
     const { activeDialog, closeDialog } = useDialogContext()
 
     const handleClose = () => {
@@ -17,10 +17,7 @@ export function CreateClassDialog() {
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        // const formData = new FormData(event.currentTarget);
-        // const formJson = Object.fromEntries((formData as any).entries());
-        // const email = formJson.email;
-        // console.log(email);
+
         handleClose();
     };
 

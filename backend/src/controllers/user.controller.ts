@@ -58,13 +58,13 @@ export const loginUser = async (req: Request, res: Response) => {
             return res.status(404).json({ message: 'User not found' })
         }
 
-        const passwordMatches = await bcrypt.compare(password, user.password)
+        const passwordMatches = await userService.matchPassword(password, user.password)
 
         if (!passwordMatches) {
             return res.status(401).json({ message: 'Invalid password' })
         }
 
-        const token = jwt.sign({ user_id: user.user_id }, process.env.JWT_SECRET_KEY ?? '$amp1e', { expiresIn: '1h' })
+        const token = userService.generateJwtToken(user.user_id)
 
         res.cookie('jwt', token, {
             httpOnly: true,

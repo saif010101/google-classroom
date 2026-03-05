@@ -1,7 +1,8 @@
 import bcrypt from "bcrypt"
 import { db } from "../utils/db.js";
+import jwt from "jsonwebtoken"
 
-interface createUserParams {
+interface CreateUserParams {
     first_name: string
     last_name: string
     email: string
@@ -10,7 +11,7 @@ interface createUserParams {
 
 class UserService {
 
-    async createUser({ first_name, last_name, email, password }: createUserParams) {
+    async createUser({ first_name, last_name, email, password }: CreateUserParams) {
 
         const hashedPassword = await bcrypt.hash(password, 10)
         const { rows } = await db.query(`insert into users (first_name,last_name,email,password) 
@@ -29,6 +30,17 @@ class UserService {
     async getUserByEmail(email: string) {
         const { rows } = await db.query(`select user_id,password from users where email = $1`, [email])
         return rows.length > 0 ? rows[0] : null
+    }
+
+    async matchPassword(password: string, userPassword: string) {
+        return await bcrypt.compare(password, userPassword)
+    }
+
+    generateJwtToken(user_id: number) {
+        if (!process.env.JWT_SECRET_KEY) {
+            throw new Error("JWT Secret key not defined!")
+        }
+        return jwt.sign({ user_id }, process.env.JWT_SECRET_KEY, { expiresIn: '1d' })
     }
 }
 

@@ -7,13 +7,18 @@ import { useContext, useState } from "react"
 import { useNavigate } from "react-router"
 import { MoonLoader } from "react-spinners"
 import { AuthContext } from "../contexts/AuthContext.js"
+import { AxiosError } from "axios"
+
+interface LoginFormError {
+    message: string
+}
 
 export const Login = () => {
 
     const navigate = useNavigate()
     const authContext = useContext(AuthContext)
 
-    if (!authContext){
+    if (!authContext) {
         return null
     }
 
@@ -22,7 +27,9 @@ export const Login = () => {
         password: ''
     })
 
-    const mutate = useMutation({
+    const [loginFormErrMsg, setLoginFormErrMsg] = useState<string | undefined>(undefined)
+
+    const mutate = useMutation<any, AxiosError<LoginFormError>>({
         mutationKey: ['login'],
         mutationFn: () => loginUser(userData),
         onSuccess: () => {
@@ -39,12 +46,16 @@ export const Login = () => {
         setUserData({ ...userData, [event.target.name]: event.target.value })
     }
 
-
+    let msg
+    if (mutate.isError) {
+        msg = mutate.error.response?.data.message
+    }
     return (
         <>
             <div className="h-screen flex justify-center items-center bg-green-400">
                 <form autoComplete="off" onSubmit={handleSubmit} className="px-5 py-10 flex flex-col gap-4 rounded-lg bg-white ">
                     <UserIcon className="size-12 self-center" />
+                    <span className="text-sm text-red-500 text-center">* {msg ?? ''}</span>
                     <TextField
                         required
                         id="outlined-required"

@@ -28,11 +28,11 @@ function App() {
 
   const authContext = useContext(AuthContext)
 
-  if (!authContext){
+  if (!authContext) {
     return null
   }
 
-  const {user,isPending} = authContext
+  const { user, isPending } = authContext
 
   useEffect(() => {
     if (!isPending && !user) {
@@ -51,8 +51,8 @@ function App() {
         }
       }
     >
-      {authContext?.user && <Header setSideBarOpen={setSideBarOpen} />}
-      {authContext?.user && <Sidebar ref={sideBarRef} isOpen={isSideBarOpen} />}
+      {user && <Header setSideBarOpen={setSideBarOpen} />}
+      {user && <Sidebar ref={sideBarRef} isOpen={isSideBarOpen} />}
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
