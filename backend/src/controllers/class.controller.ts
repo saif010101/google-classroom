@@ -5,12 +5,16 @@ import classService from "../services/ClassService.js";
 
 export const getAllClasses = async (req: Request, res: Response) => {
     const { user_id } = req.user
-    try {
-        const { rows } = await classService.getClasses(user_id)
-        res.status(200).json(rows)
-    } catch (error) {
-        res.status(500).json({ message: 'Internal server error' })
-    }
+
+    setTimeout(async () => {
+        try {
+            const { rows } = await classService.getClasses(user_id)
+            res.status(200).json(rows)
+        } catch (error) {
+            res.status(500).json({ message: 'Internal server error' })
+        }
+
+    },2000)
 }
 
 export const createClass = async (req: Request, res: Response) => {

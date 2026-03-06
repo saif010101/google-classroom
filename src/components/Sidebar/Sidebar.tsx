@@ -30,7 +30,7 @@ export const Sidebar = ({ ref, isOpen }: SidebarProps) => {
         <>
             {/* empty container for black overlay */}
             {isOpen && <SidebarOverlay />}
-            <aside ref={ref} className={`z-1 absolute top-0 ${closedStyle} w-8/10 max-w-[20rem] h-screen p-4 flex flex-col gap-7 items-start bg-white rounded-r-xl transition-all duration-300 ease-in`}>
+            <aside ref={ref} className={`z-1 absolute top-0 ${closedStyle} w-8/10 max-w-[20rem] h-screen p-4 flex flex-col gap-7 items-start bg-white rounded-r-xl transition-all duration-300 ease-in overflow-y-scroll`}>
                 {user && <UserCard name={user.full_name} email={user.email} />}
                 <SidebarHome />
                 <SidebarSection title="Teaching" data={teachingClasses} />

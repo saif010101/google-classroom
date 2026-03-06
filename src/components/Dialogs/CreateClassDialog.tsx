@@ -5,12 +5,17 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import { useDialogContext } from '../../hooks/useDialogContext';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { createClass } from '../../api/createClass';
+import { useQueryClient } from '@tanstack/react-query';
+import { AlertContext } from '../../contexts/AlertContext';
 
 
 export function CreateClassDialog() {
+
+    const queryClient = useQueryClient()
+    const alertContext = useContext(AlertContext)
 
     const [classData, setClassData] = useState({
         name: '',
@@ -18,7 +23,17 @@ export function CreateClassDialog() {
     })
 
     const mutate = useMutation({
-        mutationFn: () => createClass(classData)
+        mutationFn: () => createClass(classData),
+        onSuccess: () => {
+            // this so to force a refetch of class data so we user can see newly created class
+            queryClient.invalidateQueries({ queryKey: ['classData'], refetchType: 'all' })
+            // i am using setTimeout so that the alert disappears after 2 seconds
+            // since i cannot think of a way to set alert state besides this
+            alertContext?.setAlert("success")
+            setTimeout(() => {
+                alertContext?.setAlert(null)
+            }, 2000)
+        }
     })
 
     const { activeDialog, closeDialog } = useDialogContext()
@@ -36,7 +51,7 @@ export function CreateClassDialog() {
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setClassData({ ...classData, [event.target.name]: event.target.value })
     }
-    
+
     return (
         <>
             <Dialog open={activeDialog === "create"} onClose={handleClose}>

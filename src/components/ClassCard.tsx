@@ -14,7 +14,7 @@ export const ClassCard = ({ courseName, teacherName,section }: ClassCardProps) =
     const { anchorElem, handleClick, handleClose, open } = useDropdown()
 
     return (
-        <div className="w-80 grid grid-rows-[2fr 3fr 1fr] border border-gray-400 rounded-xl overflow-hidden hover:shadow-xl hover:cursor-pointer">
+        <div className="w-[370px] grid grid-rows-[2fr 3fr 1fr] border border-gray-400 rounded-xl overflow-hidden hover:shadow-xl hover:cursor-pointer">
             <div className="p-4 flex flex-col gap-2 bg-blue-500 text-white">
                 <span className="text-2xl hover:underline">{courseName}</span>
                 <span className="text-sm hover:underline">{section}</span>

@@ -9,6 +9,7 @@ import { Signup } from "./pages/Signup.tsx"
 import { Login } from "./pages/Login.tsx"
 import { Routes, Route, useNavigate } from "react-router"
 import { AuthContext } from "./contexts/AuthContext.tsx"
+import { AlertContext } from "./contexts/AlertContext.tsx"
 
 
 
@@ -19,7 +20,7 @@ function App() {
   const sideBarRef = useRef<HTMLDivElement>(null)
   const [isSideBarOpen, setSideBarOpen] = useState<boolean>(false)
   const [activeDialog, setActiveDialog] = useState<"join" | "create" | null>(null)
-
+  const [alert, setAlert] = useState<"success" | "failed" | null>(null)
 
   // a custom hook which closes the sidebar when clicked outside of it
   useClickOutside(sideBarRef, () => {
@@ -36,30 +37,32 @@ function App() {
 
   useEffect(() => {
     if (!isPending && !user) {
-      navigate('/login')
+      navigate('/signup')
     }
   }, [isPending])
 
   return (
-    <DialogContext.Provider
-      value={
-        {
-          activeDialog,
-          openJoinDialog: () => setActiveDialog("join"),
-          openCreateDialog: () => setActiveDialog("create"),
-          closeDialog: () => setActiveDialog(null)
+    <AlertContext.Provider value={{ alert, setAlert }}>
+      <DialogContext.Provider
+        value={
+          {
+            activeDialog,
+            openJoinDialog: () => setActiveDialog("join"),
+            openCreateDialog: () => setActiveDialog("create"),
+            closeDialog: () => setActiveDialog(null)
+          }
         }
-      }
-    >
-      {user && <Header setSideBarOpen={setSideBarOpen} />}
-      {user && <Sidebar ref={sideBarRef} isOpen={isSideBarOpen} />}
-      <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/" element={<Home />} />
-      </Routes>
-      <DialogHost />
-    </DialogContext.Provider>
+      >
+        {user && <Header setSideBarOpen={setSideBarOpen} />}
+        {user && <Sidebar ref={sideBarRef} isOpen={isSideBarOpen} />}
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/" element={<Home />} />
+        </Routes>
+        <DialogHost />
+      </DialogContext.Provider>
+    </AlertContext.Provider>
   )
 }
 

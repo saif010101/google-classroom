@@ -5,6 +5,7 @@ import userRouter from './routes/user.routes.js'
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser"
 
+// console.log(process.env.ORIGIN)
 
 export const app = express();
 app.use(cors({

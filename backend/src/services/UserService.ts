@@ -36,7 +36,9 @@ class UserService {
         return await bcrypt.compare(password, userPassword)
     }
 
-    generateJwtToken(user_id: number) {
+    generateJwtToken(user_id: number)
+    
+    {
         if (!process.env.JWT_SECRET_KEY) {
             throw new Error("JWT Secret key not defined!")
         }
