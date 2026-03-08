@@ -40,6 +40,10 @@ class ClassService {
 
     }
 
+    async deleteClass(class_code: string) {
+        return await db.query(`delete from classes where class_code = $1;`, [class_code])
+    }
+
     // if we have already generated n codes in the database,
     // then the probability that the next generated code by this function
     // will be a duplicate is n/36^6, which is very less :) 

@@ -2,16 +2,48 @@ import { EllipsisVerticalIcon } from "@heroicons/react/16/solid"
 import Menu from "@mui/material/Menu"
 import MenuItem from "@mui/material/MenuItem"
 import { useDropdown } from "../hooks/useDropdown.tsx"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { deleteClass } from "../api/deleteClass.ts"
+import { useAlertContext } from "../hooks/useAlertContext.tsx"
+
 
 interface ClassCardProps {
+    class_code: string
     courseName: string
     teacherName: string
-    section : string
+    section: string
 }
 
-export const ClassCard = ({ courseName, teacherName,section }: ClassCardProps) => {
+export const ClassCard = ({ class_code, courseName, teacherName, section }: ClassCardProps) => {
 
+    const queryClient = useQueryClient()
+    const { setAlert } = useAlertContext()
+
+    const mutate = useMutation({
+        mutationFn: () => deleteClass(class_code),
+        onSuccess: () => {
+            // this so to force a refetch of class data so we user can see newly created class
+            queryClient.invalidateQueries({ queryKey: ['classData'], refetchType: 'all' })
+            // i am using setTimeout so that the alert disappears after 2 seconds
+            // since i cannot think of a way to set alert state besides this
+            setAlert({
+                status: "success",
+                message: "Class deleted successfully"
+            })
+            setTimeout(() => {
+                setAlert({
+                    status: "pending",
+                    message: ""
+                })
+            }, 2000)
+        }
+    })
     const { anchorElem, handleClick, handleClose, open } = useDropdown()
+
+    const handleDeleteClick = () => {
+        mutate.mutate()
+        handleClose()
+    }
 
     return (
         <div className="w-[370px] grid grid-rows-[2fr 3fr 1fr] border border-gray-400 rounded-xl overflow-hidden hover:shadow-xl hover:cursor-pointer">
@@ -28,7 +60,7 @@ export const ClassCard = ({ courseName, teacherName,section }: ClassCardProps) =
                     <EllipsisVerticalIcon className="size-6" />
                 </button>
                 <Menu open={open} onClose={handleClose} anchorEl={anchorElem}>
-                    <MenuItem onClick={handleClose}>Unenroll</MenuItem>
+                    <MenuItem onClick={handleDeleteClick}>Delete</MenuItem>
                 </Menu>
             </div>
         </div>

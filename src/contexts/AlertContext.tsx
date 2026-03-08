@@ -1,9 +1,10 @@
 import { createContext } from "react";
+import type { AlertType } from "../types/AlertType";
 
-type alertType = "success" | "failed" | null
 interface AlertContextType {
-    alert : alertType
-    setAlert : React.Dispatch<React.SetStateAction<alertType>>
+    alert : AlertType
+    setAlert : React.Dispatch<React.SetStateAction<AlertType>>
+    
 }
 
 export const AlertContext = createContext<AlertContextType | null>(null)

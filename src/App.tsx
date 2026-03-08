@@ -10,7 +10,7 @@ import { Login } from "./pages/Login.tsx"
 import { Routes, Route, useNavigate } from "react-router"
 import { AuthContext } from "./contexts/AuthContext.tsx"
 import { AlertContext } from "./contexts/AlertContext.tsx"
-
+import type { AlertType } from "./types/AlertType.ts"
 
 
 
@@ -20,7 +20,10 @@ function App() {
   const sideBarRef = useRef<HTMLDivElement>(null)
   const [isSideBarOpen, setSideBarOpen] = useState<boolean>(false)
   const [activeDialog, setActiveDialog] = useState<"join" | "create" | null>(null)
-  const [alert, setAlert] = useState<"success" | "failed" | null>(null)
+  const [alert, setAlert] = useState<AlertType>({
+    status : "pending",
+    message : ""
+  })
 
   // a custom hook which closes the sidebar when clicked outside of it
   useClickOutside(sideBarRef, () => {
@@ -33,16 +36,16 @@ function App() {
     return null
   }
 
-  const { user, isPending } = authContext
+  const { user } = authContext
 
-  useEffect(() => {
-    if (!isPending && !user) {
-      navigate('/signup')
-    }
-  }, [isPending])
+  // useEffect(() => {
+  //   if (!isPending && !user) {
+  //     navigate('/signup')
+  //   }
+  // }, [isPending])
 
   return (
-    <AlertContext.Provider value={{ alert, setAlert }}>
+    <AlertContext.Provider value={{ alert , setAlert }}>
       <DialogContext.Provider
         value={
           {

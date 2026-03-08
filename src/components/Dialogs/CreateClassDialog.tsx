@@ -5,17 +5,17 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import { useDialogContext } from '../../hooks/useDialogContext';
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { createClass } from '../../api/createClass';
 import { useQueryClient } from '@tanstack/react-query';
-import { AlertContext } from '../../contexts/AlertContext';
+import { useAlertContext } from '../../hooks/useAlertContext';
 
 
 export function CreateClassDialog() {
 
     const queryClient = useQueryClient()
-    const alertContext = useContext(AlertContext)
+    const { setAlert } = useAlertContext()
 
     const [classData, setClassData] = useState({
         name: '',
@@ -29,9 +29,15 @@ export function CreateClassDialog() {
             queryClient.invalidateQueries({ queryKey: ['classData'], refetchType: 'all' })
             // i am using setTimeout so that the alert disappears after 2 seconds
             // since i cannot think of a way to set alert state besides this
-            alertContext?.setAlert("success")
+            setAlert({
+                status: "success",
+                message: "Class created successfully"
+            })
             setTimeout(() => {
-                alertContext?.setAlert(null)
+                setAlert({
+                    status: "pending",
+                    message: ""
+                })
             }, 2000)
         }
     })
