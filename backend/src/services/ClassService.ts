@@ -19,6 +19,11 @@ class ClassService {
                           on t1.class_code = t2.class_code`, [user_id])
     }
 
+    async joinClass(user_id: number, class_code: string) {
+        return await db.query(`insert into enrollment (class_code,user_id,role)
+                                values ($1,$2,'student');`, [class_code, user_id])
+    }
+
     async createClass(user_id: number, class_name: string, section: string) {
         const client = await db.connect()
         const class_code = this.generateClassCode()
@@ -43,6 +48,8 @@ class ClassService {
     async deleteClass(class_code: string) {
         return await db.query(`delete from classes where class_code = $1;`, [class_code])
     }
+
+
 
     // if we have already generated n codes in the database,
     // then the probability that the next generated code by this function

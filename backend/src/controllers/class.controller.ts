@@ -38,8 +38,8 @@ export const deleteClass = async (req: Request, res: Response) => {
     }
     try {
         const result = await classService.deleteClass(class_code)
-        
-        if (result.rowCount === 1){
+
+        if (result.rowCount === 1) {
             res.status(200).json({ message: 'Class deleted successfully' })
         } else {
             res.status(404).json({ message: 'Class not found' })
@@ -50,5 +50,19 @@ export const deleteClass = async (req: Request, res: Response) => {
     }
 }
 
+export const joinClass = async (req: Request, res: Response) => {
+    const { class_code } = req.body
+    const { user_id } = req.user
+    if (!class_code) {
+        return res.status(400).json({ message: 'Bad Request' })
+    }
+    try {
+        const response = await classService.joinClass(user_id, class_code)
+        return res.status(200).json({message : 'Class joined successfully'})
+    } catch (error) {
+        console.error(error)
+        res.status(500).json({ message: 'Internal server error.' })
+    }
+}
 
 

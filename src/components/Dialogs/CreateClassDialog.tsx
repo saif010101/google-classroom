@@ -28,7 +28,7 @@ export function CreateClassDialog() {
             // this so to force a refetch of class data so we user can see newly created class
             queryClient.invalidateQueries({ queryKey: ['classData'], refetchType: 'all' })
             // i am using setTimeout so that the alert disappears after 2 seconds
-            // since i cannot think of a way to set alert state besides this
+            // since i cannot think of a way to set alert state besides this atm
             setAlert({
                 status: "success",
                 message: "Class created successfully"

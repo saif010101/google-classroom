@@ -22,6 +22,7 @@ export const Sidebar = ({ ref, isOpen }: SidebarProps) => {
     const { user } = authContext
     const { data } = useClassData()
 
+
     const enrolledClasses = data?.filter(item => item.role === 'student')
     const teachingClasses = data?.filter(item => item.role === 'teacher')
     const closedStyle = !isOpen ? '-translate-x-[100%]' : ''
