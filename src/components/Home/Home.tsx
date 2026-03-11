@@ -7,6 +7,7 @@ export const Home = () => {
     const { data, isLoading } = useClassData()
     const { alert } = useAlertContext()
 
+
     return (
         <>
             <Slide direction="down" in={alert.status === 'success'} mountOnEnter unmountOnExit>
@@ -23,6 +24,7 @@ export const Home = () => {
                         courseName={item.class_name}
                         teacherName={item.teacher_name}
                         section={item.section}
+                        role={item.role}
                     />
                 )) : (
                     <>

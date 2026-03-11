@@ -49,7 +49,11 @@ class ClassService {
         return await db.query(`delete from classes where class_code = $1;`, [class_code])
     }
 
-
+    async leaveClass(user_id: number, class_code: string) {
+        return await db.query(`delete from enrollment where class_code = $1 and user_id = $2;`,
+            [class_code, user_id]
+        )
+    }
 
     // if we have already generated n codes in the database,
     // then the probability that the next generated code by this function

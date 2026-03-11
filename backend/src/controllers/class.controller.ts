@@ -58,11 +58,25 @@ export const joinClass = async (req: Request, res: Response) => {
     }
     try {
         const response = await classService.joinClass(user_id, class_code)
-        return res.status(200).json({message : 'Class joined successfully'})
+        return res.status(200).json({ message: 'Class joined successfully' })
     } catch (error) {
         console.error(error)
         res.status(500).json({ message: 'Internal server error.' })
     }
 }
 
+export const leaveClass = async (req: Request, res: Response) => {
+    const { user_id } = req.user
+    const { class_code } = req.body
+    if (!class_code) {
+        return res.status(400).json({ message: 'Bad Request' })
+    }
+    try {
+        const response = await classService.leaveClass(user_id, class_code)
+        return res.status(200).json({ message: 'Class unenrolled successfully' })
+    } catch (error) {
+        console.error(error)
+        res.status(500).json({ message: 'Internal server error.' })
+    }
+}
 

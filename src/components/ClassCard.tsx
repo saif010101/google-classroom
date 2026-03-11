@@ -5,6 +5,7 @@ import { useDropdown } from "../hooks/useDropdown.tsx"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { deleteClass } from "../api/deleteClass.ts"
 import { useAlertContext } from "../hooks/useAlertContext.tsx"
+import { leaveClass } from "../api/leaveClass.ts"
 
 
 interface ClassCardProps {
@@ -12,15 +13,16 @@ interface ClassCardProps {
     courseName: string
     teacherName: string
     section: string
+    role: string
 }
 
-export const ClassCard = ({ class_code, courseName, teacherName, section }: ClassCardProps) => {
+export const ClassCard = ({ class_code, courseName, teacherName, section, role }: ClassCardProps) => {
 
     const queryClient = useQueryClient()
     const { setAlert } = useAlertContext()
 
     const mutate = useMutation({
-        mutationFn: () => deleteClass(class_code),
+        mutationFn: () => role === 'teacher' ? deleteClass(class_code) : leaveClass({ class_code }),
         onSuccess: () => {
             // this so to force a refetch of class data so we user can see newly created class
             queryClient.invalidateQueries({ queryKey: ['classData'], refetchType: 'all' })
@@ -28,7 +30,7 @@ export const ClassCard = ({ class_code, courseName, teacherName, section }: Clas
             // since i cannot think of a way to set alert state besides this
             setAlert({
                 status: "success",
-                message: "Class deleted successfully"
+                message: `Class ${role === 'teacher' ? 'deleted' : 'unenrolled'} successfully`
             })
             setTimeout(() => {
                 setAlert({
@@ -60,7 +62,7 @@ export const ClassCard = ({ class_code, courseName, teacherName, section }: Clas
                     <EllipsisVerticalIcon className="size-6" />
                 </button>
                 <Menu open={open} onClose={handleClose} anchorEl={anchorElem}>
-                    <MenuItem onClick={handleDeleteClick}>Delete</MenuItem>
+                    <MenuItem onClick={handleDeleteClick}>{role === 'teacher' ? 'Delete' : 'Unenroll'}</MenuItem>
                 </Menu>
             </div>
         </div>
