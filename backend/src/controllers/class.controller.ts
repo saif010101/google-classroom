@@ -18,6 +18,24 @@ export const getAllClasses = async (req: Request, res: Response) => {
     )
 }
 
+export const getClass = async (req: Request, res: Response) => {
+    const { class_code } = req.params
+    if (!class_code || Array.isArray(class_code) || typeof class_code !== 'string') {
+        return res.status(400).json({ message: 'Required parameters missing' })
+    }
+
+    setTimeout(async () => {
+
+        try {
+            const { rows } = await classService.getClass(class_code)
+            res.status(200).json(rows[0])
+        } catch (error) {
+            console.error(error)
+            res.status(500).json({ message: 'Internal server error' })
+        }
+    },1000)
+}
+
 export const createClass = async (req: Request, res: Response) => {
     const { user_id } = req.user
     const { name, section } = req.body

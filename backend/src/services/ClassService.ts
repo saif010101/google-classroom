@@ -19,6 +19,10 @@ class ClassService {
                           on t1.class_code = t2.class_code`, [user_id])
     }
 
+    async getClass(class_code: string) {
+        return await db.query(`select name,section from classes where class_code = $1`, [class_code])
+    }
+
     async joinClass(user_id: number, class_code: string) {
         return await db.query(`insert into enrollment (class_code,user_id,role)
                                 values ($1,$2,'student');`, [class_code, user_id])

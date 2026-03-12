@@ -11,6 +11,8 @@ import { Routes, Route, useNavigate } from "react-router"
 import { AuthContext } from "./contexts/AuthContext.tsx"
 import { AlertContext } from "./contexts/AlertContext.tsx"
 import type { AlertType } from "./types/AlertType.ts"
+import { ClassStream } from "./components/Class/ClassStream.tsx"
+
 
 
 
@@ -21,9 +23,10 @@ function App() {
   const [isSideBarOpen, setSideBarOpen] = useState<boolean>(false)
   const [activeDialog, setActiveDialog] = useState<"join" | "create" | null>(null)
   const [alert, setAlert] = useState<AlertType>({
-    status : "pending",
-    message : ""
+    status: "pending",
+    message: ""
   })
+  
 
   // a custom hook which closes the sidebar when clicked outside of it
   useClickOutside(sideBarRef, () => {
@@ -45,27 +48,28 @@ function App() {
   // }, [isPending])
 
   return (
-    <AlertContext.Provider value={{ alert , setAlert }}>
-      <DialogContext.Provider
-        value={
-          {
-            activeDialog,
-            openJoinDialog: () => setActiveDialog("join"),
-            openCreateDialog: () => setActiveDialog("create"),
-            closeDialog: () => setActiveDialog(null)
+      <AlertContext.Provider value={{ alert, setAlert }}>
+        <DialogContext.Provider
+          value={
+            {
+              activeDialog,
+              openJoinDialog: () => setActiveDialog("join"),
+              openCreateDialog: () => setActiveDialog("create"),
+              closeDialog: () => setActiveDialog(null)
+            }
           }
-        }
-      >
-        {user && <Header setSideBarOpen={setSideBarOpen} />}
-        {user && <Sidebar ref={sideBarRef} isOpen={isSideBarOpen} />}
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/" element={<Home />} />
-        </Routes>
-        <DialogHost />
-      </DialogContext.Provider>
-    </AlertContext.Provider>
+        >
+          {user && <Header setSideBarOpen={setSideBarOpen} />}
+          {user && <Sidebar ref={sideBarRef} isOpen={isSideBarOpen} />}
+          <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/" element={<Home />} />
+            <Route path="/c/:class_code" element={<ClassStream />} />
+          </Routes>
+          <DialogHost />
+        </DialogContext.Provider>
+      </AlertContext.Provider>
   )
 }
 

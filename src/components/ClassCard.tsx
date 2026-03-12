@@ -6,18 +6,20 @@ import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { deleteClass } from "../api/deleteClass.ts"
 import { useAlertContext } from "../hooks/useAlertContext.tsx"
 import { leaveClass } from "../api/leaveClass.ts"
+import { useNavigate } from "react-router"
 
 
 interface ClassCardProps {
     class_code: string
-    courseName: string
-    teacherName: string
+    class_name: string
+    teacher_name: string
     section: string
     role: string
 }
 
-export const ClassCard = ({ class_code, courseName, teacherName, section, role }: ClassCardProps) => {
+export const ClassCard = ({ class_code, class_name, teacher_name, section, role }: ClassCardProps) => {
 
+    const navigate = useNavigate()
     const queryClient = useQueryClient()
     const { setAlert } = useAlertContext()
 
@@ -47,12 +49,16 @@ export const ClassCard = ({ class_code, courseName, teacherName, section, role }
         handleClose()
     }
 
+    const handleClassClick = (class_code: string) => {
+        navigate(`/c/${class_code}`)
+    }
+
     return (
-        <div className="w-[370px] grid grid-rows-[2fr 3fr 1fr] border border-gray-400 rounded-xl overflow-hidden hover:shadow-xl hover:cursor-pointer">
+        <div onClick={() => handleClassClick(class_code)} className="w-[370px] grid grid-rows-[2fr 3fr 1fr] border border-gray-400 rounded-xl overflow-hidden hover:shadow-xl hover:cursor-pointer">
             <div className="p-4 flex flex-col gap-2 bg-blue-500 text-white">
-                <span className="text-2xl hover:underline">{courseName}</span>
+                <span className="text-2xl hover:underline">{class_name}</span>
                 <span className="text-sm hover:underline">{section}</span>
-                <span className="text-sm">{teacherName}</span>
+                <span className="text-sm">{teacher_name}</span>
             </div>
             <div className="h-30 relative">
 

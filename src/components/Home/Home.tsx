@@ -8,6 +8,7 @@ export const Home = () => {
     const { alert } = useAlertContext()
 
 
+
     return (
         <>
             <Slide direction="down" in={alert.status === 'success'} mountOnEnter unmountOnExit>
@@ -21,8 +22,8 @@ export const Home = () => {
                     <ClassCard
                         key={item.class_code}
                         class_code={item.class_code}
-                        courseName={item.class_name}
-                        teacherName={item.teacher_name}
+                        class_name={item.class_name}
+                        teacher_name={item.teacher_name}
                         section={item.section}
                         role={item.role}
                     />
