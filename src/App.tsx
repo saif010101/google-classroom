@@ -12,6 +12,7 @@ import { AuthContext } from "./contexts/AuthContext.tsx"
 import { AlertContext } from "./contexts/AlertContext.tsx"
 import type { AlertType } from "./types/AlertType.ts"
 import { ClassStream } from "./components/Class/ClassStream.tsx"
+import { ClassContext, type CurrentClassInfo } from "./contexts/ClassContext.ts"
 
 
 
@@ -26,7 +27,8 @@ function App() {
     status: "pending",
     message: ""
   })
-  
+  const [currentClass, setCurrentClass] = useState<CurrentClassInfo | undefined>(undefined)
+
 
   // a custom hook which closes the sidebar when clicked outside of it
   useClickOutside(sideBarRef, () => {
@@ -48,6 +50,7 @@ function App() {
   // }, [isPending])
 
   return (
+    <ClassContext.Provider value={{ currentClass, setCurrentClass }}>
       <AlertContext.Provider value={{ alert, setAlert }}>
         <DialogContext.Provider
           value={
@@ -70,6 +73,7 @@ function App() {
           <DialogHost />
         </DialogContext.Provider>
       </AlertContext.Provider>
+    </ClassContext.Provider>
   )
 }
 
