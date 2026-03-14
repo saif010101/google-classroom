@@ -2,10 +2,20 @@ import { ClassCard } from "../ClassCard.tsx"
 import { useClassData } from "../../hooks/useClassData.tsx"
 import { LinearProgress, Skeleton, Alert, Slide } from "@mui/material"
 import { useAlertContext } from "../../hooks/useAlertContext.tsx"
+import { useClassContext } from "../../hooks/useClassContext.tsx"
+import { useEffect } from "react"
+import { useQueryClient } from "@tanstack/react-query"
 
 export const Home = () => {
     const { data, isLoading } = useClassData()
     const { alert } = useAlertContext()
+    const { setCurrentClass } = useClassContext()
+    const queryClient = useQueryClient()
+
+    useEffect(() => {
+        queryClient.invalidateQueries({ queryKey: ['class'], refetchType: 'all' })
+        setCurrentClass(undefined)
+    },[])
 
 
 

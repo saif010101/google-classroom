@@ -1,4 +1,4 @@
-import { useState, useRef, useContext, useEffect } from "react"
+import { useState, useRef, useContext } from "react"
 import { Header } from "./components/Header.tsx"
 import { Sidebar } from "./components/Sidebar/Sidebar.tsx"
 import { useClickOutside } from "./hooks/useClickOutside.tsx"
@@ -11,8 +11,10 @@ import { Routes, Route, useNavigate } from "react-router"
 import { AuthContext } from "./contexts/AuthContext.tsx"
 import { AlertContext } from "./contexts/AlertContext.tsx"
 import type { AlertType } from "./types/AlertType.ts"
-import { ClassStream } from "./components/Class/ClassStream.tsx"
 import { ClassContext, type CurrentClassInfo } from "./contexts/ClassContext.ts"
+import { ClassMainPage } from "./components/Class/ClassMainPage.tsx"
+import { ClassStream } from "./components/Class/ClassStream.tsx"
+import { ClassPeople } from "./components/Class/ClassPeople.tsx"
 
 
 
@@ -64,11 +66,15 @@ function App() {
         >
           {user && <Header setSideBarOpen={setSideBarOpen} />}
           {user && <Sidebar ref={sideBarRef} isOpen={isSideBarOpen} />}
+          
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/" element={<Home />} />
-            <Route path="/c/:class_code" element={<ClassStream />} />
+            <Route path="/c/:class_code" element={<ClassMainPage/>}>
+              <Route path="stream" element={<ClassStream />} />
+              <Route path="people" element={<ClassPeople />} />
+            </Route>
           </Routes>
           <DialogHost />
         </DialogContext.Provider>

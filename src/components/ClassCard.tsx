@@ -50,7 +50,7 @@ export const ClassCard = ({ class_code, class_name, teacher_name, section, role 
     }
 
     const handleClassClick = (class_code: string) => {
-        navigate(`/c/${class_code}`)
+        navigate(`/c/${class_code}/stream`)
     }
 
     return (
