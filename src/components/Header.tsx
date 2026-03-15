@@ -1,26 +1,24 @@
 import { Bars3Icon, PlusIcon } from "@heroicons/react/16/solid"
-import { Cog6ToothIcon } from "@heroicons/react/24/outline"
+// import { Cog6ToothIcon } from "@heroicons/react/24/outline"
 import { useDropdown } from "../hooks/useDropdown.tsx"
 import Menu from "@mui/material/Menu"
 import MenuItem from "@mui/material/MenuItem"
 import { useDialogContext } from "../hooks/useDialogContext.tsx"
 import { useClassContext } from "../hooks/useClassContext.tsx"
+import { useSidebarContext } from "../hooks/useSidebarContext.tsx"
 
-interface HeaderProps {
-    setSideBarOpen: (state: boolean) => void
-    className?: string
-    classSection?: string
-}
 
-export const Header = ({ setSideBarOpen }: HeaderProps) => {
+
+export const Header = () => {
 
     const { openCreateDialog, openJoinDialog } = useDialogContext()
     const { anchorElem, handleClick, handleClose, open } = useDropdown()
     const { currentClass } = useClassContext()
+    const { setSidebarOpen } = useSidebarContext()
 
     return (
         <header className="flex items-center gap-3 justify-between p-4 bg-gray-100">
-            <Bars3Icon onClick={() => setSideBarOpen(true)} className="size-6 text-gray-700 cursor-pointer" />
+            <Bars3Icon onClick={() => setSidebarOpen(true)} className="size-6 text-gray-700 cursor-pointer" />
             {currentClass ? (<div className="flex flex-col mr-auto">
                 <span className="font-[600] text-gray-600">{currentClass.name}</span>
                 <span className="text-sm text-gray-600">{currentClass.section}</span>

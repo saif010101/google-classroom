@@ -1,35 +1,24 @@
-import { PeopleList } from "./PeopleList"
 import { useQuery } from "@tanstack/react-query"
+import { PeopleList } from "./PeopleList"
 import { useParams } from "react-router"
-import { getClass } from "../../api/getClass.ts"
-import { LinearProgress } from "@mui/material"
-import { useClassContext } from "../../hooks/useClassContext.tsx"
-import { useEffect } from "react"
-
+import { getPeople } from "../../api/getPeople"
 
 export const ClassPeople = () => {
-    const { class_code } = useParams()
-    const { setCurrentClass } = useClassContext()
 
-    const { data, isLoading, isSuccess } = useQuery({
-        queryKey: ['class'],
-        queryFn: () => getClass(class_code)
+    const { class_code } = useParams()
+
+    const { data, isLoading } = useQuery({
+        queryKey: ['people'],
+        queryFn: () => getPeople(class_code)
     })
 
-    useEffect(() => {
-        if (isSuccess) {
-            setCurrentClass(data)
-        }
-    }, [data])
-
-    if (isLoading) {
-        return <LinearProgress />
-    }
+    const students = data ? data.filter(item  => item.role === 'student') : []
+    const teacher = data ? data.filter(item => item.role === 'teacher') : []
 
     return (
         <section className="">
-            <PeopleList heading="Teacher" />
-            <PeopleList heading="Students" />
+            <PeopleList heading="Teacher"  data={teacher}/>
+            <PeopleList heading="Students" data={students}/>
         </section>
     )
 }

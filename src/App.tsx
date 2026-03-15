@@ -15,7 +15,7 @@ import { ClassContext, type CurrentClassInfo } from "./contexts/ClassContext.ts"
 import { ClassMainPage } from "./components/Class/ClassMainPage.tsx"
 import { ClassStream } from "./components/Class/ClassStream.tsx"
 import { ClassPeople } from "./components/Class/ClassPeople.tsx"
-
+import { SidebarContext } from "./contexts/SidebarContext.tsx"
 
 
 
@@ -23,7 +23,7 @@ function App() {
 
   const navigate = useNavigate()
   const sideBarRef = useRef<HTMLDivElement>(null)
-  const [isSideBarOpen, setSideBarOpen] = useState<boolean>(false)
+  const [sidebarOpen, setSidebarOpen] = useState<boolean>(false)
   const [activeDialog, setActiveDialog] = useState<"join" | "create" | null>(null)
   const [alert, setAlert] = useState<AlertType>({
     status: "pending",
@@ -34,7 +34,7 @@ function App() {
 
   // a custom hook which closes the sidebar when clicked outside of it
   useClickOutside(sideBarRef, () => {
-    setSideBarOpen(false)
+    setSidebarOpen(false)
   })
 
   const authContext = useContext(AuthContext)
@@ -52,34 +52,35 @@ function App() {
   // }, [isPending])
 
   return (
-    <ClassContext.Provider value={{ currentClass, setCurrentClass }}>
-      <AlertContext.Provider value={{ alert, setAlert }}>
-        <DialogContext.Provider
-          value={
-            {
-              activeDialog,
-              openJoinDialog: () => setActiveDialog("join"),
-              openCreateDialog: () => setActiveDialog("create"),
-              closeDialog: () => setActiveDialog(null)
+    <SidebarContext.Provider value={{ sidebarOpen, setSidebarOpen }}>
+      <ClassContext.Provider value={{ currentClass, setCurrentClass }}>
+        <AlertContext.Provider value={{ alert, setAlert }}>
+          <DialogContext.Provider
+            value={
+              {
+                activeDialog,
+                openJoinDialog: () => setActiveDialog("join"),
+                openCreateDialog: () => setActiveDialog("create"),
+                closeDialog: () => setActiveDialog(null)
+              }
             }
-          }
-        >
-          {user && <Header setSideBarOpen={setSideBarOpen} />}
-          {user && <Sidebar ref={sideBarRef} isOpen={isSideBarOpen} />}
-          
-          <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/" element={<Home />} />
-            <Route path="/c/:class_code" element={<ClassMainPage/>}>
-              <Route path="stream" element={<ClassStream />} />
-              <Route path="people" element={<ClassPeople />} />
-            </Route>
-          </Routes>
-          <DialogHost />
-        </DialogContext.Provider>
-      </AlertContext.Provider>
-    </ClassContext.Provider>
+          >
+            {user && <Header/>}
+            {user && <Sidebar ref={sideBarRef}/>}
+            <Routes>
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
+              <Route path="/" element={<Home />} />
+              <Route path="/c/:class_code" element={<ClassMainPage />}>
+                <Route path="stream" element={<ClassStream />} />
+                <Route path="people" element={<ClassPeople />} />
+              </Route>
+            </Routes>
+            <DialogHost />
+          </DialogContext.Provider>
+        </AlertContext.Provider>
+      </ClassContext.Provider>
+    </SidebarContext.Provider>
   )
 }
 
