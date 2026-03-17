@@ -20,11 +20,11 @@ class ClassService {
     }
 
     async getClass(class_code: string) {
-        return await db.query(`select name,section from classes where class_code = $1`, [class_code])
+        return await db.query(`select class_code,name,section from classes where class_code = $1`, [class_code])
     }
 
     async getPeople(class_code: string) {
-        return await db.query(`select u.first_name || ' ' || u.last_name as full_name, e.role from users as u inner join enrollment as e on u.user_id = e.user_id where e.class_code = $1`, [class_code])
+        return await db.query(`select u.user_id,u.first_name || ' ' || u.last_name as full_name, e.role from users as u inner join enrollment as e on u.user_id = e.user_id where e.class_code = $1`, [class_code])
     }
 
     async joinClass(user_id: number, class_code: string) {

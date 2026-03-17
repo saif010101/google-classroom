@@ -4,17 +4,18 @@ import { useUserData } from "../hooks/useUserData";
 import type { PropsWithChildren } from "react";
 
 interface AuthContextShape {
-    user: UserData | undefined
+    user: UserData | null
     isError: boolean,
     isPending: boolean,
     refetch: () => void
 }
+
 export const AuthContext = createContext<AuthContextShape | undefined>(undefined)
 
 export const AuthProvider = ({ children }: PropsWithChildren) => {
     const { data, isError, isPending, refetch } = useUserData()
     return (
-        <AuthContext.Provider value={{ user: data, isError, isPending, refetch }}>
+        <AuthContext.Provider value={{ user: data ?? null, isError, isPending, refetch }}>
             {children}
         </AuthContext.Provider >
     )

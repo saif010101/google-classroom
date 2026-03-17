@@ -1,8 +1,7 @@
 import { ClassBanner } from "./ClassBanner.tsx"
 import { NewAnnouncementBtn } from "./NewAnnouncementBtn.tsx"
 import { useClassContext } from "../../hooks/useClassContext.tsx"
-
-// import { AnnouncementCard } from "./AnnouncementCard.tsx"
+import { AnnouncementCard } from "./AnnouncementCard.tsx"
 
 export const ClassStream = () => {
 
@@ -18,7 +17,7 @@ export const ClassStream = () => {
         <ClassBanner name={currentClass.name} section={currentClass.section} />
         <NewAnnouncementBtn />
         <div className="flex flex-col">
-          {/* <AnnouncementCard /> */}
+          <AnnouncementCard />
         </div>
       </div>
     </>

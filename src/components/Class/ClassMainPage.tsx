@@ -9,9 +9,6 @@ import { useQuery } from "@tanstack/react-query"
 
 export const ClassMainPage = () => {
 
-  // i am using this to conditionally render class navbar
-  // const { currentClass } = useClassContext()
-
   const { class_code } = useParams()
   const { currentClass, setCurrentClass } = useClassContext()
 

@@ -1,6 +1,7 @@
 import { createContext } from "react";
 
 export interface CurrentClassInfo {
+    class_code : string
     name: string
     section: string
 }

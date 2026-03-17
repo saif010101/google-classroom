@@ -5,9 +5,9 @@ import Menu from "@mui/material/Menu"
 import MenuItem from "@mui/material/MenuItem"
 
 interface AnnouncementCardProps {
-    author: string
-    date: string
-    content: string
+    author?: string
+    date?: string
+    content?: string
 }
 
 export const AnnouncementCard = ({ author = 't', date = '2',content = 'Hello, world' }: AnnouncementCardProps) => {
@@ -16,7 +16,7 @@ export const AnnouncementCard = ({ author = 't', date = '2',content = 'Hello, wo
     const open = Boolean(anchorElem)
 
     return (
-        <div className='bg-gray-100 rounded-xl'>
+        <div className='bg-gray-200 rounded-xl'>
             <div className="p-5 flex justify-between items-center gap-4">
                 <img className='rounded-full size-10' src={profile} alt="" />
                 <div className='flex flex-col mr-auto'>

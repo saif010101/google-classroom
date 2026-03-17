@@ -8,14 +8,14 @@ import { DialogHost } from "./components/Dialogs/DialogHost.tsx"
 import { Signup } from "./pages/Signup.tsx"
 import { Login } from "./pages/Login.tsx"
 import { Routes, Route, useNavigate } from "react-router"
-import { AuthContext } from "./contexts/AuthContext.tsx"
 import { AlertContext } from "./contexts/AlertContext.tsx"
 import type { AlertType } from "./types/AlertType.ts"
-import { ClassContext, type CurrentClassInfo } from "./contexts/ClassContext.ts"
+import { ClassContext, type CurrentClassInfo } from "./contexts/ClassContext"
 import { ClassMainPage } from "./components/Class/ClassMainPage.tsx"
 import { ClassStream } from "./components/Class/ClassStream.tsx"
 import { ClassPeople } from "./components/Class/ClassPeople.tsx"
 import { SidebarContext } from "./contexts/SidebarContext.tsx"
+import { useAuthContext } from "./hooks/useAuthContext.tsx"
 
 
 
@@ -37,19 +37,7 @@ function App() {
     setSidebarOpen(false)
   })
 
-  const authContext = useContext(AuthContext)
-
-  if (!authContext) {
-    return null
-  }
-
-  const { user } = authContext
-
-  // useEffect(() => {
-  //   if (!isPending && !user) {
-  //     navigate('/signup')
-  //   }
-  // }, [isPending])
+  const { user } = useAuthContext()
 
   return (
     <SidebarContext.Provider value={{ sidebarOpen, setSidebarOpen }}>
@@ -65,8 +53,8 @@ function App() {
               }
             }
           >
-            {user && <Header/>}
-            {user && <Sidebar ref={sideBarRef}/>}
+            {user && <Header />}
+            {user && <Sidebar ref={sideBarRef} />}
             <Routes>
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />

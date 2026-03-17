@@ -9,13 +9,14 @@ interface PeopleListProps {
 export const PeopleList = ({ heading, data }: PeopleListProps) => {
     return (
         <>
-            <header className="px-3 py-5">
+            <header className="flex items-center justify-between px-3 py-5">
                 <h1 className="text-3xl">{heading}</h1>
+                {heading === 'Students' && data.length > 0 && <span>{data.length} Students</span>}
             </header>
             <ul className="flex flex-col">
-            {data.length === 0 && <span className="text-center">No students enrolled yet.</span>}
+                {data.length === 0 && <span className="text-center">No students enrolled yet.</span>}
                 {data.map(user => (
-                    <li className="flex items-center gap-4 py-3 px-2 border-t-1  border-gray-400">
+                    <li key={user.user_id} className="flex items-center gap-4 py-3 px-2 border-t-1  border-gray-400">
                         <UserIcon className="size-8" />
                         <span>{user.full_name}</span>
                     </li>
