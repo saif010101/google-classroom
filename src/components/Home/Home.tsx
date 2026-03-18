@@ -15,7 +15,7 @@ export const Home = () => {
     useEffect(() => {
         queryClient.invalidateQueries({ queryKey: ['class'], refetchType: 'all' })
         setCurrentClass(undefined)
-    },[])
+    }, [])
 
 
 
@@ -28,6 +28,7 @@ export const Home = () => {
             </Slide>
             {isLoading && <LinearProgress />}
             <div className="p-4 grid min-[668px]:grid-cols-2 min-[1100px]:grid-cols-3 gap-3 items-center ">
+                {data?.length === 0 && <p className="text-gray-800 text-center">You are not teaching any class, neither are you enrolled. Click on the + icon to join or create a new class.</p>}
                 {data ? data.map(item => (
                     <ClassCard
                         key={item.class_code}

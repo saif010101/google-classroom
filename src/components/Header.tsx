@@ -1,5 +1,4 @@
 import { Bars3Icon, Cog6ToothIcon, PlusIcon } from "@heroicons/react/16/solid"
-// import { Cog6ToothIcon } from "@heroicons/react/24/outline"
 import { useDropdown } from "../hooks/useDropdown.tsx"
 import Menu from "@mui/material/Menu"
 import MenuItem from "@mui/material/MenuItem"
@@ -26,12 +25,12 @@ export const Header = () => {
     // because header was conditionally rendered with user
     // so we don't need this condition but typescript is
     // complaining so i am putting it here
-    if (!user){
+    if (!user) {
         return
     }
 
-    const teacher = data?.filter(user => user.role === 'teacher').reduce()
-    const isTeacher = teacher && (teacher[0].user_id === user.user_id)
+    const teacher = data?.filter(user => user.role === 'teacher').reduce(user => user)
+    const isTeacher = teacher && (teacher.user_id === user.user_id)
 
     return (
         <header className="flex items-center gap-3 justify-between p-4 bg-gray-100">
@@ -42,7 +41,7 @@ export const Header = () => {
             </div>) : (<span className="mr-auto text-2xl font-[400] text-gray-600">Classroom</span>)}
             {isTeacher &&
                 <button className="p-1 rounded-full hover:bg-gray-300 cursor-pointer ">
-                    <Cog6ToothIcon className="size-6 text-gray-700 " />
+                    <Cog6ToothIcon className="size-6 text-gray-700" />
                 </button>
             }
             <div>
