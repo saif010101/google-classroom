@@ -63,9 +63,22 @@ class ClassService {
         )
     }
 
+    async getUserRole(user_id: number, class_code: string) {
+        return await db.query(`select role from enrollment where class_code = $1 and user_id = $2;`,
+            [class_code, user_id]
+        )
+    }
+
+    async updateClass(class_code : string,name : string, section : string){
+        return await db.query(`update classes set name = $1, section = $2 where class_code = $3`,
+            [name, section,class_code]
+        )
+    }
+
     // if we have already generated n codes in the database,
     // then the probability that the next generated code by this function
-    // will be a duplicate is n/36^6, which is very less :) 
+    // will be a duplicate is n/36^6, which is very less :) but ofcourse
+    // we need to handle it for a real app 
     generateClassCode() {
         let code = ''
         for (let i = 0; i < 6; i++) {

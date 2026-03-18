@@ -113,3 +113,30 @@ export const leaveClass = async (req: Request, res: Response) => {
     }
 }
 
+export const updateClass = async (req: Request, res: Response) => {
+    const { name, section } = req.body
+    const { user_id } = req.user
+    const { class_code } = req.params
+
+    if (!name || !section) {
+        return res.status(400).json({ message: 'Inputs missing' })
+    }
+    if (!class_code || Array.isArray(class_code) || typeof class_code !== 'string') {
+        return res.status(400).json({ message: 'Required parameters missing' })
+    }
+    try {
+        // authorize teacher, make sure only the class teacher is updating the class
+        const { rows } = await classService.getUserRole(user_id, class_code)
+        if (rows.length === 0 || rows[0].role !== 'teacher'){
+            return res.status(403).json({message : 'Forbidden'})
+        }
+        
+        // do database stuff here
+        const response = await classService.updateClass(class_code,name,section)
+        res.status(200).json({message : 'Class details updated successfully.'})
+    } catch (error) {
+        console.error(error)
+        res.status(500).json({ message: 'Internal server error.' })
+    }
+}
+
