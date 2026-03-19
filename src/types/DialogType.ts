@@ -1,0 +1,1 @@
+export type DialogType = "join" | "create" | "edit" | null

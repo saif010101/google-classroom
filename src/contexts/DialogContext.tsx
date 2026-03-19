@@ -1,11 +1,11 @@
 import { createContext } from "react"
-
-type DialogType = "join" | "create" | null
+import type { DialogType } from "../types/DialogType"
 
 interface ContextShape {
     activeDialog: DialogType,
     openJoinDialog: () => void
     openCreateDialog: () => void,
+    openEditDialog: () => void,
     closeDialog: () => void
 }
 

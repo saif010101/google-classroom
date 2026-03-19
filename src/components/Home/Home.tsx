@@ -1,14 +1,12 @@
 import { ClassCard } from "../ClassCard.tsx"
 import { useClassData } from "../../hooks/useClassData.tsx"
 import { LinearProgress, Skeleton, Alert, Slide } from "@mui/material"
-import { useAlertContext } from "../../hooks/useAlertContext.tsx"
 import { useClassContext } from "../../hooks/useClassContext.tsx"
 import { useEffect } from "react"
 import { useQueryClient } from "@tanstack/react-query"
 
 export const Home = () => {
     const { data, isLoading } = useClassData()
-    const { alert } = useAlertContext()
     const { setCurrentClass } = useClassContext()
     const queryClient = useQueryClient()
 
@@ -17,15 +15,8 @@ export const Home = () => {
         setCurrentClass(undefined)
     }, [])
 
-
-
     return (
         <>
-            <Slide direction="down" in={alert.status === 'success'} mountOnEnter unmountOnExit>
-                <Alert variant="filled" severity="success" className="w-60 absolute top-3 left-1/2 -translate-x-[50%]">
-                    {alert.message}
-                </Alert>
-            </Slide>
             {isLoading && <LinearProgress />}
             <div className="p-4 grid min-[668px]:grid-cols-2 min-[1100px]:grid-cols-3 gap-3 items-center ">
                 {data?.length === 0 && <p className="text-gray-800 text-center">You are not teaching any class, neither are you enrolled. Click on the + icon to join or create a new class.</p>}

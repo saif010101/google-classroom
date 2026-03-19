@@ -15,6 +15,7 @@ export const Header = () => {
     const { anchorElem, handleClick, handleClose, open } = useDropdown()
     const { currentClass } = useClassContext()
     const { setSidebarOpen } = useSidebarContext()
+    const { openEditDialog } = useDialogContext()
     const { user } = useAuthContext()
     const { data } = useQuery({
         queryKey: ['people', currentClass?.class_code],
@@ -40,7 +41,7 @@ export const Header = () => {
                 <span className="text-sm text-gray-600">{currentClass.section}</span>
             </div>) : (<span className="mr-auto text-2xl font-[400] text-gray-600">Classroom</span>)}
             {isTeacher &&
-                <button className="p-1 rounded-full hover:bg-gray-300 cursor-pointer ">
+                <button onClick={openEditDialog} className="p-1 rounded-full hover:bg-gray-300 cursor-pointer ">
                     <Cog6ToothIcon className="size-6 text-gray-700" />
                 </button>
             }
