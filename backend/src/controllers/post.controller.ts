@@ -16,3 +16,48 @@ export const getAllPosts = async (req: Request, res: Response) => {
     }
 
 }
+
+export const createPost = async (req: Request, res: Response) => {
+    const { class_code } = req.params
+    const { content } = req.body
+    const { user_id } = req.user
+    if (!class_code || Array.isArray(class_code) || typeof class_code !== 'string') {
+        return res.status(400).json({ message: 'Required parameters missing' })
+    }
+
+    setTimeout(async () => {
+
+        try {
+            const { rows } = await postService.createPost(user_id, content, class_code)
+            res.status(201).json({ message: 'Post created successfully.' })
+        } catch (error) {
+            console.error(error)
+            res.status(500).json({ message: 'Internal server error' })
+        }
+    }, 2000)
+
+}
+
+export const deletePost = async (req: Request, res: Response) => {
+
+    const { post_id } = req.params
+
+    if (!post_id || Array.isArray(post_id) || typeof post_id !== 'string') {
+        return res.status(400).json({ message: 'Required parameters missing' })
+    }
+
+    setTimeout(async () => {
+        try {
+            const { rowCount } = await postService.deletePost(Number(post_id))
+            if (rowCount && rowCount > 0) {
+                res.status(200).json({ message: 'Post deleted successfully.' })
+            } else {
+                res.status(404).json({ message: 'Post not found.' })
+            }
+        } catch (error) {
+            console.error(error)
+            res.status(500).json({ message: 'Internal server error' })
+        }
+    }, 2000)
+
+}

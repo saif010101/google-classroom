@@ -1,10 +1,20 @@
 import { db } from "../utils/db.js";
 
 class PostService {
-    async getPosts(class_code : string) {
-        return await db.query(`select p.post_id,p.content,p.posted_at,first_name || ' ' || last_name as full_name 
+    async getPosts(class_code: string) {
+        return await db.query(`select u.user_id,p.post_id,p.content,p.posted_at,first_name || ' ' || last_name as full_name 
             from posts as p inner join users as u 
-            on p.user_id = u.user_id where class_code = $1`,[class_code])
+            on p.user_id = u.user_id where class_code = $1 order by posted_at desc`, [class_code])
+    }
+
+    async createPost(user_id: number, content: string, class_code: string) {
+        return await db.query(`insert into posts (content,class_code,user_id) values ($1,$2,$3)`,
+            [content, class_code, user_id])
+    }
+
+    async deletePost(post_id : number) {
+        return await db.query(`delete from posts where post_id = $1`,
+            [post_id])
     }
 }
 

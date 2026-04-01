@@ -60,7 +60,7 @@ export function CreateClassDialog() {
 
     return (
         <>
-            <Dialog open={activeDialog === "create"} onClose={handleClose}>
+            <Dialog open={activeDialog === "create-class"} onClose={handleClose}>
                 <DialogTitle>Create Class</DialogTitle>
                 <DialogContent>
                     <form onSubmit={handleSubmit} id="subscription-form">

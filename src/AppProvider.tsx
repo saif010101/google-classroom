@@ -21,9 +21,10 @@ export const AppProvider = ({ children }: PropsWithChildren) => {
                         value={
                             {
                                 activeDialog,
-                                openJoinDialog: () => setActiveDialog("join"),
-                                openCreateDialog: () => setActiveDialog("create"),
-                                openEditDialog: () => setActiveDialog("edit"),
+                                openJoinDialog: () => setActiveDialog("join-class"),
+                                openCreateDialog: () => setActiveDialog("create-class"),
+                                openEditDialog: () => setActiveDialog("edit-class"),
+                                openCreatePostDialog: () => setActiveDialog("create-post"),
                                 closeDialog: () => setActiveDialog(null)
                             }
                         }

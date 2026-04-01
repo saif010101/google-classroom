@@ -1,23 +1,31 @@
 import { ClassBanner } from "./ClassBanner.tsx"
-import { NewAnnouncementBtn } from "./NewAnnouncementBtn.tsx"
+import { NewPostButton } from "./NewPostButton.tsx"
 import { useClassContext } from "../../hooks/useClassContext.tsx"
-import { AnnouncementCard } from "./AnnouncementCard.tsx"
+import { PostCard } from "./PostCard.tsx"
+import { useQuery } from "@tanstack/react-query"
+import { getPosts } from "../../api/getPost.ts"
 
 export const ClassStream = () => {
 
   const { currentClass } = useClassContext()
 
-  if (!currentClass){
+  if (!currentClass) {
     return
   }
+
+  const { data } = useQuery({
+    queryKey: ['post'],
+    queryFn: () => getPosts(currentClass.class_code)
+  })
 
   return (
     <>
       <div className="flex flex-col gap-3 p-2">
         <ClassBanner name={currentClass.name} section={currentClass.section} />
-        <NewAnnouncementBtn />
-        <div className="flex flex-col">
-          <AnnouncementCard />
+        <NewPostButton />
+        <div className="flex flex-col gap-3">
+          {data && data.length > 0 ? data.map(post => <PostCard key={post.post_id} post_id={post.post_id} post_user_id={post.user_id} author={post.full_name} content={post.content} date={post.posted_at} />)
+            : <p className="text-center mt-3">There are no posts for this class.</p>}
         </div>
       </div>
     </>

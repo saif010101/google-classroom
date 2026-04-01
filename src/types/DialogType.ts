@@ -1,1 +1,1 @@
-export type DialogType = "join" | "create" | "edit" | null
+export type DialogType = "join-class" | "create-class" | "edit-class" | "create-post" | "edit-post" | null
