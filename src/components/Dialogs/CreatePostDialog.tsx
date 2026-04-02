@@ -7,10 +7,9 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { useDialogContext } from '../../hooks/useDialogContext';
 import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
-import { createClass } from '../../api/createClass';
 import { useQueryClient } from '@tanstack/react-query';
 import { useAlertContext } from '../../hooks/useAlertContext';
-import { Alert, CircularProgress, DialogContentText, Snackbar } from '@mui/material';
+import { Snackbar } from '@mui/material';
 import { useClassContext } from '../../hooks/useClassContext';
 import { createPost } from '../../api/createPost';
 
@@ -18,8 +17,8 @@ import { createPost } from '../../api/createPost';
 export function CreatePostDialog() {
 
     const queryClient = useQueryClient()
+    const { setAlert } = useAlertContext()
     const { currentClass } = useClassContext()
-    const [alertVisible, setAlertVisible] = useState(false)
     const [postContent, setPostContent] = useState<string>("")
 
     const mutate = useMutation({
@@ -27,9 +26,20 @@ export function CreatePostDialog() {
         onSuccess: () => {
             // this so to force a refetch of posts data so we user can see newly created post
             queryClient.invalidateQueries({ queryKey: ['post'], refetchType: 'all' })
-    
-            // show success alert
-            setAlertVisible(true)
+
+            // i am using setTimeout so that the alert disappears after 2 seconds
+            // since i cannot think of a way to set alert state besides this atm
+            setAlert({
+                status: "success",
+                message: "Post created successfully"
+            })
+
+            setTimeout(() => {
+                setAlert({
+                    status: "pending",
+                    message: ""
+                })
+            }, 2000)
         }
     })
 
@@ -49,18 +59,13 @@ export function CreatePostDialog() {
         setPostContent(event.target.value)
     }
 
-    const onClose = () => {
-        setAlertVisible(false)
-    }
-
     return (
         <>
-            <Snackbar open={mutate.isPending} message="Operation in progress" />
-            <Snackbar onClose={onClose} open={alertVisible} message="Operation in progress" autoHideDuration={2000}>
-                <Alert className="w-full" variant="filled" severity="success">
-                    Post created successfully.
-                </Alert>
-            </Snackbar>
+            <Snackbar 
+                anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }} 
+                message="Operation in progress" 
+                open={mutate.isPending}
+            />
             <Dialog fullWidth={true} maxWidth={'sm'} open={activeDialog === "create-post"} onClose={handleClose}>
                 <DialogTitle>Post</DialogTitle>
                 <DialogContent>
