@@ -12,9 +12,14 @@ class PostService {
             [content, class_code, user_id])
     }
 
-    async deletePost(post_id : number) {
+    async deletePost(post_id: number) {
         return await db.query(`delete from posts where post_id = $1`,
             [post_id])
+    }
+
+    async editPost(content: string, post_id: number) {
+        return await db.query(`update posts set content = $1 where post_id = $2`,
+            [content, post_id])
     }
 }
 

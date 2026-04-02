@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
-* {
-    outline: 0;
+*:focus {
+    outline : 0.25rem solid rgb(30, 128, 208);
 }
 
 body {

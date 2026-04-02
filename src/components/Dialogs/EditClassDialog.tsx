@@ -11,6 +11,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useAlertContext } from '../../hooks/useAlertContext';
 import { useClassContext } from '../../hooks/useClassContext';
 import { editClass } from '../../api/editClass';
+import { Snackbar } from '@mui/material';
 
 
 export function EditClassDialog() {
@@ -31,19 +32,16 @@ export function EditClassDialog() {
     const mutate = useMutation({
         mutationFn: () => editClass(currentClass.class_code, classData),
         onSuccess: () => {
-            // this so to force a refetch of class data so the user can see the updated data
+            // this so to force a refetch of current class data so the user can see the updated data
             queryClient.invalidateQueries({ queryKey: ['class'], refetchType: 'all' })
+            // this so to force a refetch of all class data so the user can see the updated class in sidebar as well
+            queryClient.invalidateQueries({ queryKey: ['classData'], refetchType: 'all' })
+
             // i am using setTimeout so that the alert disappears after 2 seconds
             // since i cannot think of a way to set alert state besides this atm
-            setAlert({
-                status: "success",
-                message: "Class details updated successfully"
-            })
+            setAlert({ status: "success", message: "Class details updated successfully" })
             setTimeout(() => {
-                setAlert({
-                    status: "pending",
-                    message: ""
-                })
+                setAlert({ status: "pending", message: "" })
             }, 2000)
         }
     })
@@ -66,6 +64,11 @@ export function EditClassDialog() {
 
     return (
         <>
+            <Snackbar
+                anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
+                message="Operation in progress"
+                open={mutate.isPending}
+            />
             <Dialog open={true} onClose={handleClose}>
                 <DialogTitle>Edit Class</DialogTitle>
                 <DialogContent>

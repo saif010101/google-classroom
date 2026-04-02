@@ -6,6 +6,7 @@ import { useAuthContext } from "../../hooks/useAuthContext"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { deletePost } from "../../api/deletePost"
 import { useAlertContext } from "../../hooks/useAlertContext"
+import { useDialogContext } from "../../hooks/useDialogContext"
 
 
 interface PostCardHeaderProps {
@@ -43,6 +44,7 @@ export const PostCardHeader = ({ post_id, author, date, post_user_id }: PostCard
             }, 2000)
         }
     })
+    const { openEditPostDialog } = useDialogContext()
 
     const open = Boolean(anchorElem)
     const hasDeletePermissions = user?.user_id === post_user_id
@@ -71,7 +73,7 @@ export const PostCardHeader = ({ post_id, author, date, post_user_id }: PostCard
                             <EllipsisVerticalIcon className="size-6" />
                         </button>
                         <Menu anchorEl={anchorElem} onClose={handleClose} open={open}>
-                            <MenuItem>Edit</MenuItem>
+                            <MenuItem onClick={openEditPostDialog}>Edit</MenuItem>
                             <MenuItem onClick={handleDeleteClick}>Delete</MenuItem>
                         </Menu>
                     </div>
