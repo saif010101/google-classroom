@@ -1,6 +1,6 @@
 import { useState, type PropsWithChildren } from "react"
-import { SidebarContext } from "./contexts/SidebarContext"
 import { ClassContext, type CurrentClassInfo } from "./contexts/ClassContext"
+import { PostContext, type CurrentPostInfo } from "./contexts/PostContext"
 import { AlertContext } from "./contexts/AlertContext"
 import { DialogContext } from "./contexts/DialogContext"
 import type { AlertType } from "./types/AlertType"
@@ -13,9 +13,10 @@ export const AppProvider = ({ children }: PropsWithChildren) => {
         message: ""
     })
     const [currentClass, setCurrentClass] = useState<CurrentClassInfo | undefined>(undefined)
-
+    const [currentPost, setCurrentPost] = useState<CurrentPostInfo | undefined>(undefined)
     return (
-            <ClassContext.Provider value={{ currentClass, setCurrentClass }}>
+        <ClassContext.Provider value={{ currentClass, setCurrentClass }}>
+            <PostContext.Provider value={{ currentPost, setCurrentPost }}>
                 <AlertContext.Provider value={{ alert, setAlert }}>
                     <DialogContext.Provider
                         value={
@@ -25,7 +26,7 @@ export const AppProvider = ({ children }: PropsWithChildren) => {
                                 openCreateDialog: () => setActiveDialog("create-class"),
                                 openEditDialog: () => setActiveDialog("edit-class"),
                                 openCreatePostDialog: () => setActiveDialog("create-post"),
-                                openEditPostDialog : () => setActiveDialog("edit-post"),
+                                openEditPostDialog: () => setActiveDialog("edit-post"),
                                 closeDialog: () => setActiveDialog(null)
                             }
                         }
@@ -33,6 +34,7 @@ export const AppProvider = ({ children }: PropsWithChildren) => {
                         {children}
                     </DialogContext.Provider>
                 </AlertContext.Provider>
-            </ClassContext.Provider>
+            </PostContext.Provider>
+        </ClassContext.Provider>
     )
 }

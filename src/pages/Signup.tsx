@@ -1,15 +1,16 @@
 import { Button, TextField } from "@mui/material"
-import { useState, type ChangeEvent, type SubmitEvent } from "react"
+import { useEffect, useState, type ChangeEvent, type SubmitEvent } from "react"
 import { useMutation } from "@tanstack/react-query"
 import { createUser } from "../api/createUser.js"
 import { MoonLoader } from "react-spinners"
-import { useNavigate } from "react-router"
+import { NavLink, useNavigate } from "react-router"
+import { useAuthContext } from "../hooks/useAuthContext.js"
 
 
 export const Signup = () => {
 
     const navigate = useNavigate()
-
+    const {user,isPending} = useAuthContext()
     const [userData, setUserData] = useState({
         first_name: '',
         last_name: '',
@@ -19,7 +20,7 @@ export const Signup = () => {
 
     const mutate = useMutation({
         mutationFn: () => createUser(userData),
-        onSuccess : () => {
+        onSuccess: () => {
             navigate('/login')
         }
     })
@@ -30,6 +31,12 @@ export const Signup = () => {
     const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
         setUserData({ ...userData, [event.target.name]: event.target.value })
     }
+
+    useEffect(() => {
+        if (!isPending && user) {
+            navigate('/')
+        }
+    }, [isPending])
 
     return (
         <>
@@ -69,11 +76,13 @@ export const Signup = () => {
                         onChange={handleInputChange}
                         name="password"
                     />
-
                     <Button className="flex items-center gap-3" type="submit" variant="contained" color="success">
                         <MoonLoader size={20} loading={mutate.isPending} />
                         Sign Up
                     </Button>
+                    <span>
+                        Already have an account? <NavLink to="/signup" className="underline text-blue-500">click here</NavLink>
+                    </span>
                 </form>
             </div>
         </>

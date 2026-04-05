@@ -1,13 +1,13 @@
 import { Button, TextField } from "@mui/material"
 import { UserIcon } from "@heroicons/react/24/outline"
-import { useMutation } from "@tanstack/react-query"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { loginUser } from "../api/loginUser.js"
 import type { SubmitEvent, ChangeEvent } from "react"
-import { useContext, useState } from "react"
-import { useNavigate } from "react-router"
+import { useEffect, useState } from "react"
+import { NavLink, useNavigate } from "react-router"
 import { MoonLoader } from "react-spinners"
-import { AuthContext } from "../contexts/AuthContext.js"
 import { AxiosError } from "axios"
+import { useAuthContext } from "../hooks/useAuthContext.js"
 
 interface LoginFormError {
     message: string
@@ -15,12 +15,9 @@ interface LoginFormError {
 
 export const Login = () => {
 
+    const queryClient = useQueryClient()
     const navigate = useNavigate()
-    const authContext = useContext(AuthContext)
-
-    if (!authContext) {
-        return null
-    }
+    const { user,isPending} = useAuthContext()
 
     const [userData, setUserData] = useState({
         email: '',
@@ -33,8 +30,8 @@ export const Login = () => {
         mutationKey: ['login'],
         mutationFn: () => loginUser(userData),
         onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['user'], refetchType: 'all' })
             navigate('/')
-            authContext.refetch()
         }
     })
 
@@ -50,6 +47,14 @@ export const Login = () => {
     if (mutate.isError) {
         msg = mutate.error.response?.data.message
     }
+
+    useEffect(() => {
+        if (!isPending && user){
+            navigate('/')
+        }
+    },[isPending])
+
+    
     return (
         <>
             <div className="h-screen flex justify-center items-center bg-green-400">
@@ -78,6 +83,9 @@ export const Login = () => {
                         <MoonLoader size={20} loading={mutate.isPending} color="#FFFFFF" />
                         <span>Login</span>
                     </Button>
+                    <span>
+                        Don't have an account? <NavLink to="/signup" className="underline text-blue-500">click here</NavLink>
+                    </span>
                 </form>
             </div>
         </>

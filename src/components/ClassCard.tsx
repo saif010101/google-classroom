@@ -7,6 +7,7 @@ import { deleteClass } from "../api/deleteClass.ts"
 import { useAlertContext } from "../hooks/useAlertContext.tsx"
 import { leaveClass } from "../api/leaveClass.ts"
 import { useNavigate } from "react-router"
+import { Snackbar } from "@mui/material"
 
 
 interface ClassCardProps {
@@ -54,23 +55,30 @@ export const ClassCard = ({ class_code, class_name, teacher_name, section, role 
     }
 
     return (
-        <div className="w-[370px] grid grid-rows-[2fr 3fr 1fr] border border-gray-400 rounded-xl overflow-hidden hover:shadow-xl hover:cursor-pointer">
-            <div onClick={() => handleClassClick(class_code)} className="p-4 flex flex-col gap-2 bg-blue-500 text-white">
-                <span className="text-2xl hover:underline">{class_name}</span>
-                <span className="text-sm hover:underline">{section}</span>
-                <span className="text-sm">{teacher_name}</span>
-            </div>
-            <div className="h-30 relative">
+        <>
+            <Snackbar
+                anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
+                message="Operation in progress"
+                open={mutate.isPending}
+            />
+            <div className="w-[370px] grid grid-rows-[2fr 3fr 1fr] border border-gray-400 rounded-xl overflow-hidden hover:shadow-xl hover:cursor-pointer">
+                <div onClick={() => handleClassClick(class_code)} className="p-4 flex flex-col gap-2 bg-blue-500 text-white">
+                    <span className="text-2xl hover:underline">{class_name}</span>
+                    <span className="text-sm hover:underline">{section}</span>
+                    <span className="text-sm">{teacher_name}</span>
+                </div>
+                <div className="h-30 relative">
 
+                </div>
+                <div className="p-3 flex justify-end border-t-1 border-gray-400">
+                    <button id="basic-button" className="cursor-pointer" onClick={handleClick} >
+                        <EllipsisVerticalIcon className="size-6" />
+                    </button>
+                    <Menu open={open} onClose={handleClose} anchorEl={anchorElem}>
+                        <MenuItem onClick={handleDeleteClick}>{role === 'teacher' ? 'Delete' : 'Unenroll'}</MenuItem>
+                    </Menu>
+                </div>
             </div>
-            <div className="p-3 flex justify-end border-t-1 border-gray-400">
-                <button id="basic-button" className="cursor-pointer" onClick={handleClick} >
-                    <EllipsisVerticalIcon className="size-6" />
-                </button>
-                <Menu open={open} onClose={handleClose} anchorEl={anchorElem}>
-                    <MenuItem onClick={handleDeleteClick}>{role === 'teacher' ? 'Delete' : 'Unenroll'}</MenuItem>
-                </Menu>
-            </div>
-        </div>
+        </>
     )
 }

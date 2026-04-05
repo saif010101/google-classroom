@@ -10,6 +10,7 @@ import { useMutation } from '@tanstack/react-query';
 import { createClass } from '../../api/createClass';
 import { useQueryClient } from '@tanstack/react-query';
 import { useAlertContext } from '../../hooks/useAlertContext';
+import { Snackbar } from '@mui/material';
 
 
 export function CreateClassDialog() {
@@ -60,6 +61,11 @@ export function CreateClassDialog() {
 
     return (
         <>
+            <Snackbar
+                anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
+                message="Operation in progress"
+                open={mutate.isPending}
+            />
             <Dialog open={activeDialog === "create-class"} onClose={handleClose}>
                 <DialogTitle>Create Class</DialogTitle>
                 <DialogContent>

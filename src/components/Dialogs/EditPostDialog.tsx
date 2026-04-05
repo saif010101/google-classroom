@@ -11,6 +11,8 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useAlertContext } from '../../hooks/useAlertContext';
 import { Snackbar } from '@mui/material';
 import { useClassContext } from '../../hooks/useClassContext';
+import { usePostContext } from '../../hooks/usePostContext';
+import { editPost } from '../../api/editPost';
 
 
 
@@ -18,11 +20,14 @@ export function EditPostDialog() {
 
     const queryClient = useQueryClient()
     const { setAlert } = useAlertContext()
-    const { currentClass } = useClassContext()
-    const [postContent, setPostContent] = useState<string>("")
+    const { currentPost } = usePostContext()
+    const [postContent, setPostContent] = useState<string>(currentPost ? currentPost.content : "")
 
+    if (!currentPost) {
+        return
+    }
     const mutate = useMutation({
-        mutationFn: () => editPost(currentClass?.class_code, postContent),
+        mutationFn: () => editPost(currentPost.post_id, postContent),
         onSuccess: () => {
             // this so to force a refetch of posts data so we user can see newly created post
             queryClient.invalidateQueries({ queryKey: ['post'], refetchType: 'all' })
@@ -61,9 +66,9 @@ export function EditPostDialog() {
 
     return (
         <>
-            <Snackbar 
-                anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }} 
-                message="Operation in progress" 
+            <Snackbar
+                anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
+                message="Operation in progress"
                 open={mutate.isPending}
             />
             <Dialog fullWidth={true} maxWidth={'sm'} open={activeDialog === "edit-post"} onClose={handleClose}>
@@ -78,6 +83,7 @@ export function EditPostDialog() {
                             className="w-full"
                             name="content"
                             onChange={handleChange}
+                            defaultValue={postContent}
                         />
                     </form>
                 </DialogContent>

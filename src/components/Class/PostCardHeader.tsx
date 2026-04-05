@@ -1,12 +1,13 @@
 import { EllipsisVerticalIcon } from "@heroicons/react/16/solid"
-import { useDropdown } from "../../hooks/useDropdown"
-import { Menu, MenuItem, Snackbar } from "@mui/material"
 import { UserIcon } from "@heroicons/react/24/outline"
-import { useAuthContext } from "../../hooks/useAuthContext"
+import { Menu, MenuItem, Snackbar } from "@mui/material"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { deletePost } from "../../api/deletePost"
 import { useAlertContext } from "../../hooks/useAlertContext"
+import { useAuthContext } from "../../hooks/useAuthContext"
 import { useDialogContext } from "../../hooks/useDialogContext"
+import { useDropdown } from "../../hooks/useDropdown"
+import { usePostContext } from "../../hooks/usePostContext"
 
 
 interface PostCardHeaderProps {
@@ -14,9 +15,10 @@ interface PostCardHeaderProps {
     date: string
     post_user_id: number
     post_id: number
+    content: string
 }
 
-export const PostCardHeader = ({ post_id, author, date, post_user_id }: PostCardHeaderProps) => {
+export const PostCardHeader = ({ post_id, author, date, post_user_id, content }: PostCardHeaderProps) => {
 
     const queryClient = useQueryClient()
     const { anchorElem, handleClick, handleClose } = useDropdown()
@@ -45,12 +47,19 @@ export const PostCardHeader = ({ post_id, author, date, post_user_id }: PostCard
         }
     })
     const { openEditPostDialog } = useDialogContext()
+    const { setCurrentPost } = usePostContext()
 
     const open = Boolean(anchorElem)
     const hasDeletePermissions = user?.user_id === post_user_id
 
     const handleDeleteClick = () => {
         mutate.mutate()
+    }
+
+    const handleThreeDotsClick = () => {
+        setCurrentPost({
+            post_id, content
+        })
     }
 
     return (
@@ -70,11 +79,17 @@ export const PostCardHeader = ({ post_id, author, date, post_user_id }: PostCard
                 {hasDeletePermissions &&
                     <div>
                         <button className='hover:cursor-pointer hover:bg-gray-200 rounded-full' onClick={handleClick}>
-                            <EllipsisVerticalIcon className="size-6" />
+                            <EllipsisVerticalIcon onClick={handleThreeDotsClick} className="size-6" />
                         </button>
                         <Menu anchorEl={anchorElem} onClose={handleClose} open={open}>
-                            <MenuItem onClick={openEditPostDialog}>Edit</MenuItem>
-                            <MenuItem onClick={handleDeleteClick}>Delete</MenuItem>
+                            <MenuItem onClick={() => {
+                                openEditPostDialog()
+                                handleClose()
+                            }}>Edit</MenuItem>
+                            <MenuItem onClick={() => {
+                                handleDeleteClick()
+                                handleClose()
+                            }}>Delete</MenuItem>
                         </Menu>
                     </div>
                 }

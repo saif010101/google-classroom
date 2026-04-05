@@ -57,7 +57,7 @@ export function JoinClassDialog() {
 
     return (
         <>
-            <Dialog open={activeDialog === "join"} onClose={handleClose}>
+            <Dialog open={activeDialog === "join-class"} onClose={handleClose}>
                 <DialogTitle>Join Class</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
