@@ -3,10 +3,9 @@ import cors from "cors";
 import classRouter from './routes/class.routes.js'
 import userRouter from './routes/user.routes.js'
 import postRouter from './routes/post.routes.js'
+import commentRouter from './routes/comments.routes.js'
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser"
-
-// console.log(process.env.ORIGIN)
 
 export const app = express();
 app.use(cors({
@@ -22,3 +21,4 @@ app.use(cookieParser())
 app.use('/api/classes', classRouter)
 app.use('/api/users', userRouter)
 app.use('/api/posts', postRouter)
+app.use('/api/comments',commentRouter)

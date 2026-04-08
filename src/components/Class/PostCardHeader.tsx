@@ -69,10 +69,10 @@ export const PostCardHeader = ({ post_id, author, date, post_user_id, content }:
                 message="Operation in progress"
                 open={mutate.isPending}
             />
-            <div className="p-5 flex justify-between items-center gap-4">
+            <div className="p-5 flex justify-between items-center gap-4 shadow-xs">
                 <UserIcon className="size-8" />
                 <div className='flex flex-col mr-auto'>
-                    <span className='text-gray-700 font-[500]'>{author}</span>
+                    <span className='text-gray-700 font-[600]'>{author}</span>
                     <span className='text-sm text-gray-500'>{new Date(date).toLocaleString()}</span>
                 </div>
                 {/* only show modification options if user is the author of the post */}

@@ -4,9 +4,11 @@ import { useClassContext } from "../../hooks/useClassContext.tsx"
 import { PostCard } from "./PostCard.tsx"
 import { useQuery } from "@tanstack/react-query"
 import { getPosts } from "../../api/getPost.ts"
+import { useParams } from "react-router"
 
 export const ClassStream = () => {
 
+  const { class_code } = useParams()
   const { currentClass } = useClassContext()
 
   if (!currentClass) {
@@ -14,7 +16,7 @@ export const ClassStream = () => {
   }
 
   const { data } = useQuery({
-    queryKey: ['post'],
+    queryKey: ['post', class_code],
     queryFn: () => getPosts(currentClass.class_code)
   })
 

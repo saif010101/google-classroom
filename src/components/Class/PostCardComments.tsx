@@ -1,41 +1,53 @@
-import { ChatBubbleBottomCenterTextIcon, ArrowRightCircleIcon, UserIcon } from "@heroicons/react/24/outline"
-import { TextField } from "@mui/material"
+import { LinearProgress } from "@mui/material"
+import { useQuery } from "@tanstack/react-query"
 import { useState } from "react"
+import { getComments } from "../../api/getComments"
+import { AddComment } from "../Comments/AddComment"
+import { CommentInputBox } from "../Comments/CommentInputBox"
+import { TotalComments } from "../Comments/TotalComments"
+import { CommentsList } from "../Comments/CommentsList"
+import { CommentBox } from "../Comments/CommentBox"
+import { useParams } from "react-router"
 
 
-export const PostCardComments = () => {
+interface PostCardCommentsProps {
+    post_id: number
+}
+
+export const PostCardComments = ({ post_id }: PostCardCommentsProps) => {
+    const { class_code } = useParams()
     const [inputActive, setInputActive] = useState(false)
-    const [comment, setComment] = useState('')
+    const [commentListActive, setCommentListActive] = useState(false)
+    const { data, isFetching } = useQuery({
+        queryKey: ['comments', class_code, post_id],
+        queryFn: () => getComments(post_id)
+    })
 
-    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setComment(event.target.value)
+    if (isFetching) {
+        return <LinearProgress />
     }
 
-    const commentIconStyles = comment.length > 0 ? 'text-gray-900' : 'text-gray-300'
+    const doesDataExists = () => {
+        return data && data.length > 0
+    }
+
+    console.log('post_id : ', post_id, 'data : ', data)
+
     return (
         <div className='p-5 border-t-1 border-gray-300'>
-            {!inputActive ?
-                <div onClick={() => setInputActive(true)} className='w-46 px-4 py-2 flex gap-2 items-center hover:cursor-pointer hover:bg-blue-100 rounded-full'>
-                    <ChatBubbleBottomCenterTextIcon className='size-6 text-blue-700' />
-                    <span className='text-blue-700 font-[500]'>Add comment</span>
-                </div> :
-                <div className="flex items-center gap-3">
-                    <UserIcon className="size-10" />
-                    <TextField
-                        id="outlined-multiline-flexible"
-                        multiline
-                        minRows={1}
-                        className="w-full"
-                        name="content"
-                        variant="outlined"
-                        placeholder="Add class comment..."
-                        onChange={handleInputChange}
-                    />
-                    <div className="p-1 rounded-full cursor-pointer hover:bg-gray-300">
-                        <ArrowRightCircleIcon className={`size-8 ${commentIconStyles}`} />
-                    </div>
-                </div>
+            {/* if there is atleast one comment, don't show Add Comment UI */}
+            {doesDataExists() ?
+                <TotalComments setCommentListActive={setCommentListActive} commentsCount={data.length} />
+                :
+                <AddComment setInputActive={setInputActive} />
             }
+            {/*  it will show all comments, its state is toggled by Total Comments UI */}
+            {commentListActive && <CommentsList data={data} />}
+            {/* if there is atleast one comment and comment list is not active then show the most recent comment */}
+            {doesDataExists() && !commentListActive && <CommentBox author={data[0].name} content={data[0].content} date={data[0].posted_at} />}
+            {/* if there is atleast one comment, the comment input box will show
+            else user will need to click on Add Comment UI to render it */}
+            {(inputActive || doesDataExists()) && <CommentInputBox />}
         </div>
     )
 }

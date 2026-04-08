@@ -14,8 +14,7 @@ export const getAllClasses = async (req: Request, res: Response) => {
             res.status(500).json({ message: 'Internal server error' })
         }
 
-    }, 100
-    )
+    }, 100)
 }
 
 export const getClass = async (req: Request, res: Response) => {
@@ -33,7 +32,7 @@ export const getClass = async (req: Request, res: Response) => {
             console.error(error)
             res.status(500).json({ message: 'Internal server error' })
         }
-    }, 1000)
+    }, 10)
 }
 
 export const getPeople = async (req: Request, res: Response) => {
