@@ -28,7 +28,7 @@ export const createPost = async (req: Request, res: Response) => {
     setTimeout(async () => {
 
         try {
-            const { rows } = await postService.createPost(user_id, content, class_code)
+            const { rows } = await postService.createPost(user_id, content.trim(), class_code)
             res.status(201).json({ message: 'Post created successfully.' })
         } catch (error) {
             console.error(error)

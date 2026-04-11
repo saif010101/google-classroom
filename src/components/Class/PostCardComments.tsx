@@ -31,8 +31,6 @@ export const PostCardComments = ({ post_id }: PostCardCommentsProps) => {
         return data && data.length > 0
     }
 
-    console.log('post_id : ', post_id, 'data : ', data)
-
     return (
         <div className='p-5 border-t-1 border-gray-300'>
             {/* if there is atleast one comment, don't show Add Comment UI */}
@@ -47,7 +45,7 @@ export const PostCardComments = ({ post_id }: PostCardCommentsProps) => {
             {doesDataExists() && !commentListActive && <CommentBox author={data[0].name} content={data[0].content} date={data[0].posted_at} />}
             {/* if there is atleast one comment, the comment input box will show
             else user will need to click on Add Comment UI to render it */}
-            {(inputActive || doesDataExists()) && <CommentInputBox />}
+            {(inputActive || doesDataExists()) && <CommentInputBox post_id={post_id} />}
         </div>
     )
 }
