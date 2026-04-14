@@ -39,3 +39,35 @@ export const createComment = async (req: Request, res: Response) => {
     }, 2000)
 
 }
+
+export const deleteComment = async (req: Request, res: Response) => {
+
+    const { user_id } = req.user
+    const { comment_id } = req.params
+
+    if (!comment_id || Array.isArray(comment_id) || isNaN(parseInt(comment_id, 10))) {
+        return res.status(400).json({ message: 'Invalid data' })
+    }
+
+    setTimeout(async () => {
+        try {
+            const author_id = await commentService.getAuthorId(parseInt(comment_id, 10))
+
+            if (!author_id) {
+                return res.status(404).json({ message: 'Comment not found' })
+            }
+
+            if (author_id !== user_id) {
+                return res.status(403).json({ message: 'Operation not permitted.' })
+            }
+
+            await commentService.deleteComment(parseInt(comment_id, 10))
+
+            return res.status(200).json({ message: 'Comment deleted successfully.' })
+        } catch (error) {
+            console.error('Error in deleteComment controller : ', error)
+            return res.status(500).json({ message: 'Internal server error' })
+        }
+    }, 2000)
+
+}

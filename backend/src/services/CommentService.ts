@@ -12,6 +12,14 @@ class CommentService {
             values ($1,$2,$3)`, [post_id, user_id, content])
     }
 
+    async getAuthorId(comment_id: number) {
+        const { rows } = await db.query(`select user_id from comments where comment_id = $1`, [comment_id])
+        return rows[0] ? rows[0].user_id : null
+    }
+    async deleteComment(comment_id: number) {
+        return await db.query(`delete from comments where comment_id = $1`, [comment_id])
+    }
+
 }
 
 export default new CommentService()

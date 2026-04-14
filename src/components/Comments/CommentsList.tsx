@@ -10,7 +10,7 @@ export const CommentsList = ({ data }: CommentsListProps) => {
         <ul>
             {data.map(item => (
                 <li key={item.comment_id}>
-                    <CommentBox author_id={item.user_id} author={item.name} content={item.content} date={item.posted_at} />
+                    <CommentBox comment_id={item.comment_id} author_id={item.user_id} author={item.name} content={item.content} date={item.posted_at} />
                 </li>
             ))}
         </ul>
