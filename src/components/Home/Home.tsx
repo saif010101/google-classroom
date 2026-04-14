@@ -18,7 +18,7 @@ export const Home = () => {
     return (
         <>
             {isLoading && <LinearProgress />}
-            <div className="p-4 grid min-[784px]:grid-cols-2 min-[1166px]:grid-cols-3 gap-3 items-center ">
+            <div className="p-5 grid min-[668px]:grid-cols-[repeat(2,310px)] min-[987px]:grid-cols-[repeat(3,310px)] gap-3 items-center rounded-3xl">
                 {data?.length === 0 && <p className="text-gray-800 text-center">You are not teaching any class, neither are you enrolled. Click on the + icon to join or create a new class.</p>}
                 {data ? data.map(item => (
                     <ClassCard

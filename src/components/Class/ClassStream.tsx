@@ -22,7 +22,7 @@ export const ClassStream = () => {
 
   return (
     <>
-      <div className="flex flex-col gap-3 p-2">
+      <div className="flex flex-col gap-3 p-5">
         <ClassBanner name={currentClass.name} section={currentClass.section} />
         <NewPostButton />
         <div className="flex flex-col gap-3">
