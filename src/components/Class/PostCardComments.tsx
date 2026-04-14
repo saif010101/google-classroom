@@ -42,7 +42,7 @@ export const PostCardComments = ({ post_id }: PostCardCommentsProps) => {
             {/*  it will show all comments, its state is toggled by Total Comments UI */}
             {commentListActive && <CommentsList data={data} />}
             {/* if there is atleast one comment and comment list is not active then show the most recent comment */}
-            {doesDataExists() && !commentListActive && <CommentBox author={data[0].name} content={data[0].content} date={data[0].posted_at} />}
+            {doesDataExists() && !commentListActive && <CommentBox author_id={data[0].user_id} author={data[0].name} content={data[0].content} date={data[0].posted_at} />}
             {/* if there is atleast one comment, the comment input box will show
             else user will need to click on Add Comment UI to render it */}
             {(inputActive || doesDataExists()) && <CommentInputBox post_id={post_id} />}
