@@ -3,7 +3,7 @@ import { TextField } from "@mui/material"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { useState } from "react"
 import { createComment } from "../../api/createComment"
-import { DotLoader, FadeLoader, MoonLoader } from "react-spinners"
+import { DotLoader} from "react-spinners"
 
 
 interface CommentInputBoxProps {

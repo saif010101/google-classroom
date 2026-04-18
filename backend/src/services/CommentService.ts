@@ -16,8 +16,13 @@ class CommentService {
         const { rows } = await db.query(`select user_id from comments where comment_id = $1`, [comment_id])
         return rows[0] ? rows[0].user_id : null
     }
+
     async deleteComment(comment_id: number) {
         return await db.query(`delete from comments where comment_id = $1`, [comment_id])
+    }
+
+    async editComment(comment_id: number, content: string) {
+        return await db.query(`update comments set content = $1 where comment_id = $2`, [content, comment_id])
     }
 
 }

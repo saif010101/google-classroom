@@ -6,6 +6,7 @@ import { useAuthContext } from "../../hooks/useAuthContext"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { deleteComment } from "../../api/deleteComment"
 import { useAlertContext } from "../../hooks/useAlertContext"
+import { EditCommentBox } from "./EditCommentBox"
 
 interface CommentBoxProps {
     author: string
@@ -21,6 +22,7 @@ export const CommentBox = ({ comment_id, author_id, author, date, content }: Com
     const { setAlert } = useAlertContext()
     const { user } = useAuthContext()
     const [iconVisible, setIconVisible] = useState(false)
+    const [isEditState, setIsEditState] = useState(false)
     const { anchorElem, handleClick, handleClose, open } = useDropdown()
     const mutate = useMutation({
         mutationFn: () => deleteComment(comment_id),
@@ -52,6 +54,12 @@ export const CommentBox = ({ comment_id, author_id, author, date, content }: Com
         handleClose()
     }
 
+    const handleEditClick = () => {
+        setIsEditState(true)
+        handleClose()
+    }
+
+
     return (
         <>
             <Snackbar
@@ -63,15 +71,15 @@ export const CommentBox = ({ comment_id, author_id, author, date, content }: Com
                 <UserIcon className="size-8" />
                 <div className='flex flex-col gap-1 mr-auto'>
                     <span className='text-xs text-gray-700 font-[600]'>{author} • {formattedDate} </span>
-                    <span className='text-sm text-gray-900'>{content}</span>
+                    {!isEditState ? <span className='text-sm text-gray-900'>{content}</span> : <EditCommentBox comment_id={comment_id} oldComment={content} setIsEditState={setIsEditState}/>}
                 </div>
                 {/* only render edit options if the author of the comment is viewing it */}
-                {isAuthor && <>
+                {isAuthor && !isEditState && <>
                     <button onClick={handleClick} id="basic-button" className={`cursor-pointer ${!iconVisible && 'opacity-0'}`} >
                         <EllipsisVerticalIcon className="size-5 text-gray-700" />
                     </button>
                     <Menu open={open} onClose={handleClose} anchorEl={anchorElem}>
-                        <MenuItem>Edit</MenuItem>
+                        <MenuItem onClick={handleEditClick}>Edit</MenuItem>
                         <MenuItem onClick={handleDeleteClick}>Delete</MenuItem>
                     </Menu>
                 </>
