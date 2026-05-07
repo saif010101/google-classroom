@@ -2,11 +2,7 @@ import { Pool } from "pg";
 import 'dotenv/config'
 
 export const db = new Pool({
-    user: process.env.PGUSER,
-    host: process.env.PGHOST,
-    password: process.env.PGPASSWORD,
-    port: Number(process.env.PGPORT),
-    database: process.env.PGDATABASE
+  connectionString : process.env.DATABASE_URL
 })
 
 async function testConnection() {
