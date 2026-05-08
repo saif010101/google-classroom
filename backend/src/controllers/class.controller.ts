@@ -6,15 +6,13 @@ import classService from "../services/ClassService.js";
 export const getAllClasses = async (req: Request, res: Response) => {
     const { user_id } = req.user
 
-    setTimeout(async () => {
-        try {
-            const { rows } = await classService.getClasses(user_id)
-            res.status(200).json(rows)
-        } catch (error) {
-            res.status(500).json({ message: 'Internal server error' })
-        }
+    try {
+        const { rows } = await classService.getClasses(user_id)
+        res.status(200).json(rows)
+    } catch (error) {
+        res.status(500).json({ message: 'Internal server error' })
+    }
 
-    }, 100)
 }
 
 export const getClass = async (req: Request, res: Response) => {
@@ -23,16 +21,13 @@ export const getClass = async (req: Request, res: Response) => {
         return res.status(400).json({ message: 'Required parameters missing' })
     }
 
-    setTimeout(async () => {
-
-        try {
-            const { rows } = await classService.getClass(class_code)
-            res.status(200).json(rows[0])
-        } catch (error) {
-            console.error(error)
-            res.status(500).json({ message: 'Internal server error' })
-        }
-    }, 10)
+    try {
+        const { rows } = await classService.getClass(class_code)
+        res.status(200).json(rows[0])
+    } catch (error) {
+        console.error(error)
+        res.status(500).json({ message: 'Internal server error' })
+    }
 }
 
 export const getPeople = async (req: Request, res: Response) => {
@@ -126,13 +121,13 @@ export const updateClass = async (req: Request, res: Response) => {
     try {
         // authorize teacher, make sure only the class teacher is updating the class
         const { rows } = await classService.getUserRole(user_id, class_code)
-        if (rows.length === 0 || rows[0].role !== 'teacher'){
-            return res.status(403).json({message : 'Forbidden'})
+        if (rows.length === 0 || rows[0].role !== 'teacher') {
+            return res.status(403).json({ message: 'Forbidden' })
         }
-        
+
         // do database stuff here
-        const response = await classService.updateClass(class_code,name,section)
-        res.status(200).json({message : 'Class details updated successfully.'})
+        const response = await classService.updateClass(class_code, name, section)
+        res.status(200).json({ message: 'Class details updated successfully.' })
     } catch (error) {
         console.error(error)
         res.status(500).json({ message: 'Internal server error.' })
