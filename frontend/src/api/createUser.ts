@@ -8,6 +8,6 @@ interface UserData {
 }
 
 export const createUser = async (payload: UserData) => {
-    const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/api/users/signup`,payload,{withCredentials:true})
+    const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/api/users/signup`, payload, { withCredentials: true })
     return data[0]
 }

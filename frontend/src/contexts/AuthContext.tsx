@@ -1,6 +1,6 @@
 import { createContext } from "react";
 import type { UserData } from "../types/UserData.ts";
-import { useUserData } from "../hooks/useUserData";
+import { useUserData } from "../hooks/useUserData.tsx";
 import type { PropsWithChildren } from "react";
 
 interface AuthContextShape {

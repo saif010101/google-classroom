@@ -25,16 +25,15 @@ export const createPost = async (req: Request, res: Response) => {
         return res.status(400).json({ message: 'Required parameters missing' })
     }
 
-    setTimeout(async () => {
 
-        try {
-            const { rows } = await postService.createPost(user_id, content.trim(), class_code)
-            res.status(201).json({ message: 'Post created successfully.' })
-        } catch (error) {
-            console.error(error)
-            res.status(500).json({ message: 'Internal server error' })
-        }
-    }, 2000)
+    try {
+        const { rows } = await postService.createPost(user_id, content.trim(), class_code)
+        res.status(201).json({ message: 'Post created successfully.' })
+    } catch (error) {
+        console.error(error)
+        res.status(500).json({ message: 'Internal server error' })
+    }
+
 
 }
 
@@ -46,19 +45,18 @@ export const deletePost = async (req: Request, res: Response) => {
         return res.status(400).json({ message: 'Required parameters missing' })
     }
 
-    setTimeout(async () => {
-        try {
-            const { rowCount } = await postService.deletePost(Number(post_id))
-            if (rowCount && rowCount > 0) {
-                res.status(200).json({ message: 'Post deleted successfully.' })
-            } else {
-                res.status(404).json({ message: 'Post not found.' })
-            }
-        } catch (error) {
-            console.error(error)
-            res.status(500).json({ message: 'Internal server error' })
+    try {
+        const { rowCount } = await postService.deletePost(Number(post_id))
+        if (rowCount && rowCount > 0) {
+            res.status(200).json({ message: 'Post deleted successfully.' })
+        } else {
+            res.status(404).json({ message: 'Post not found.' })
         }
-    }, 2000)
+    } catch (error) {
+        console.error(error)
+        res.status(500).json({ message: 'Internal server error' })
+    }
+
 
 }
 
@@ -69,20 +67,18 @@ export const editPost = async (req: Request, res: Response) => {
         return res.status(400).json({ message: 'Required parameters missing' })
     }
 
-    setTimeout(async () => {
+    try {
+        const { rowCount } = await postService.editPost(content, Number(post_id))
 
-        try {
-            const { rowCount } = await postService.editPost(content, Number(post_id))
-
-            if (rowCount && rowCount > 0 ){
-                res.status(200).json({ message: 'Post updated successfully.' })
-            } else {
-                res.status(404).json({ message: 'Post not found.' })
-            }
-        } catch (error) {
-            console.error(error)
-            res.status(500).json({ message: 'Internal server error' })
+        if (rowCount && rowCount > 0) {
+            res.status(200).json({ message: 'Post updated successfully.' })
+        } else {
+            res.status(404).json({ message: 'Post not found.' })
         }
-    }, 2000)
+    } catch (error) {
+        console.error(error)
+        res.status(500).json({ message: 'Internal server error' })
+    }
+
 
 }

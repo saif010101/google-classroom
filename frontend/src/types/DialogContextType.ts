@@ -1,4 +1,4 @@
-import type { DialogType } from "../types/DialogType"
+import type { DialogType } from "./DialogType"
 
 export interface DialogContextType {
     activeDialog: DialogType,
