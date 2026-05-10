@@ -11,7 +11,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useAlertContext } from '../../hooks/useAlertContext';
 import { Snackbar } from '@mui/material';
 import { useClassContext } from '../../hooks/useClassContext';
-import { createPost } from '../../api/createPost';
+import { PostsAPIService } from '../../api/PostsAPIService';
 
 
 export function CreatePostDialog() {
@@ -22,7 +22,7 @@ export function CreatePostDialog() {
     const [postContent, setPostContent] = useState<string>("")
 
     const mutate = useMutation({
-        mutationFn: () => createPost(currentClass?.class_code, postContent),
+        mutationFn: () => PostsAPIService.createPost(currentClass?.class_code, postContent),
         onSuccess: () => {
             // this so to force a refetch of posts data so we user can see newly created post
             queryClient.invalidateQueries({ queryKey: ['post'], refetchType: 'all' })

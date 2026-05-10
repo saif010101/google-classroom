@@ -1,8 +1,8 @@
 import { Button, Snackbar, TextField } from "@mui/material"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { useState } from "react"
-import { editComment } from "../../api/editComment"
 import { useAlertContext } from "../../hooks/useAlertContext"
+import { CommentsAPIService } from "../../api/CommentsAPIService"
 
 interface EditCommentBoxProps {
     oldComment: string
@@ -17,7 +17,7 @@ export const EditCommentBox = ({ setIsEditState, oldComment, comment_id }: EditC
     const { setAlert } = useAlertContext()
     const [comment, setComment] = useState(oldComment)
     const mutate = useMutation({
-        mutationFn: () => editComment({ comment_id, content: comment }),
+        mutationFn: () => CommentsAPIService.editComment({ comment_id, content: comment }),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['comments'], refetchType: 'all' })
             // i am using setTimeout so that the alert disappears after 2 seconds

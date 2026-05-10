@@ -1,13 +1,13 @@
 import { LinearProgress } from "@mui/material"
 import { useQuery } from "@tanstack/react-query"
 import { useState } from "react"
-import { getComments } from "../../api/getComments"
 import { AddComment } from "../Comments/AddComment"
 import { CommentInputBox } from "../Comments/CommentInputBox"
 import { TotalComments } from "../Comments/TotalComments"
 import { CommentsList } from "../Comments/CommentsList"
 import { CommentBox } from "../Comments/CommentBox"
 import { useParams } from "react-router"
+import { CommentsAPIService } from "../../api/CommentsAPIService"
 
 
 interface PostCardCommentsProps {
@@ -20,7 +20,7 @@ export const PostCardComments = ({ post_id }: PostCardCommentsProps) => {
     const [commentListActive, setCommentListActive] = useState(false)
     const { data, isFetching } = useQuery({
         queryKey: ['comments', class_code, post_id],
-        queryFn: () => getComments(post_id)
+        queryFn: () => CommentsAPIService.getComments(post_id)
     })
 
     if (isFetching) {

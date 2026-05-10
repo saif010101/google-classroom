@@ -6,6 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "tsc && node dist/server.js",
+    "populate" : "node-pg-migrate up",
     "migrate" : "node-pg-migrate"
   },
   "keywords": [],

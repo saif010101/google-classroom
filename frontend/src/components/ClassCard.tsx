@@ -3,12 +3,10 @@ import Menu from "@mui/material/Menu"
 import MenuItem from "@mui/material/MenuItem"
 import { useDropdown } from "../hooks/useDropdown.tsx"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { deleteClass } from "../api/deleteClass.ts"
 import { useAlertContext } from "../hooks/useAlertContext.tsx"
-import { leaveClass } from "../api/leaveClass.ts"
 import { useNavigate } from "react-router"
 import { Snackbar } from "@mui/material"
-
+import { ClassAPIService } from "../api/ClassAPIService.ts"
 
 interface ClassCardProps {
     class_code: string
@@ -25,7 +23,7 @@ export const ClassCard = ({ class_code, class_name, teacher_name, section, role 
     const { setAlert } = useAlertContext()
 
     const mutate = useMutation({
-        mutationFn: () => role === 'teacher' ? deleteClass(class_code) : leaveClass({ class_code }),
+        mutationFn: () => role === 'teacher' ? ClassAPIService.deleteClass(class_code) : ClassAPIService.leaveClass({ class_code }),
         onSuccess: () => {
             // this so to force a refetch of class data so we user can see newly created class
             queryClient.invalidateQueries({ queryKey: ['classData'], refetchType: 'all' })

@@ -1,11 +1,11 @@
 import { useQuery } from "@tanstack/react-query"
-import { getUser } from "../api/getUser.ts"
+import { UsersAPIService } from "../api/UsersAPIService"
 
 export const useUserData = () => {
-    const { data,isSuccess,isPending,isError,refetch } = useQuery({
+    const { data, isSuccess, isPending, isError, refetch } = useQuery({
         queryKey: ['user'],
-        queryFn: () => getUser(),
+        queryFn: UsersAPIService.getUser,
         retry : false
     })
-    return { data,isSuccess,isPending,isError,refetch }
+    return { data, isSuccess, isPending, isError, refetch }
 }

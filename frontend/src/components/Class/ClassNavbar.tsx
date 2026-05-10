@@ -1,8 +1,4 @@
-import { useState } from "react"
 import { NavLink } from "react-router"
-
-
-type optionsType = "stream" | "people"
 
 export const ClassNavbar = () => {
 

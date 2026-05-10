@@ -10,7 +10,7 @@ import { useMutation } from '@tanstack/react-query';
 import { useQueryClient } from '@tanstack/react-query';
 import { useAlertContext } from '../../hooks/useAlertContext';
 import { useClassContext } from '../../hooks/useClassContext';
-import { editClass } from '../../api/editClass';
+import { ClassAPIService } from '../../api/ClassAPIService';
 import { Snackbar } from '@mui/material';
 
 
@@ -30,7 +30,7 @@ export function EditClassDialog() {
     })
 
     const mutate = useMutation({
-        mutationFn: () => editClass(currentClass.class_code, classData),
+        mutationFn: () => ClassAPIService.editClass(currentClass.class_code, classData),
         onSuccess: () => {
             // this so to force a refetch of current class data so the user can see the updated data
             queryClient.invalidateQueries({ queryKey: ['class'], refetchType: 'all' })

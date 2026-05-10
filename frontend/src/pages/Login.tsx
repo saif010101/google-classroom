@@ -1,13 +1,13 @@
 import { Button, TextField } from "@mui/material"
 import { UserIcon } from "@heroicons/react/24/outline"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { loginUser } from "../api/loginUser.js"
 import type { SubmitEvent, ChangeEvent } from "react"
 import { useEffect, useState } from "react"
 import { NavLink, useNavigate } from "react-router"
 import { MoonLoader } from "react-spinners"
 import { AxiosError } from "axios"
 import { useAuthContext } from "../hooks/useAuthContext.js"
+import { UsersAPIService } from "../api/UsersAPIService.js"
 
 interface LoginFormError {
     message: string
@@ -24,11 +24,9 @@ export const Login = () => {
         password: ''
     })
 
-    const [loginFormErrMsg, setLoginFormErrMsg] = useState<string | undefined>(undefined)
-
     const mutate = useMutation<any, AxiosError<LoginFormError>>({
         mutationKey: ['login'],
-        mutationFn: () => loginUser(userData),
+        mutationFn: () => UsersAPIService.loginUser(userData),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['user'], refetchType: 'all' })
             navigate('/')

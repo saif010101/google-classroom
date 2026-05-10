@@ -48,7 +48,7 @@ export const createUser = async (req: Request, res: Response) => {
 }
 
 export const loginUser = async (req: Request, res: Response) => {
-    // console.log('udfsdfsfs')
+    console.log('udfsdfsfs')
     const { email, password } = req.body
 
     try {

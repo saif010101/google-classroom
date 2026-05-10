@@ -4,9 +4,9 @@ import { useState } from "react"
 import { useDropdown } from "../../hooks/useDropdown"
 import { useAuthContext } from "../../hooks/useAuthContext"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { deleteComment } from "../../api/deleteComment"
 import { useAlertContext } from "../../hooks/useAlertContext"
 import { EditCommentBox } from "./EditCommentBox"
+import { CommentsAPIService } from "../../api/CommentsAPIService"
 
 interface CommentBoxProps {
     author: string
@@ -25,7 +25,7 @@ export const CommentBox = ({ comment_id, author_id, author, date, content }: Com
     const [isEditState, setIsEditState] = useState(false)
     const { anchorElem, handleClick, handleClose, open } = useDropdown()
     const mutate = useMutation({
-        mutationFn: () => deleteComment(comment_id),
+        mutationFn: () => CommentsAPIService.deleteComment(comment_id),
         onSuccess: () => {
             // this so to force a refetch of posts data so we user can see updated list of posts
             queryClient.invalidateQueries({ queryKey: ['comments'], refetchType: 'all' })

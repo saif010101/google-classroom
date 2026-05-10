@@ -9,7 +9,7 @@ import { useDialogContext } from '../../hooks/useDialogContext';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useAlertContext } from '../../hooks/useAlertContext';
-import { joinClass } from '../../api/joinClass';
+import { ClassAPIService } from '../../api/ClassAPIService';
 
 export function JoinClassDialog() {
 
@@ -22,7 +22,7 @@ export function JoinClassDialog() {
     })
 
     const mutate = useMutation({
-        mutationFn: () => joinClass(classData),
+        mutationFn: () => ClassAPIService.joinClass(classData),
         onSuccess: () => {
             // this so to force a refetch of class data so we user can see newly created class
             queryClient.invalidateQueries({ queryKey: ['classData'], refetchType: 'all' })
