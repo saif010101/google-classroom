@@ -2,12 +2,12 @@ import { EllipsisVerticalIcon } from "@heroicons/react/16/solid"
 import { UserIcon } from "@heroicons/react/24/outline"
 import { Menu, MenuItem, Snackbar } from "@mui/material"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { deletePost } from "../../api/deletePost"
 import { useAlertContext } from "../../hooks/useAlertContext"
 import { useAuthContext } from "../../hooks/useAuthContext"
 import { useDialogContext } from "../../hooks/useDialogContext"
 import { useDropdown } from "../../hooks/useDropdown"
 import { usePostContext } from "../../hooks/usePostContext"
+import { PostsAPIService } from "../../api/PostsAPIService"
 
 
 interface PostCardHeaderProps {
@@ -25,7 +25,7 @@ export const PostCardHeader = ({ post_id, author, date, post_user_id, content }:
     const { user } = useAuthContext()
     const { setAlert } = useAlertContext()
     const mutate = useMutation({
-        mutationFn: () => deletePost(post_id),
+        mutationFn: () => PostsAPIService.deletePost(post_id),
         onSuccess: () => {
 
             // this so to force a refetch of posts data so we user can see updated list of posts

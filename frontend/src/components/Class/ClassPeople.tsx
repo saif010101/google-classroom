@@ -1,8 +1,8 @@
 import { useQuery } from "@tanstack/react-query"
 import { PeopleList } from "./PeopleList"
 import { useParams } from "react-router"
-import { getPeople } from "../../api/getPeople"
 import type { PeopleType } from "../../types/PeopleType"
+import { ClassAPIService } from "../../api/ClassAPIService"
 
 export const ClassPeople = () => {
 
@@ -10,7 +10,7 @@ export const ClassPeople = () => {
 
     const { data } = useQuery({
         queryKey: ['people', class_code],
-        queryFn: () => getPeople(class_code)
+        queryFn: () => ClassAPIService.getPeople(class_code)
     })
 
     console.log('people component', data)

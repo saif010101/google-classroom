@@ -7,7 +7,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { useDialogContext } from '../../hooks/useDialogContext';
 import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
-import { createClass } from '../../api/createClass';
+import { ClassAPIService } from '../../api/ClassAPIService';
 import { useQueryClient } from '@tanstack/react-query';
 import { useAlertContext } from '../../hooks/useAlertContext';
 import { Snackbar } from '@mui/material';
@@ -24,7 +24,7 @@ export function CreateClassDialog() {
     })
 
     const mutate = useMutation({
-        mutationFn: () => createClass(classData),
+        mutationFn: () => ClassAPIService.createClass(classData),
         onSuccess: () => {
             // this so to force a refetch of class data so we user can see newly created class
             queryClient.invalidateQueries({ queryKey: ['classData'], refetchType: 'all' })

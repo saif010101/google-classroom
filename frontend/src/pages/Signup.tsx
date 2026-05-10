@@ -1,7 +1,7 @@
 import { Button, TextField } from "@mui/material"
 import { useEffect, useState, type ChangeEvent, type SubmitEvent } from "react"
 import { useMutation } from "@tanstack/react-query"
-import { createUser } from "../api/createUser.js"
+import { UsersAPIService } from "../api/UsersAPIService.js"
 import { MoonLoader } from "react-spinners"
 import { NavLink, useNavigate } from "react-router"
 import { useAuthContext } from "../hooks/useAuthContext.js"
@@ -19,7 +19,7 @@ export const Signup = () => {
     })
 
     const mutate = useMutation({
-        mutationFn: () => createUser(userData),
+        mutationFn: () => UsersAPIService.createUser(userData),
         onSuccess: () => {
             navigate('/login')
         }

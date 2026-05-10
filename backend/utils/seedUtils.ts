@@ -22,7 +22,7 @@ const seedUsers = async (pgm: MigrationBuilder) => {
 const seedEnrollment = (pgm: MigrationBuilder) => {
     pgm.sql(`
     INSERT INTO enrollment (class_code, user_id, role) VALUES
-      ('CS101',   100, 'instructor'),
+      ('CS101',   100, 'teacher'),
       ('CS101',   101, 'student'),
       ('MATH201', 102, 'student');
   `);

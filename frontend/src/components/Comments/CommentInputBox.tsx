@@ -2,8 +2,8 @@ import { ArrowRightCircleIcon, UserIcon } from "@heroicons/react/16/solid"
 import { TextField } from "@mui/material"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { useState } from "react"
-import { createComment } from "../../api/createComment"
 import { DotLoader} from "react-spinners"
+import { CommentsAPIService } from "../../api/CommentsAPIService"
 
 
 interface CommentInputBoxProps {
@@ -15,7 +15,7 @@ export const CommentInputBox = ({ post_id }: CommentInputBoxProps) => {
     const [comment, setComment] = useState('')
     const queryClient = useQueryClient()
     const mutate = useMutation({
-        mutationFn: () => createComment(post_id, comment),
+        mutationFn: () => CommentsAPIService.createComment(post_id, comment),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['comments'], refetchType: 'all' })
         }

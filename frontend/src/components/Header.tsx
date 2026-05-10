@@ -5,9 +5,9 @@ import MenuItem from "@mui/material/MenuItem"
 import { useDialogContext } from "../hooks/useDialogContext.tsx"
 import { useClassContext } from "../hooks/useClassContext.tsx"
 import { useSidebarContext } from "../hooks/useSidebarContext.tsx"
-import { getPeople } from "../api/getPeople.ts"
 import { useQuery } from "@tanstack/react-query"
 import { useAuthContext } from "../hooks/useAuthContext.tsx"
+import { ClassAPIService } from "../api/ClassAPIService.ts"
 
 export const Header = () => {
 
@@ -19,7 +19,7 @@ export const Header = () => {
     const { user } = useAuthContext()
     const { data } = useQuery({
         queryKey: ['people', currentClass?.class_code],
-        queryFn: () => getPeople(currentClass?.class_code)
+        queryFn: () => ClassAPIService.getPeople(currentClass?.class_code)
     })
 
     // if header is rendered, then user cannot be null

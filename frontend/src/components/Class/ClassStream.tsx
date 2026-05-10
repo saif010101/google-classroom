@@ -3,8 +3,8 @@ import { NewPostButton } from "./NewPostButton.tsx"
 import { useClassContext } from "../../hooks/useClassContext.tsx"
 import { PostCard } from "./PostCard.tsx"
 import { useQuery } from "@tanstack/react-query"
-import { getPosts } from "../../api/getPost.ts"
 import { useParams } from "react-router"
+import { PostsAPIService } from "../../api/PostsAPIService.ts"
 
 export const ClassStream = () => {
 
@@ -17,7 +17,7 @@ export const ClassStream = () => {
 
   const { data } = useQuery({
     queryKey: ['post', class_code],
-    queryFn: () => getPosts(currentClass.class_code)
+    queryFn: () => PostsAPIService.getPosts(currentClass.class_code)
   })
 
   return (

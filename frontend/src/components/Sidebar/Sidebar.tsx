@@ -4,7 +4,6 @@ import { useContext, type RefObject } from "react"
 import { SidebarSection } from "./SidebarSection.tsx"
 import { SidebarOverlay } from "./SidebarOverlay.tsx"
 import { SidebarHome } from "./SidebarHome.tsx"
-import { AuthContext } from "../../contexts/AuthContext.tsx"
 import { useSidebarContext } from "../../hooks/useSidebarContext.tsx"
 import { useAuthContext } from "../../hooks/useAuthContext.tsx"
 

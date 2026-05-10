@@ -3,8 +3,8 @@ import { Outlet, useParams } from "react-router"
 import { useClassContext } from "../../hooks/useClassContext.tsx"
 import { LinearProgress } from "@mui/material"
 import { useEffect } from "react"
-import { getClass } from "../../api/getClass.ts"
 import { useQuery } from "@tanstack/react-query"
+import { ClassAPIService } from "../../api/ClassAPIService.ts"
 
 
 export const ClassMainPage = () => {
@@ -14,7 +14,7 @@ export const ClassMainPage = () => {
 
   const { data, isLoading, isSuccess } = useQuery({
     queryKey: ['class', class_code],
-    queryFn: () => getClass(class_code)
+    queryFn: () => ClassAPIService.getClass(class_code)
   })
 
   useEffect(() => {

@@ -10,9 +10,8 @@ import { useMutation } from '@tanstack/react-query';
 import { useQueryClient } from '@tanstack/react-query';
 import { useAlertContext } from '../../hooks/useAlertContext';
 import { Snackbar } from '@mui/material';
-import { useClassContext } from '../../hooks/useClassContext';
 import { usePostContext } from '../../hooks/usePostContext';
-import { editPost } from '../../api/editPost';
+import { PostsAPIService } from '../../api/PostsAPIService';
 
 
 
@@ -27,7 +26,7 @@ export function EditPostDialog() {
         return
     }
     const mutate = useMutation({
-        mutationFn: () => editPost(currentPost.post_id, postContent),
+        mutationFn: () => PostsAPIService.editPost(currentPost.post_id, postContent),
         onSuccess: () => {
             // this so to force a refetch of posts data so we user can see newly created post
             queryClient.invalidateQueries({ queryKey: ['post'], refetchType: 'all' })
