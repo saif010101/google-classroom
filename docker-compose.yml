@@ -1,0 +1,39 @@
+services:
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DB: mydb 
+    volumes:
+      - pgdata:/var/lib/postgresql/data 
+    ports:
+      - "5432:5432"
+
+
+  backend:
+    build:
+      context: ./backend
+    environment:
+      DATABASE_URL: postgres://myuser:mypassword@db:5432/mydb
+      JWT_SECRET_KEY: 7307f05119849d8f56ccc4b52b3b2bb5e489faaab48e46949e4c1fc99d9db9e4i
+      PORT: 3000
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db 
+
+  frontend:
+    build:
+      context : ./frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+
+
+volumes:
+  pgdata:
+
+      
+        

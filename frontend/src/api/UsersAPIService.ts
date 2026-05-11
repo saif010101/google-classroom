@@ -14,7 +14,7 @@ interface CreateUserPayload {
 }
 
 export class UsersAPIService {
-    private static baseUrl = `http://${import.meta.env.VITE_API_URL}:${import.meta.env.VITE_BACKEND_PORT}/api/users`
+    private static baseUrl = `/api/users`
 
     static async loginUser(payload: LoginPayload) {
         const { data } = await axios.post(`${UsersAPIService.baseUrl}/login`, payload, { withCredentials: true })

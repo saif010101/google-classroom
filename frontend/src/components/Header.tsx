@@ -8,6 +8,7 @@ import { useSidebarContext } from "../hooks/useSidebarContext.tsx"
 import { useQuery } from "@tanstack/react-query"
 import { useAuthContext } from "../hooks/useAuthContext.tsx"
 import { ClassAPIService } from "../api/ClassAPIService.ts"
+import { type PeopleType } from "../types/PeopleType.ts"
 
 export const Header = () => {
 
@@ -30,7 +31,7 @@ export const Header = () => {
         return
     }
 
-    const teacher = data?.filter(user => user.role === 'teacher').reduce(user => user)
+    const teacher = data?.filter((user : PeopleType) => user.role === 'teacher').reduce((user : PeopleType) => user)
     const isTeacher = teacher && (teacher.user_id === user.user_id)
 
     return (

@@ -18,12 +18,12 @@ export const PostCardComments = ({ post_id }: PostCardCommentsProps) => {
     const { class_code } = useParams()
     const [inputActive, setInputActive] = useState(false)
     const [commentListActive, setCommentListActive] = useState(false)
-    const { data, isFetching } = useQuery({
+    const { data} = useQuery({
         queryKey: ['comments', class_code, post_id],
         queryFn: () => CommentsAPIService.getComments(post_id)
     })
 
-    if (isFetching) {
+    if (!data) {
         return <LinearProgress />
     }
 

@@ -1,6 +1,6 @@
 import { UserCard } from "./UserCard.tsx"
 import { useClassData } from "../../hooks/useClassData.tsx"
-import { useContext, type RefObject } from "react"
+import { type RefObject } from "react"
 import { SidebarSection } from "./SidebarSection.tsx"
 import { SidebarOverlay } from "./SidebarOverlay.tsx"
 import { SidebarHome } from "./SidebarHome.tsx"

@@ -9,7 +9,7 @@ interface PostType {
 }
 
 export class PostsAPIService {
-    private static baseUrl = `http://${import.meta.env.VITE_API_URL}:${import.meta.env.VITE_BACKEND_PORT}/api/posts`
+    private static baseUrl = `/api/posts`
 
     static async getPosts(class_code: string | undefined): Promise<PostType[] | null> {
         if (!class_code) {
