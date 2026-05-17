@@ -59,7 +59,7 @@ export const ClassCard = ({ class_code, class_name, teacher_name, section, role 
                 message="Operation in progress"
                 open={mutate.isPending}
             />
-            <div className="w-[302px] grid grid-rows-[2fr 3fr 1fr] border border-gray-400 rounded-xl overflow-hidden hover:shadow-xl hover:cursor-pointer">
+            <div className="w-[375px] grid grid-rows-[2fr 3fr 1fr] border border-gray-400 rounded-xl overflow-hidden hover:shadow-xl hover:cursor-pointer">
                 <div onClick={() => handleClassClick(class_code)} className="p-4 flex flex-col gap-2 bg-blue-500 text-white">
                     <span className="text-2xl hover:underline">{class_name}</span>
                     <span className="text-sm hover:underline">{section}</span>
