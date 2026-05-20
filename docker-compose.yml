@@ -4,9 +4,9 @@ services:
     environment:
       POSTGRES_USER: myuser
       POSTGRES_PASSWORD: mypassword
-      POSTGRES_DB: mydb 
+      POSTGRES_DB: mydb
     volumes:
-      - pgdata:/var/lib/postgresql/data 
+      - pgdata:/var/lib/postgresql/data
     ports:
       - "5432:5432"
 
@@ -21,19 +21,19 @@ services:
     ports:
       - "3000:3000"
     depends_on:
-      - db 
+      - db
 
   frontend:
     build:
       context : ./frontend
     ports:
       - "80:80"
+      - "443:443"
+    volumes:
+      - /etc/letsencrypt:/etc/letsencrypt:ro
     depends_on:
       - backend
 
 
 volumes:
   pgdata:
-
-      
-        
