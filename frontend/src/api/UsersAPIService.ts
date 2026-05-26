@@ -14,7 +14,7 @@ interface CreateUserPayload {
 }
 
 export class UsersAPIService {
-    private static baseUrl = `/api/users`
+    private static baseUrl = `http://localhost:3000/api/users`
 
     static async loginUser(payload: LoginPayload) {
         const { data } = await axios.post(`${UsersAPIService.baseUrl}/login`, payload, { withCredentials: true })

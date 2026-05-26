@@ -18,7 +18,7 @@ function App() {
   const sideBarRef = useRef<HTMLDivElement>(null)
   const { user, isPending } = useAuthContext()
   const { setSidebarOpen } = useSidebarContext()
-  
+
   // a custom hook which closes the sidebar when clicked outside of it
   useClickOutside(sideBarRef, () => {
     setSidebarOpen(false)
@@ -38,8 +38,10 @@ function App() {
     <AppProvider>
       <AlertComponent />
       {user && <Header />}
-      {user && <Sidebar ref={sideBarRef} />}
-      <AppRoutes />
+      <div className="flex">
+        {user && <Sidebar ref={sideBarRef} />}
+        <AppRoutes />
+      </div>
       <DialogHost />
     </AppProvider>
   )

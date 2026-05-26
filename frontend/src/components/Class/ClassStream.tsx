@@ -22,10 +22,10 @@ export const ClassStream = () => {
 
   return (
     <>
-      <div className="flex flex-col gap-3 p-5">
+      <div className="flex flex-col items-strech gap-3 p-5 grow-1">
         <ClassBanner name={currentClass.name} section={currentClass.section} />
         <NewPostButton />
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col items-strech gap-3">
           {data && data.length > 0 ? data.map(post => <PostCard key={post.post_id} post_id={post.post_id} post_user_id={post.user_id} author={post.full_name} content={post.content} date={post.posted_at} />)
             : <p className="text-center mt-3">There are no posts for this class.</p>}
         </div>

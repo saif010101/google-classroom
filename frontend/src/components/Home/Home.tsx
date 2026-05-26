@@ -15,6 +15,8 @@ export const Home = () => {
         setCurrentClass(undefined)
     }, [])
 
+    console.log(data)
+    
     return (
         <>
             {isLoading && <LinearProgress />}
