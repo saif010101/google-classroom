@@ -38,10 +38,8 @@ function App() {
     <AppProvider>
       <AlertComponent />
       {user && <Header />}
-      <div className="flex">
-        {user && <Sidebar ref={sideBarRef} />}
-        <AppRoutes />
-      </div>
+      {user && <Sidebar ref={sideBarRef} />}
+      <AppRoutes />
       <DialogHost />
     </AppProvider>
   )

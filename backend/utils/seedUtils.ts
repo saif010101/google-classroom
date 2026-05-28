@@ -2,7 +2,7 @@ import { MigrationBuilder } from "node-pg-migrate"
 import bcrypt from "bcrypt"
 
 const seedClasses = (pgm: MigrationBuilder) => {
-    pgm.sql(`
+  pgm.sql(`
     INSERT INTO classes (class_code, name, section) VALUES
       ('CS101', 'Introduction to Computer Science', 'A'),
       ('MATH201', 'Calculus II', 'B'),
@@ -10,9 +10,9 @@ const seedClasses = (pgm: MigrationBuilder) => {
   `);
 }
 const seedUsers = async (pgm: MigrationBuilder) => {
-    const hashedPassword = await bcrypt.hash('password123', 10)
+  const hashedPassword = await bcrypt.hash('password123', 10)
 
-    pgm.sql(`
+  pgm.sql(`
     INSERT INTO users (first_name, last_name, email, password) VALUES
       ('Alice', 'Johnson', 'alice@example.com', '${hashedPassword}'),
       ('Bob',   'Smith',   'bob@example.com',   '${hashedPassword}'),
@@ -20,7 +20,7 @@ const seedUsers = async (pgm: MigrationBuilder) => {
   `);
 }
 const seedEnrollment = (pgm: MigrationBuilder) => {
-    pgm.sql(`
+  pgm.sql(`
     INSERT INTO enrollment (class_code, user_id, role) VALUES
       ('CS101',   100, 'teacher'),
       ('CS101',   101, 'student'),
@@ -28,7 +28,7 @@ const seedEnrollment = (pgm: MigrationBuilder) => {
   `);
 }
 const seedPosts = (pgm: MigrationBuilder) => {
-    pgm.sql(`
+  pgm.sql(`
     INSERT INTO posts (content, user_id, class_code) VALUES
       ('Welcome to CS101! Please review the syllabus.', 100, 'CS101'),
       ('Can someone explain recursion?',                101, 'CS101'),
@@ -36,7 +36,7 @@ const seedPosts = (pgm: MigrationBuilder) => {
   `);
 }
 const seedComments = (pgm: MigrationBuilder) => {
-    pgm.sql(`
+  pgm.sql(`
     INSERT INTO comments (content, user_id, post_id) VALUES
       ('Great question! Think of it as a function calling itself.', 100, 100),
       ('I found this YouTube video really helpful: ...',            101, 101),
@@ -44,19 +44,29 @@ const seedComments = (pgm: MigrationBuilder) => {
   `);
 }
 
+const seedMaterials = (pgm: MigrationBuilder) => {
+  pgm.sql(`
+    INSERT INTO materials (s3_bucket, s3_key, file_name,post_id) VALUES
+      ('s3-aws-gcr', 'hello.pdf', 'hello.pdf', 100);
+  `);
+}
+
 export const seedDatabase = async (pgm: MigrationBuilder) => {
-    // seed classes
-    seedClasses(pgm)
+  // seed classes
+  seedClasses(pgm)
 
-    // seed users 
-    await seedUsers(pgm)
+  // seed users 
+  await seedUsers(pgm)
 
-    // seed enrollment (user_ids start at 100 per your sequence)
-    seedEnrollment(pgm)
+  // seed enrollment 
+  seedEnrollment(pgm)
 
-    // seed posts
-    seedPosts(pgm)
+  // seed posts
+  seedPosts(pgm)
 
-    // seed comments
-    seedComments(pgm)
+  // seed comments
+  seedComments(pgm)
+
+  // seed materials
+  seedMaterials(pgm)
 };

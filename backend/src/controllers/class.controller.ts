@@ -2,11 +2,14 @@ import type { Request, Response } from "express";
 import classService from "../services/ClassService.js";
 
 
-
 export const getAllClasses = async (req: Request, res: Response) => {
     const { user_id } = req.user
 
     try {
+        // const command = new GetObjectCommand({
+        //     Bucket: 'aws-s3-gcr',
+        //     Key: 'hello.pdf'
+        // })
         const { rows } = await classService.getClasses(user_id)
         res.status(200).json(rows)
     } catch (error) {

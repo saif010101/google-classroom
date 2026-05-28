@@ -6,7 +6,7 @@ export const ClassNavbar = () => {
 
     return (
         <nav className="px-4 border-b-1 border-gray-300">
-            <ul className="flex justify-start">
+            <ul className="flex justify-center">
                 <NavLink to="stream" className={({ isActive }) => `max-w-[388px] ${isActive && currentStyle} p-3 text-center hover:cursor-pointer hover:bg-gray-200 grow-1`}>Stream</NavLink>
                 <NavLink to="people" className={({ isActive }) => `max-w-[388px] ${isActive && currentStyle} p-3 text-center hover:cursor-pointer hover:bg-gray-200 grow-1`}>People</NavLink>
             </ul>

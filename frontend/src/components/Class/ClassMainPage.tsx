@@ -28,11 +28,9 @@ export const ClassMainPage = () => {
   }
 
   return (
-    <div className="grow-1">
+    <div>
       {currentClass && <ClassNavbar />}
-      <div className="flex max-w-[882px] mx-auto">
-        {currentClass && <Outlet />}
-      </div>
+      {currentClass && <Outlet />}
     </div>
   )
 }

@@ -133,10 +133,41 @@ const up = async (pgm: MigrationBuilder) => {
         },
     });
 
+    // create materials table
+    pgm.createTable('materials', {
+        material_id: {
+            type: 'int',
+            primaryKey: true,
+            sequenceGenerated: {
+                precedence: 'ALWAYS',
+                start: 100
+            }
+        },
+        s3_bucket: {
+            type: 'text',
+            notNull: true,
+        },
+        s3_key: {
+            type: 'text',
+            notNull: true,
+        },
+        file_name: {
+            type: 'text',
+            notNull: true,
+        },
+        post_id: {
+            type: 'int',
+            notNull: true,
+            references: 'posts',
+            onDelete: 'CASCADE',
+        },
+    });
+
     await seedDatabase(pgm)
 };
 
 const down = (pgm: MigrationBuilder) => {
+    pgm.dropTable('materials');
     pgm.dropTable('comments');
     pgm.dropTable('posts');
     pgm.dropTable('enrollment');
