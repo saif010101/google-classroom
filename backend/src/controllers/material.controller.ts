@@ -1,19 +1,7 @@
 import type { Request, Response } from "express";
 import materialService from "../services/MaterialService.js";
-import { GetObjectCommand, S3Client } from "@aws-sdk/client-s3";
 
-const s3Client = new S3Client({
-    region: 'us-east-1',
-    credentials: {
-        accessKeyId: process.env.AWS_ACCESS_KEY as string,
-        secretAccessKey: process.env.AWS_SECRET_KEY as string
-    }
-})
 
-const command = new GetObjectCommand({
-    Bucket: 'aws-s3-gcr',
-    Key: 'hello.pdf'
-})
 
 
 export const getAllMaterials = async (req: Request, res: Response) => {
@@ -32,3 +20,31 @@ export const getAllMaterials = async (req: Request, res: Response) => {
     }
 
 }
+
+export const getMaterial = async (req: Request, res: Response) => {
+    const { material_id } = req.params
+
+    if (!material_id || Array.isArray(material_id)) {
+        return res.status(400).json({ message: 'Invalid data' })
+    }
+
+    try {
+
+        const result = await materialService.getMaterial(parseInt(material_id, 10))
+
+        // if material_id does not exist in database
+        if (!result) {
+            return res.status(404).json({ message: 'Material not found.' })
+        }
+
+        const { s3_key, s3_bucket } = result
+        const url = await materialService.createPresignedUrl(s3_bucket as string, s3_key as string)
+
+        return res.status(200).json(url)
+    } catch (error) {
+        res.status(500).json({ message: 'Internal server error' })
+    }
+
+}
+
+// TODO : create a method in materialService that will create a presigned url.

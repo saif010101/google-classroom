@@ -8,6 +8,7 @@ export const MaterialsBox = ({ post_id }: { post_id: number }) => {
         queryFn: () => MaterialAPIService.getAllMaterials(post_id)
     })
 
+
     return (
         <div className="p-3 flex">
             {data?.map(item => (

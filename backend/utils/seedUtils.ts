@@ -47,7 +47,7 @@ const seedComments = (pgm: MigrationBuilder) => {
 const seedMaterials = (pgm: MigrationBuilder) => {
   pgm.sql(`
     INSERT INTO materials (s3_bucket, s3_key, file_name,post_id) VALUES
-      ('s3-aws-gcr', 'hello.pdf', 'hello.pdf', 100);
+      ('aws-s3-gcr', 'hello.pdf', 'hello.pdf', 100);
   `);
 }
 
