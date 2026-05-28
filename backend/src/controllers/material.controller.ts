@@ -40,11 +40,9 @@ export const getMaterial = async (req: Request, res: Response) => {
         const { s3_key, s3_bucket } = result
         const url = await materialService.createPresignedUrl(s3_bucket as string, s3_key as string)
 
-        return res.status(200).json(url)
+        return res.status(200).json({ url })
     } catch (error) {
         res.status(500).json({ message: 'Internal server error' })
     }
 
 }
-
-// TODO : create a method in materialService that will create a presigned url.

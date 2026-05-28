@@ -12,4 +12,9 @@ export class MaterialAPIService {
         const { data } = await axios.get(`${MaterialAPIService.baseUrl}/posts/${post_id}`, { withCredentials: true })
         return data
     }
+
+    static async getMaterial(material_id : number) : Promise<string>  {
+        const { data } = await axios.get(`${MaterialAPIService.baseUrl}/${material_id}`, { withCredentials: true })
+        return data.url
+    }
 }
