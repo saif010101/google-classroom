@@ -1,3 +1,4 @@
+import { MaterialsBox } from './MaterialsBox'
 import { PostCardComments } from './PostCardComments'
 import { PostCardHeader } from './PostCardHeader'
 
@@ -17,7 +18,8 @@ export const PostCard = (props: PostCardProps) => {
             <p className='px-5 py-5 whitespace-pre-line whitespace-break-spaces'>
                 {props.content}
             </p>
-            <PostCardComments post_id={props.post_id}/>
+            <MaterialsBox post_id={props.post_id}/>
+            <PostCardComments post_id={props.post_id} />
         </div>
     )
 }
