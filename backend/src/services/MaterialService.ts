@@ -1,4 +1,4 @@
-import { GetObjectCommand, S3Client } from "@aws-sdk/client-s3";
+import { GetObjectCommand, PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import { db } from "../utils/db.js";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
@@ -19,22 +19,32 @@ class MaterialService {
         return rows
     }
 
-    async getMaterial(material_id : number) {
+    async getMaterial(material_id: number) {
         const { rows } = await db.query(`select * from materials where material_id = $1`,
             [material_id])
         return rows[0]
     }
-    
-    async createPresignedUrl(s3_bucket : string,s3_key : string){
+
+    async createPresignedUrl(s3_bucket: string, s3_key: string) {
         const command = new GetObjectCommand({
             Bucket: s3_bucket,
             Key: s3_key
         })
 
-        return getSignedUrl(s3Client,command)
+        return getSignedUrl(s3Client, command, { expiresIn: 60 * 15 })
+    }
+
+    async createUploadUrl(s3_bucket: string, s3_key: string,content_type : string) {
+        const command = new PutObjectCommand({
+            Bucket: s3_bucket,
+            Key: s3_key,
+            ContentType : content_type
+        })
+
+        return await getSignedUrl(s3Client, command)
     }
 
 }
- 
+
 
 export default new MaterialService()

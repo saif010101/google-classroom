@@ -5,6 +5,7 @@ import materialService from "../services/MaterialService.js";
 
 
 export const getAllMaterials = async (req: Request, res: Response) => {
+
     const { post_id } = req.params
 
     if (!post_id || Array.isArray(post_id)) {
@@ -22,6 +23,8 @@ export const getAllMaterials = async (req: Request, res: Response) => {
 }
 
 export const getMaterial = async (req: Request, res: Response) => {
+    // console.log('here')
+
     const { material_id } = req.params
 
     if (!material_id || Array.isArray(material_id)) {
@@ -42,7 +45,28 @@ export const getMaterial = async (req: Request, res: Response) => {
 
         return res.status(200).json({ url })
     } catch (error) {
+        res.status(500).json({ message: 'Internal server ddderror' })
+    }
+
+}
+
+export const getUploadUrl = async (req: Request, res: Response) => {
+    console.log('here')
+    const { file_name, content_type, class_name } = req.query
+
+    if (!file_name || !content_type || !class_name){
+        return res.status(400).json({message : 'Parameters missing or invalid.'})
+    }
+
+    try {
+        // store each material under its own class
+        const s3_key = `${class_name}/${file_name}`
+        const url = await materialService.createUploadUrl('aws-s3-gcr', s3_key as string, content_type as string)
+
+        return res.status(200).json({ url })
+    } catch (error) {
         res.status(500).json({ message: 'Internal server error' })
+        console.error(error)
     }
 
 }
