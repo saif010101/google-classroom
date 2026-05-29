@@ -9,8 +9,9 @@ const seedClasses = (pgm: MigrationBuilder) => {
       ('ENG105', 'Academic Writing', 'C');
   `);
 }
-const seedUsers = async (pgm: MigrationBuilder) => {
-  const hashedPassword = await bcrypt.hash('password123', 10)
+const seedUsers = (pgm: MigrationBuilder) => {
+
+  const hashedPassword = bcrypt.hashSync('password123', 10)
 
   pgm.sql(`
     INSERT INTO users (first_name, last_name, email, password) VALUES
@@ -46,8 +47,8 @@ const seedComments = (pgm: MigrationBuilder) => {
 
 const seedMaterials = (pgm: MigrationBuilder) => {
   pgm.sql(`
-    INSERT INTO materials (s3_bucket, s3_key, file_name,post_id) VALUES
-      ('aws-s3-gcr', 'hello.pdf', 'hello.pdf', 100);
+    INSERT INTO materials (s3_bucket, s3_key, file_name,file_type,post_id) VALUES
+      ('aws-s3-gcr', 'hello.pdf', 'hello.pdf', 'application/pdf',100);
   `);
 }
 
@@ -56,7 +57,7 @@ export const seedDatabase = async (pgm: MigrationBuilder) => {
   seedClasses(pgm)
 
   // seed users 
-  await seedUsers(pgm)
+  seedUsers(pgm)
 
   // seed enrollment 
   seedEnrollment(pgm)

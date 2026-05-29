@@ -155,6 +155,10 @@ const up = async (pgm: MigrationBuilder) => {
             type: 'text',
             notNull: true,
         },
+        file_type: {
+            type: 'text',
+            notNull: true,
+        },
         post_id: {
             type: 'int',
             notNull: true,
