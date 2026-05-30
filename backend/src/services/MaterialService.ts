@@ -34,14 +34,20 @@ class MaterialService {
         return getSignedUrl(s3Client, command, { expiresIn: 60 * 15 })
     }
 
-    async createUploadUrl(s3_bucket: string, s3_key: string,content_type : string) {
+    async createUploadUrl(s3_bucket: string, s3_key: string, content_type: string) {
         const command = new PutObjectCommand({
             Bucket: s3_bucket,
             Key: s3_key,
-            ContentType : content_type
+            ContentType: content_type
         })
 
         return await getSignedUrl(s3Client, command)
+    }
+
+    async createMaterial(file_name: string, file_type: string, post_id: number, class_name: string, s3_bucket: string) {
+        const s3_key = `${class_name}/${file_name}`
+        await db.query(`insert into materials (s3_bucket,s3_key,file_name,file_type,post_id) 
+            values ($1,$2,$3,$4,$5)`, [s3_bucket,s3_key,file_name,file_type,post_id])
     }
 
 }

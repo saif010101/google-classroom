@@ -53,8 +53,8 @@ export const getUploadUrl = async (req: Request, res: Response) => {
 
     const { file_name, content_type, class_name } = req.query
 
-    if (!file_name || !content_type || !class_name){
-        return res.status(400).json({message : 'Parameters missing or invalid.'})
+    if (!file_name || !content_type || !class_name) {
+        return res.status(400).json({ message: 'Parameters missing or invalid.' })
     }
 
     try {
@@ -66,6 +66,24 @@ export const getUploadUrl = async (req: Request, res: Response) => {
         return res.status(200).json({ url })
     } catch (error) {
         res.status(500).json({ message: 'Internal server error' })
+        console.error(error)
+    }
+
+}
+
+export const createMaterial = async (req: Request, res: Response) => {
+
+    const { file_name, file_type, class_name, post_id } = req.body
+
+    if (!file_name || !post_id || !file_type) {
+        return res.status(400).json({ message: 'Parameters missing or invalid.' })
+    }
+
+    try {
+        await materialService.createMaterial(file_name, file_type, post_id, class_name, 'aws-s3-gcr')
+        return res.status(200).json()
+    } catch (error) {
+        res.status(500).json({ message: 'createMaterial Controller : Internal server error' })
         console.error(error)
     }
 

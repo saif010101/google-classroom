@@ -24,7 +24,7 @@ export const MaterialsBox = ({ post_id }: { post_id: number }) => {
     }
 
     return (
-        <div className="p-3 flex">
+        <div className="p-3 flex gap-3">
             {data?.map(item => (
                 <div onClick={() => handleClick(item.material_id)} key={item.material_id} className="px-2 py-1 flex items-center gap-2 border border-gray-400 rounded-xl cursor-pointer hover:bg-gray-300">
                     <img className="" src="//ssl.gstatic.com/docs/doclist/images/mediatype/icon_3_pdf_x16.png" aria-hidden="true" role="presentation" data-iml="20872"></img>
