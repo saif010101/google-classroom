@@ -23,7 +23,6 @@ export const getAllMaterials = async (req: Request, res: Response) => {
 }
 
 export const getMaterial = async (req: Request, res: Response) => {
-    // console.log('here')
 
     const { material_id } = req.params
 
@@ -51,7 +50,7 @@ export const getMaterial = async (req: Request, res: Response) => {
 }
 
 export const getUploadUrl = async (req: Request, res: Response) => {
-    console.log('here')
+
     const { file_name, content_type, class_name } = req.query
 
     if (!file_name || !content_type || !class_name){
@@ -61,6 +60,7 @@ export const getUploadUrl = async (req: Request, res: Response) => {
     try {
         // store each material under its own class
         const s3_key = `${class_name}/${file_name}`
+
         const url = await materialService.createUploadUrl('aws-s3-gcr', s3_key as string, content_type as string)
 
         return res.status(200).json({ url })
