@@ -28,13 +28,20 @@ export class MaterialAPIService {
         return data.url
     }
 
-    static async uploadData(url: string, file: File, setProgress: (value : number) => void,signal : GenericAbortSignal) {
+    static async uploadData(url: string, file: File, setProgress: (value: number) => void, signal: GenericAbortSignal) {
         const res = await axios.put(url, file, {
             withCredentials: true,
             onUploadProgress: (e) => {
                 setProgress(e.progress ? e.progress : 0)
             },
             signal
+        })
+        return res
+    }
+
+    static async createMaterial(file_name: string, file_type: string, class_name: string, post_id: number) {
+        const res = await axios.post(`${MaterialAPIService.baseUrl}/`, { file_name, file_type, class_name, post_id }, {
+            withCredentials: true,
         })
         return res
     }

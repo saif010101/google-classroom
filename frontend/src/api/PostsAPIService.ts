@@ -24,7 +24,7 @@ export class PostsAPIService {
             return null
         }
         const { data } = await axios.post(`${PostsAPIService.baseUrl}/${class_code}`, { content }, { withCredentials: true })
-        return data[0]
+        return data
     }
 
     static async editPost(post_id: number, content: string) {

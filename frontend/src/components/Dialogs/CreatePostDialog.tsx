@@ -33,7 +33,11 @@ export function CreatePostDialog() {
 
     const mutate = useMutation({
         mutationFn: () => PostsAPIService.createPost(currentClass?.class_code, postContent),
-        onSuccess: () => {
+        onSuccess: async (response) => {
+
+            const { post_id } = response
+            await MaterialAPIService.createMaterial(material.file_name, material.content_type, currentClass?.name as string, post_id)
+
             // this so to force a refetch of posts data so we user can see newly created post
             queryClient.invalidateQueries({ queryKey: ['post'], refetchType: 'all' })
 
@@ -50,6 +54,7 @@ export function CreatePostDialog() {
                     message: ""
                 })
             }, 2000)
+            handleClose();
         }
     })
 
@@ -81,22 +86,22 @@ export function CreatePostDialog() {
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        const formData = new FormData(event.currentTarget)
-        controllerRef.current = new AbortController()
 
-        try {
-            const url = await getUploadUrl()
-            const { status } = await MaterialAPIService.uploadData(url, formData.get('file') as File, (number) => setProgress(number), controllerRef.current.signal)
+        if (material.file_name) {
 
-            // if status === 200, write file metadata to database
+            const formData = new FormData(event.currentTarget)
+            controllerRef.current = new AbortController()
 
-        } catch (err) {
-            console.error(err)
+            try {
+                const url = await getUploadUrl()
+                await MaterialAPIService.uploadData(url, formData.get('file') as File, (number) => setProgress(number), controllerRef.current.signal)
+
+            } catch (err) {
+                console.error(err)
+            }
         }
-        // handle upload here
-        // use fetchQuery() for put request
+
         mutate.mutate()
-        handleClose();
     };
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -139,7 +144,7 @@ export function CreatePostDialog() {
                         </label>
                         <input onChange={handleFileChange} ref={inputRef} name="file" id="fileInput" className="hidden" type="file" />
 
-                        {material.file_name && 
+                        {material.file_name &&
                             <div className='p-2 flex items-center gap-3 border border-gray-400 bg-gray-200 text-gray-700 self-start rounded-lg font-medium'>
                                 <span>{material.file_name}</span>
                                 <span>{Math.round(progress * 100)}%</span>

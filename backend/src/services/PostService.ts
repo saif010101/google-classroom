@@ -8,7 +8,7 @@ class PostService {
     }
 
     async createPost(user_id: number, content: string, class_code: string) {
-        return await db.query(`insert into posts (content,class_code,user_id) values ($1,$2,$3)`,
+        return await db.query(`insert into posts (content,class_code,user_id) values ($1,$2,$3) returning post_id`,
             [content, class_code, user_id])
     }
 

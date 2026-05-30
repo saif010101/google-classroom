@@ -25,7 +25,7 @@ const seedEnrollment = (pgm: MigrationBuilder) => {
     INSERT INTO enrollment (class_code, user_id, role) VALUES
       ('CS101',   100, 'teacher'),
       ('CS101',   101, 'student'),
-      ('MATH201', 102, 'student');
+      ('MATH201', 102, 'teacher');
   `);
 }
 const seedPosts = (pgm: MigrationBuilder) => {
@@ -69,5 +69,5 @@ export const seedDatabase = async (pgm: MigrationBuilder) => {
   seedComments(pgm)
 
   // seed materials
-  seedMaterials(pgm)
+  // seedMaterials(pgm)
 };

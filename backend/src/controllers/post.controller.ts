@@ -28,7 +28,8 @@ export const createPost = async (req: Request, res: Response) => {
 
     try {
         const { rows } = await postService.createPost(user_id, content.trim(), class_code)
-        res.status(201).json({ message: 'Post created successfully.' })
+        const { post_id } = rows[0]
+        res.status(201).json({ post_id , message: 'Post created successfully.' })
     } catch (error) {
         console.error(error)
         res.status(500).json({ message: 'Internal server error' })
