@@ -1,6 +1,13 @@
-import { GetObjectCommand, PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
+import { DeleteObjectsCommand, GetObjectCommand, PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import { db } from "../utils/db.js";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
+
+interface MaterialType {
+    material_id : number
+    file_name : string
+    s3_key : string
+}
+
 
 const s3Client = new S3Client({
     region: 'us-east-1',
@@ -14,7 +21,7 @@ const s3Client = new S3Client({
 class MaterialService {
 
     async getMaterialsByPost(post_id: number) {
-        const { rows } = await db.query(`select material_id,file_name from materials where post_id = $1`,
+        const { rows } = await db.query(`select material_id,file_name,s3_key from materials where post_id = $1`,
             [post_id])
         return rows
     }
@@ -50,7 +57,20 @@ class MaterialService {
             values ($1,$2,$3,$4,$5)`, [s3_bucket,s3_key,file_name,file_type,post_id])
     }
 
+    async deleteMaterials(materials : MaterialType[],s3_bucket : string) {
+        const command = new DeleteObjectsCommand({
+            Bucket : s3_bucket,
+            Delete : {
+                Objects : materials.map(item => ({ Key : item.s3_key})),
+                Quiet: false
+            }
+        })
+
+        await s3Client.send(command)
+    }
+
 }
 
 
 export default new MaterialService()
+

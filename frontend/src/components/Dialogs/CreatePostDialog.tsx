@@ -32,6 +32,7 @@ export function CreatePostDialog() {
         content_type: ''
     })
     const [progress, setProgress] = useState(0)
+    const [postBtnDisabled,setPostBtnDisabled] = useState(false)
 
     const mutate = useMutation({
         mutationFn: () => PostsAPIService.createPost(currentClass?.class_code, postContent),
@@ -88,7 +89,8 @@ export function CreatePostDialog() {
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-
+        setPostBtnDisabled(true)
+        
         if (material.file_name) {
 
             const formData = new FormData(event.currentTarget)
@@ -171,7 +173,7 @@ export function CreatePostDialog() {
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>Cancel</Button>
-                    <Button type="submit" form="subscription-form">
+                    <Button disabled={postBtnDisabled} type="submit" form="subscription-form">
                         Post
                     </Button>
                 </DialogActions>
