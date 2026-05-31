@@ -32,7 +32,7 @@ export class MaterialAPIService {
         const res = await axios.put(url, file, {
             withCredentials: true,
             onUploadProgress: (e) => {
-                setProgress(e.progress ? e.progress : 0)
+                setProgress(e.progress ? Math.round(e.progress * 100) : 0)
             },
             signal
         })

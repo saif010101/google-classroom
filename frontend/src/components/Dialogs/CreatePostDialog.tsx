@@ -9,11 +9,13 @@ import { useRef, useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { useQueryClient } from '@tanstack/react-query';
 import { useAlertContext } from '../../hooks/useAlertContext';
-import { Snackbar } from '@mui/material';
+import { CircularProgress, Divider, Snackbar } from '@mui/material';
 import { useClassContext } from '../../hooks/useClassContext';
 import { PostsAPIService } from '../../api/PostsAPIService';
 import { ArrowUpTrayIcon } from '@heroicons/react/24/outline';
 import { MaterialAPIService } from '../../api/MaterialAPIService';
+import axios from 'axios';
+import { CircularProgressWithLabel } from '../CircularProgressWithLabel';
 
 
 
@@ -97,7 +99,21 @@ export function CreatePostDialog() {
                 await MaterialAPIService.uploadData(url, formData.get('file') as File, (number) => setProgress(number), controllerRef.current.signal)
 
             } catch (err) {
-                console.error(err)
+                // if request was canceled
+                if (axios.isCancel(err)) {
+                    setAlert({
+                        status: "failed",
+                        message: "Upload cancelled!"
+                    })
+
+                    setTimeout(() => {
+                        setAlert({
+                            status: "pending",
+                            message: ""
+                        })
+                    }, 2000)
+                    handleClose();
+                }
             }
         }
 
@@ -129,7 +145,7 @@ export function CreatePostDialog() {
             <Dialog fullWidth={true} maxWidth={'sm'} open={activeDialog === "create-post"} onClose={handleClose}>
                 <DialogTitle>Post</DialogTitle>
                 <DialogContent>
-                    <form className="flex flex-col gap-3 p-3" onSubmit={handleSubmit} id="subscription-form">
+                    <form className="flex flex-col items-start gap-3 p-3" onSubmit={handleSubmit} id="subscription-form">
                         <TextField
                             id="outlined-multiline-static"
                             label="Announce something to your class"
@@ -145,9 +161,10 @@ export function CreatePostDialog() {
                         <input onChange={handleFileChange} ref={inputRef} name="file" id="fileInput" className="hidden" type="file" />
 
                         {material.file_name &&
-                            <div className='p-2 flex items-center gap-3 border border-gray-400 bg-gray-200 text-gray-700 self-start rounded-lg font-medium'>
-                                <span>{material.file_name}</span>
-                                <span>{Math.round(progress * 100)}%</span>
+                            <div className='w-full p-2 flex justify-between items-center gap-3 border border-gray-400 bg-gray-200 text-gray-700 self-start rounded-lg font-medium'>
+                                <p className='break-all'>{material.file_name} - 23.7 MB</p>
+                                <Divider orientation="vertical" flexItem />
+                                <CircularProgressWithLabel progress={progress} />
                             </div>
                         }
                     </form>
