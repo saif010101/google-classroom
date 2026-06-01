@@ -14,10 +14,8 @@ services:
   backend:
     build:
       context: ./backend
-    environment:
-      DATABASE_URL: postgres://myuser:mypassword@db:5432/mydb
-      JWT_SECRET_KEY: 7307f05119849d8f56ccc4b52b3b2bb5e489faaab48e46949e4c1fc99d9db9e4i
-      PORT: 3000
+    env_file:
+      - .env
     ports:
       - "3000:3000"
     depends_on:

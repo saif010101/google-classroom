@@ -8,7 +8,7 @@ interface CreateClassType {
 
 export class ClassAPIService {
 
-    private static baseUrl = `http://localhost:3000/api/classes`
+    private static baseUrl = `/api/classes`
 
 
     static async getAllClasses(): Promise<ClassData[]> {
