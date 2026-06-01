@@ -47,16 +47,3 @@ export const createMaterial = asyncHandler(async (req: Request, res: Response) =
     await materialService.createMaterial(file_name, file_type, post_id, class_name, process.env.AWS_BUCKET_NAME!)
     return res.status(201).json({ message: 'Material created successfully.' })
 })
-
-export const deleteAllMaterials = asyncHandler(async (req: Request, res: Response) => {
-    const { post_id } = req.params
-    if (!post_id) {
-        return res.status(400).json({ message: 'Parameters missing or invalid.' })
-    }
-    const materials = await materialService.getMaterialsByPost(parseInt(post_id as string, 10))
-    if (materials.length === 0) {
-        return res.status(200).json({ message: 'No materials attached to this post.' })
-    }
-    await materialService.deleteMaterials(materials, process.env.AWS_BUCKET_NAME!)
-    return res.status(200).json(materials)
-})

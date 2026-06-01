@@ -1,6 +1,9 @@
 import type { Request, Response } from "express";
 import postService from "../services/PostService.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
+import materialService from "../services/MaterialService.js";
+import { db } from "../utils/db.js";
+
 
 export const getAllPosts = asyncHandler(async (req: Request, res: Response) => {
     const { class_code } = req.params
@@ -25,13 +28,19 @@ export const createPost = asyncHandler(async (req: Request, res: Response) => {
 
 export const deletePost = asyncHandler(async (req: Request, res: Response) => {
     const { post_id } = req.params
+
     if (!post_id || Array.isArray(post_id) || typeof post_id !== 'string') {
         return res.status(400).json({ message: 'Required parameters missing' })
     }
-    const { rowCount } = await postService.deletePost(Number(post_id))
-    if (rowCount && rowCount > 0) {
+
+
+    const parsedId = parseInt(post_id, 10)
+    const result = await postService.deletePost(parsedId)
+
+    if (result && result.rowCount && result.rowCount > 0) {
         return res.status(200).json({ message: 'Post deleted successfully.' })
     }
+
     return res.status(404).json({ message: 'Post not found.' })
 })
 

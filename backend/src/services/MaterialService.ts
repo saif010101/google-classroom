@@ -3,8 +3,6 @@ import { db } from "../utils/db.js";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
 interface MaterialType {
-    material_id : number
-    file_name : string
     s3_key : string
 }
 

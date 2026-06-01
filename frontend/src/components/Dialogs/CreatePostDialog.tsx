@@ -9,7 +9,7 @@ import { useRef, useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { useQueryClient } from '@tanstack/react-query';
 import { useAlertContext } from '../../hooks/useAlertContext';
-import { CircularProgress, Divider, Snackbar } from '@mui/material';
+import { Divider, Snackbar } from '@mui/material';
 import { useClassContext } from '../../hooks/useClassContext';
 import { PostsAPIService } from '../../api/PostsAPIService';
 import { ArrowUpTrayIcon } from '@heroicons/react/24/outline';
@@ -90,7 +90,7 @@ export function CreatePostDialog() {
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         setPostBtnDisabled(true)
-        
+
         if (material.file_name) {
 
             const formData = new FormData(event.currentTarget)
