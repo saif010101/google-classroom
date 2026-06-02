@@ -17,7 +17,7 @@ export const Login = () => {
 
     const queryClient = useQueryClient()
     const navigate = useNavigate()
-    const { user,isPending} = useAuthContext()
+    const { isError} = useAuthContext()
 
     const [userData, setUserData] = useState({
         email: '',
@@ -47,10 +47,10 @@ export const Login = () => {
     }
 
     useEffect(() => {
-        if (!isPending && user){
+        if (!isError){
             navigate('/')
         }
-    },[isPending])
+    },[isError])
 
     
     return (

@@ -16,7 +16,7 @@ function App() {
   const navigate = useNavigate()
   const { pathname } = useLocation()
   const sideBarRef = useRef<HTMLDivElement>(null)
-  const { user, isPending } = useAuthContext()
+  const { user, isError } = useAuthContext()
   const { setSidebarOpen } = useSidebarContext()
 
   // a custom hook which closes the sidebar when clicked outside of it
@@ -24,16 +24,15 @@ function App() {
     setSidebarOpen(false)
   })
 
+  console.log(user)
   useEffect(() => {
-
     // if query is not pending and user is not logged in and 
     // user was not trying to access signup page then redirect him to login page
-    if (!isPending && !user && pathname !== '/signup') {
+    if (isError && pathname !== '/signup') {
       navigate('/login')
     }
 
-  }, [isPending])
-
+  }, [isError])
   return (
     <AppProvider>
       <AlertComponent />

@@ -83,6 +83,7 @@ export function CreatePostDialog() {
             file_name: '',
             content_type: ''
         })
+        setPostBtnDisabled(false)
         setProgress(0)
         closeDialog()
     };

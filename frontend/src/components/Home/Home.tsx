@@ -14,8 +14,6 @@ export const Home = () => {
         queryClient.invalidateQueries({ queryKey: ['class'], refetchType: 'all' })
         setCurrentClass(undefined)
     }, [])
-
-    console.log(data)
     
     return (
         <>

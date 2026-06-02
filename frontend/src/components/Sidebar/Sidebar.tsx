@@ -6,6 +6,9 @@ import { SidebarOverlay } from "./SidebarOverlay.tsx"
 import { SidebarHome } from "./SidebarHome.tsx"
 import { useSidebarContext } from "../../hooks/useSidebarContext.tsx"
 import { useAuthContext } from "../../hooks/useAuthContext.tsx"
+import { ArrowLeftStartOnRectangleIcon } from "@heroicons/react/24/outline"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { UsersAPIService } from "../../api/UsersAPIService.ts"
 
 interface SidebarProps {
     ref: RefObject<HTMLDivElement | null>;
@@ -13,9 +16,17 @@ interface SidebarProps {
 
 export const Sidebar = ({ ref }: SidebarProps) => {
 
-    const { user } = useAuthContext()
+    const queryClient = useQueryClient()
+    const { user,refetch } = useAuthContext()
     const { data } = useClassData()
     const { sidebarOpen } = useSidebarContext()
+    const mutate = useMutation({
+        mutationFn: UsersAPIService.logoutUser,
+        onSuccess: () => {
+            queryClient.removeQueries({queryKey : ['user']})
+            refetch()
+        }
+    })
 
     const enrolledClasses = data?.filter(item => item.role === 'student')
     const teachingClasses = data?.filter(item => item.role === 'teacher')
@@ -30,6 +41,10 @@ export const Sidebar = ({ ref }: SidebarProps) => {
                 <SidebarHome />
                 <SidebarSection title="Teaching" data={teachingClasses} />
                 <SidebarSection title="Enrolled" data={enrolledClasses} />
+                <div onClick={() => mutate.mutate()} className="p-2 rounded-full flex items-center gap-2 mt-auto hover:bg-gray-300 cursor-pointer w-full">
+                    <ArrowLeftStartOnRectangleIcon className="size-6" />
+                    <span>Logout</span>
+                </div>
             </aside>
         </>
     )

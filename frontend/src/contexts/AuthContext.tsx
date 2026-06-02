@@ -14,7 +14,6 @@ export const AuthContext = createContext<AuthContextShape | undefined>(undefined
 
 export const AuthProvider = ({ children }: PropsWithChildren) => {
     const { data, isError, isPending, refetch } = useUserData()
-    console.log({ user: data ?? null, isError, isPending, refetch })
     return (
         <AuthContext.Provider value={{ user: data ?? null, isError, isPending, refetch }}>
             {children}
