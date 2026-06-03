@@ -17,11 +17,11 @@ export const getUser = asyncHandler(async (req: Request, res: Response) => {
 })
 
 export const createUser = asyncHandler(async (req: Request, res: Response) => {
-    const { first_name, last_name, email, password } = req.body
-    if (!first_name || !last_name || !email || !password) {
+    const { first_name, last_name, email, password,confirm_password } = req.body
+    if (!first_name || !last_name || !email || !password || !confirm_password || password !== confirm_password || !first_name.match(/^[A-Za-z]{3,}$/) || !last_name.match(/^[A-Za-z]{3,}$/)) {
         return res.status(400).json({ message: 'Invalid input format' })
     }
-    await userService.createUser({ first_name, last_name, email, password })
+    await userService.createUser({ first_name, last_name, email, password})
     return res.status(201).json({
         message: 'User created successfully',
         data: { first_name, last_name, email }
