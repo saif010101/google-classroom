@@ -13,12 +13,16 @@ interface CreateUserPayload {
     password: string
 }
 
+interface LoginUserResponse {
+    message : string
+}
+
 export class UsersAPIService {
     private static baseUrl = `http://localhost:3000/api/users`
 
-    static async loginUser(payload: LoginPayload) {
+    static async loginUser(payload: LoginPayload) : Promise<LoginUserResponse>{
         const { data } = await axios.post(`${UsersAPIService.baseUrl}/login`, payload, { withCredentials: true })
-        return data[0]
+        return data
     }
 
     static async logoutUser() {

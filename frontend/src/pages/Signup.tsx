@@ -10,7 +10,7 @@ import { useAuthContext } from "../hooks/useAuthContext.js"
 export const Signup = () => {
 
     const navigate = useNavigate()
-    const {user,isPending} = useAuthContext()
+    const { user, isPending } = useAuthContext()
     const [userData, setUserData] = useState({
         first_name: '',
         last_name: '',
@@ -78,10 +78,10 @@ export const Signup = () => {
                     />
                     <Button className="flex items-center gap-3" type="submit" variant="contained" color="success">
                         <MoonLoader size={20} loading={mutate.isPending} />
-                        Sign Up
+                        <span>Sign Up</span>
                     </Button>
                     <span>
-                        Already have an account? <NavLink to="/signup" className="underline text-blue-500">click here</NavLink>
+                        Already have an account? <NavLink to="/login" className="underline text-blue-500">click here</NavLink>
                     </span>
                 </form>
             </div>

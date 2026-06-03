@@ -32,11 +32,11 @@ export const loginUser = asyncHandler(async (req: Request, res: Response) => {
     const { email, password } = req.body
     const user = await userService.getUserByEmail(email)
     if (!user) {
-        return res.status(404).json({ message: 'User not found' })
+        return res.status(404).json({ message: 'This user does not exist.' })
     }
     const passwordMatches = await userService.matchPassword(password, user.password)
     if (!passwordMatches) {
-        return res.status(401).json({ message: 'Invalid password' })
+        return res.status(401).json({ message: 'The password is invalid' })
     }
     const token = userService.generateJwtToken(user.user_id)
 

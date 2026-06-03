@@ -1,5 +1,4 @@
 import { Button, TextField } from "@mui/material"
-import { UserIcon } from "@heroicons/react/24/outline"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import type { SubmitEvent, ChangeEvent } from "react"
 import { useEffect, useState } from "react"
@@ -9,22 +8,23 @@ import { AxiosError } from "axios"
 import { useAuthContext } from "../hooks/useAuthContext.js"
 import { UsersAPIService } from "../api/UsersAPIService.js"
 
-interface LoginFormError {
+interface LoginUserResponse {
     message: string
 }
+
 
 export const Login = () => {
 
     const queryClient = useQueryClient()
     const navigate = useNavigate()
-    const { isError} = useAuthContext()
+    const { isError } = useAuthContext()
 
     const [userData, setUserData] = useState({
         email: '',
         password: ''
     })
 
-    const mutate = useMutation<any, AxiosError<LoginFormError>>({
+    const mutate = useMutation<LoginUserResponse, AxiosError<LoginUserResponse>>({
         mutationKey: ['login'],
         mutationFn: () => UsersAPIService.loginUser(userData),
         onSuccess: () => {
@@ -41,49 +41,52 @@ export const Login = () => {
         setUserData({ ...userData, [event.target.name]: event.target.value })
     }
 
-    let msg
-    if (mutate.isError) {
-        msg = mutate.error.response?.data.message
-    }
+    const isEmailError = () => mutate.error?.status === 404
+    const isPasswordError = () => mutate.error?.status === 401
+
+    let message = mutate.error?.response?.data.message
+
 
     useEffect(() => {
-        if (!isError){
+        if (!isError) {
             navigate('/')
         }
-    },[isError])
+    }, [isError])
 
-    
+
     return (
         <>
-            <div className="h-screen flex justify-center items-center bg-green-400">
-                <form autoComplete="off" onSubmit={handleSubmit} className="px-5 py-10 flex flex-col gap-4 rounded-lg bg-white ">
-                    <UserIcon className="size-12 self-center" />
-                    <span className="text-sm text-red-500 text-center">* {msg ?? ''}</span>
+            <div className="h-screen flex flex-col justify-center items-center bg-green-400">
+                <form autoComplete="off" onSubmit={handleSubmit} className="w-full h-[75%] mt-auto px-15 py-20 flex flex-col gap-5 rounded-[2rem] bg-white">
+                    <p className="text-[1.75rem] mb-10">Sign in</p>
                     <TextField
                         required
+                        error={isEmailError()}
                         id="outlined-required"
                         label="Email"
-                        defaultValue=""
                         name="email"
                         onChange={handleInputChange}
                         type="email"
+                        helperText={isEmailError() && message}
                     />
                     <TextField
                         required
+                        error={isPasswordError()}
                         id="outlined-required"
                         label="Password"
-                        defaultValue=""
                         name="password"
                         onChange={handleInputChange}
                         type="password"
+                        helperText={isPasswordError() && message}
                     />
                     <Button className="flex gap-3 items-center" variant="contained" color="success" type="submit">
                         <MoonLoader size={20} loading={mutate.isPending} color="#FFFFFF" />
                         <span>Login</span>
                     </Button>
-                    <span>
-                        Don't have an account? <NavLink to="/signup" className="underline text-blue-500">click here</NavLink>
-                    </span>
+                    <div className="self-center mt-10">
+                        <span className="text-gray-600">Don't have an account? </span>
+                        <NavLink to="/signup" className="">Signup</NavLink>
+                    </div>
                 </form>
             </div>
         </>
