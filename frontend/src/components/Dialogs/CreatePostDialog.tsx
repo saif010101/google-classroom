@@ -15,7 +15,7 @@ import { PostsAPIService } from '../../api/PostsAPIService';
 import { ArrowUpTrayIcon} from '@heroicons/react/24/outline';
 import { MaterialAPIService } from '../../api/MaterialAPIService';
 import axios from 'axios';
-import { MaterialCard } from '../MaterialCard';
+import { MaterialCard } from '../Material/MaterialCard';
 
 
 interface Material {

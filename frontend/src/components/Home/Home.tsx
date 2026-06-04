@@ -1,4 +1,4 @@
-import { ClassCard } from "../ClassCard.tsx"
+import { ClassCard } from "../Class/ClassCard.tsx"
 import { useClassData } from "../../hooks/useClassData.tsx"
 import { LinearProgress, Skeleton} from "@mui/material"
 import { useClassContext } from "../../hooks/useClassContext.tsx"

@@ -24,7 +24,6 @@ function App() {
     setSidebarOpen(false)
   })
 
-  console.log(user)
   useEffect(() => {
     // if query is not pending and user is not logged in and 
     // user was not trying to access signup page then redirect him to login page

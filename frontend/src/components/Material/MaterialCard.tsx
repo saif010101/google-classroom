@@ -1,5 +1,5 @@
 import { Divider } from "@mui/material"
-import { CircularProgressWithLabel } from "./CircularProgressWithLabel"
+import { CircularProgressWithLabel } from "../CircularProgressWithLabel"
 import { XCircleIcon } from "@heroicons/react/16/solid"
 
 interface Material {

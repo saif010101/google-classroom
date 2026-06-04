@@ -1,12 +1,12 @@
 import { EllipsisVerticalIcon } from "@heroicons/react/16/solid"
 import Menu from "@mui/material/Menu"
 import MenuItem from "@mui/material/MenuItem"
-import { useDropdown } from "../hooks/useDropdown.tsx"
+import { useDropdown } from "../../hooks/useDropdown.tsx"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { useAlertContext } from "../hooks/useAlertContext.tsx"
+import { useAlertContext } from "../../hooks/useAlertContext.tsx"
 import { useNavigate } from "react-router"
 import { Snackbar } from "@mui/material"
-import { ClassAPIService } from "../api/ClassAPIService.ts"
+import { ClassAPIService } from "../../api/ClassAPIService.ts"
 
 interface ClassCardProps {
     class_code: string

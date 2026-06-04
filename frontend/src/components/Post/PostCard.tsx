@@ -1,4 +1,4 @@
-import { MaterialsBox } from './MaterialsBox'
+import { MaterialsBox } from '../Material/MaterialsBox'
 import { PostCardComments } from './PostCardComments'
 import { PostCardHeader } from './PostCardHeader'
 
