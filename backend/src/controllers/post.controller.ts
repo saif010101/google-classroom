@@ -21,6 +21,9 @@ export const createPost = asyncHandler(async (req: Request, res: Response) => {
     if (!class_code || Array.isArray(class_code) || typeof class_code !== 'string') {
         return res.status(400).json({ message: 'Required parameters missing' })
     }
+    if (content.trim().length === 0){
+        return res.status(400).json({ message: 'Body is empty.' })
+    }
     const { rows } = await postService.createPost(user_id, content.trim(), class_code)
     const { post_id } = rows[0]
     return res.status(201).json({ post_id, message: 'Post created successfully.' })

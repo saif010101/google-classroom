@@ -9,15 +9,22 @@ import { useRef, useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { useQueryClient } from '@tanstack/react-query';
 import { useAlertContext } from '../../hooks/useAlertContext';
-import { Divider, Snackbar } from '@mui/material';
+import { Snackbar } from '@mui/material';
 import { useClassContext } from '../../hooks/useClassContext';
 import { PostsAPIService } from '../../api/PostsAPIService';
-import { ArrowUpTrayIcon } from '@heroicons/react/24/outline';
+import { ArrowUpTrayIcon} from '@heroicons/react/24/outline';
 import { MaterialAPIService } from '../../api/MaterialAPIService';
 import axios from 'axios';
-import { CircularProgressWithLabel } from '../CircularProgressWithLabel';
+import { MaterialCard } from '../MaterialCard';
 
 
+interface Material {
+    file_name: string,
+    content_type: string,
+    file_size: string
+}
+
+const bytesToReadable = new Intl.NumberFormat('en', { notation: 'compact', style: 'unit', unit: 'byte', unitDisplay: 'narrow' }).format;
 
 export function CreatePostDialog() {
 
@@ -27,19 +34,19 @@ export function CreatePostDialog() {
     const { setAlert } = useAlertContext()
     const { currentClass } = useClassContext()
     const [postContent, setPostContent] = useState<string>("")
-    const [material, setMaterial] = useState({
-        file_name: '',
-        content_type: ''
-    })
+    const [material, setMaterial] = useState<Material | null>(null)
     const [progress, setProgress] = useState(0)
-    const [postBtnDisabled,setPostBtnDisabled] = useState(false)
+    const [postBtnDisabled, setPostBtnDisabled] = useState(false)
 
     const mutate = useMutation({
         mutationFn: () => PostsAPIService.createPost(currentClass?.class_code, postContent),
         onSuccess: async (response) => {
 
-            const { post_id } = response
-            await MaterialAPIService.createMaterial(material.file_name, material.content_type, currentClass?.name as string, post_id)
+            // if any file is selected
+            if (material) {
+                const { post_id } = response
+                await MaterialAPIService.createMaterial(material.file_name, material.content_type, currentClass?.name as string, post_id)
+            }
 
             // this so to force a refetch of posts data so we user can see newly created post
             queryClient.invalidateQueries({ queryKey: ['post'], refetchType: 'all' })
@@ -57,7 +64,8 @@ export function CreatePostDialog() {
                     message: ""
                 })
             }, 2000)
-            handleClose();
+
+            handleClose()
         }
     })
 
@@ -65,10 +73,13 @@ export function CreatePostDialog() {
     const { activeDialog, closeDialog } = useDialogContext()
 
     const getUploadUrl = async () => {
-        const url = await queryClient.fetchQuery({
-            queryKey: ['upload_url'],
-            queryFn: () => MaterialAPIService.getUploadUrl(currentClass?.name as string, material.file_name, material.content_type)
-        })
+        let url: string | null = null
+        if (material) {
+            url = await queryClient.fetchQuery({
+                queryKey: ['upload_url'],
+                queryFn: () => MaterialAPIService.getUploadUrl(currentClass?.name as string, material.file_name, material.content_type)
+            })
+        }
 
         return url
     }
@@ -79,10 +90,7 @@ export function CreatePostDialog() {
             controllerRef.current.abort()
 
         // clear state upon closing
-        setMaterial({
-            file_name: '',
-            content_type: ''
-        })
+        setMaterial(null)
         setPostBtnDisabled(false)
         setProgress(0)
         closeDialog()
@@ -92,14 +100,14 @@ export function CreatePostDialog() {
         event.preventDefault();
         setPostBtnDisabled(true)
 
-        if (material.file_name) {
+        if (material) {
 
             const formData = new FormData(event.currentTarget)
             controllerRef.current = new AbortController()
 
             try {
                 const url = await getUploadUrl()
-                await MaterialAPIService.uploadData(url, formData.get('file') as File, (number) => setProgress(number), controllerRef.current.signal)
+                await MaterialAPIService.uploadData(url as string, formData.get('file') as File, (number) => setProgress(number), controllerRef.current.signal)
 
             } catch (err) {
                 // if request was canceled
@@ -132,9 +140,18 @@ export function CreatePostDialog() {
         const files = inputRef && inputRef.current ? inputRef.current.files : null
         setMaterial({
             file_name: (files ? files[0].name : ''),
-            content_type: (files ? files[0].type : '')
+            content_type: (files ? files[0].type : ''),
+            file_size: (files ? bytesToReadable(files[0].size) : '')
         })
         setProgress(0)
+    }
+
+    const handleFileDeselect = () => {
+
+        if (inputRef.current) {
+            setMaterial(null)
+            inputRef.current.value = ''
+        }
     }
 
 
@@ -149,32 +166,17 @@ export function CreatePostDialog() {
                 <DialogTitle>Post</DialogTitle>
                 <DialogContent>
                     <form className="flex flex-col items-start gap-3 p-3" onSubmit={handleSubmit} id="subscription-form">
-                        <TextField
-                            id="outlined-multiline-static"
-                            label="Announce something to your class"
-                            multiline
-                            minRows={4}
-                            className="w-full"
-                            name="content"
-                            onChange={handleChange}
-                        />
+                        <TextField id="outlined-multiline-static" label="Write your message." multiline minRows={4} className="w-full" name="content" onChange={handleChange}/>
                         <label className="flex items-center gap-2" htmlFor="fileInput">
-                            <ArrowUpTrayIcon className='p-1 size-8 border rounded-full hover:bg-gray-200 cursor-pointer' />
+                            <ArrowUpTrayIcon className='p-1 size-8 border border-gray-800 text-gray-800 rounded-full hover:bg-gray-200 cursor-pointer' />
                         </label>
                         <input onChange={handleFileChange} ref={inputRef} name="file" id="fileInput" className="hidden" type="file" />
-
-                        {material.file_name &&
-                            <div className='w-full p-2 flex justify-between items-center gap-3 border border-gray-400 bg-gray-200 text-gray-700 self-start rounded-lg font-medium'>
-                                <p className='break-all'>{material.file_name} - 23.7 MB</p>
-                                <Divider orientation="vertical" flexItem />
-                                <CircularProgressWithLabel progress={progress} />
-                            </div>
-                        }
+                        {material && <MaterialCard handleFileDeselect={handleFileDeselect} material={material} progress={progress}/>}
                     </form>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>Cancel</Button>
-                    <Button disabled={postBtnDisabled} type="submit" form="subscription-form">
+                    <Button disabled={postBtnDisabled || postContent.trim().length === 0} type="submit" form="subscription-form">
                         Post
                     </Button>
                 </DialogActions>

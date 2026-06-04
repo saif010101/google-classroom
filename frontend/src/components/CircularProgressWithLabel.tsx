@@ -13,7 +13,7 @@ export const CircularProgressWithLabel = ({ progress }: CircularProgressWithLabe
                 color="secondary"
                 value={progress}
                 aria-label="Upload photos"
-                size={40}
+                size={36}
             />
             <span className='absolute top-1/2 left-1/2 -translate-x-[45%] -translate-y-[60%] text-xs'>{progress}%</span>
         </div>
