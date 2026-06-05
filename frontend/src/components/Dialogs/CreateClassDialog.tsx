@@ -59,6 +59,18 @@ export function CreateClassDialog() {
         setClassData({ ...classData, [event.target.name]: event.target.value })
     }
 
+    const isInputValid = () => {
+        if (classData.name.length === 0 || classData.section.length === 0) {
+            return false
+        }
+
+        if (classData.name.length > 50 || classData.section.length > 25) {
+            return false
+        }
+
+        return true
+    }
+
     return (
         <>
             <Snackbar
@@ -71,6 +83,7 @@ export function CreateClassDialog() {
                 <DialogContent>
                     <form onSubmit={handleSubmit} id="subscription-form">
                         <TextField
+                            error={classData.name.length > 50}
                             autoFocus
                             required
                             margin="dense"
@@ -81,8 +94,10 @@ export function CreateClassDialog() {
                             fullWidth
                             variant="standard"
                             onChange={handleChange}
+                            helperText="Max length allowed : 50"
                         />
                         <TextField
+                            error={classData.section.length > 25}
                             autoFocus
                             required
                             margin="dense"
@@ -93,12 +108,13 @@ export function CreateClassDialog() {
                             fullWidth
                             variant="standard"
                             onChange={handleChange}
+                            helperText="Max length allowed : 25"
                         />
                     </form>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>Cancel</Button>
-                    <Button type="submit" form="subscription-form">
+                    <Button disabled={!isInputValid()} type="submit" form="subscription-form">
                         Create
                     </Button>
                 </DialogActions>

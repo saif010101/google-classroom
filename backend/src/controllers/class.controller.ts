@@ -29,6 +29,10 @@ export const getPeople = asyncHandler(async (req: Request, res: Response) => {
 export const createClass = asyncHandler(async (req: Request, res: Response) => {
     const { user_id } = req.user
     const { name, section } = req.body
+
+    if (!name || !section || name.length > 50 || section.length > 25) {
+        return res.status(400).json({ message: 'Characters limit exceeded in input field' })
+    }
     await classService.createClass(user_id, name, section)
     res.status(201).json({ message: 'Class created successfully' })
 })
