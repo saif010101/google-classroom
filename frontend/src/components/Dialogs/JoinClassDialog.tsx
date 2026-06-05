@@ -10,6 +10,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useAlertContext } from '../../hooks/useAlertContext';
 import { ClassAPIService } from '../../api/ClassAPIService';
+import type { AxiosError } from 'axios';
 
 export function JoinClassDialog() {
 
@@ -26,18 +27,18 @@ export function JoinClassDialog() {
         onSuccess: () => {
             // this so to force a refetch of class data so we user can see newly created class
             queryClient.invalidateQueries({ queryKey: ['classData'], refetchType: 'all' })
-            // i am using setTimeout so that the alert disappears after 2 seconds
-            // since i cannot think of a way to set alert state besides this atm
             setAlert({
                 status: "success",
                 message: "Class joined successfully"
             })
-            setTimeout(() => {
+        },
+        onError: (error) => {
+            if ((error as AxiosError).status === 404) {
                 setAlert({
-                    status: "pending",
-                    message: ""
+                    status: "error",
+                    message: "Class not found."
                 })
-            }, 2000)
+            }
         }
     })
 
@@ -55,16 +56,24 @@ export function JoinClassDialog() {
         setClassData({ ...classData, [event.target.name]: event.target.value })
     }
 
+    const isInputValid = () => {
+        if (classData.class_code.length > 0 && classData.class_code.length > 6) {
+            return false
+        }
+
+        return true
+    }
     return (
         <>
             <Dialog open={activeDialog === "join-class"} onClose={handleClose}>
                 <DialogTitle>Join Class</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
-                        Ask your teacher for the class code, then enter it here
+                        Ask your teacher for the 6 letter classroom code, then enter it here
                     </DialogContentText>
                     <form onSubmit={handleSubmit} id="subscription-form">
                         <TextField
+                            error={!isInputValid()}
                             autoFocus
                             required
                             margin="dense"
@@ -75,12 +84,13 @@ export function JoinClassDialog() {
                             fullWidth
                             variant="standard"
                             onChange={handleChange}
+                            helperText={!isInputValid() && "Class code must be of 6 characters"}
                         />
                     </form>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>Cancel</Button>
-                    <Button type="submit" form="subscription-form">
+                    <Button disabled={classData.class_code.length !== 6} type="submit" form="subscription-form">
                         Join
                     </Button>
                 </DialogActions>

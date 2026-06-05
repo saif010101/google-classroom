@@ -1,29 +1,29 @@
-import { Alert, Snackbar } from "@mui/material"
+import { Alert, Slide, Snackbar } from "@mui/material"
 import { useAlertContext } from "../hooks/useAlertContext"
 
 export const AlertComponent = () => {
-    const { alert } = useAlertContext()
+    const { alert, setAlert } = useAlertContext()
 
-    if (alert.status === "success") {
-        return (
-            <Snackbar anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }} open={true}>
-                <Alert variant="filled" severity={"success"} className="w-full">
-                    {alert.message}
-                </Alert>
-            </Snackbar>
-        )
-    } else if (alert.status === "failed") {
-        return (
-            <Snackbar anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }} open={true}>
-                <Alert variant="filled" severity={"success"} className="w-full">
-                    {alert.message}
-                </Alert>
-            </Snackbar>
-        )
+    const handleClose = () => {
+        setAlert({
+            status: "close",
+            message: ""
+        })
     }
 
-    return (
-        <>
-        </>
+    return (<>
+        {alert.status !== 'close' &&
+            <Snackbar open={true} autoHideDuration={3000} onClose={handleClose} slots={{ transition: Slide }}>
+                <Alert
+                    severity={alert.status}
+                    variant="filled"
+                    sx={{ width: '100%' }}
+                >
+                    {alert.message}
+                </Alert>
+            </Snackbar>
+        }
+    </>
+
     )
 }

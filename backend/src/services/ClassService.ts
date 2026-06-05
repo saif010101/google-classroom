@@ -78,7 +78,7 @@ class ClassService {
     // if we have already generated n codes in the database,
     // then the probability that the next generated code by this function
     // will be a duplicate is n/36^6, which is very less :) but ofcourse
-    // we need to handle it for a real app 
+    // we need to handle it for production
     generateClassCode() {
         let code = ''
         for (let i = 0; i < 6; i++) {

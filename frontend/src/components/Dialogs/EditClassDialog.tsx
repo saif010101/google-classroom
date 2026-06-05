@@ -11,7 +11,6 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useAlertContext } from '../../hooks/useAlertContext';
 import { useClassContext } from '../../hooks/useClassContext';
 import { ClassAPIService } from '../../api/ClassAPIService';
-import { Snackbar } from '@mui/material';
 
 
 export function EditClassDialog() {
@@ -40,9 +39,7 @@ export function EditClassDialog() {
             // i am using setTimeout so that the alert disappears after 2 seconds
             // since i cannot think of a way to set alert state besides this atm
             setAlert({ status: "success", message: "Class details updated successfully" })
-            setTimeout(() => {
-                setAlert({ status: "pending", message: "" })
-            }, 2000)
+
         }
     })
 
@@ -64,11 +61,6 @@ export function EditClassDialog() {
 
     return (
         <>
-            <Snackbar
-                anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
-                message="Operation in progress"
-                open={mutate.isPending}
-            />
             <Dialog open={true} onClose={handleClose}>
                 <DialogTitle>Edit Class</DialogTitle>
                 <DialogContent>

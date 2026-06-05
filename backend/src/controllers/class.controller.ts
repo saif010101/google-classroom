@@ -52,9 +52,16 @@ export const deleteClass = asyncHandler(async (req: Request, res: Response) => {
 export const joinClass = asyncHandler(async (req: Request, res: Response) => {
     const { class_code } = req.body
     const { user_id } = req.user
-    if (!class_code) {
-        return res.status(400).json({ message: 'Bad Request' })
+    if (!class_code || class_code.length !== 6) {
+        return res.status(400).json({ message: 'Invalid Input' })
     }
+    const { rows } = await classService.getClass(class_code)
+
+    // if class does not exists
+    if (rows.length === 0) {
+        return res.status(404).json({ message: 'Class not found.' })
+    }
+
     await classService.joinClass(user_id, class_code)
     return res.status(200).json({ message: 'Class joined successfully' })
 })

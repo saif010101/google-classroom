@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react"
+import { useEffect, useRef} from "react"
 import { Header } from "./components/Header.tsx"
 import { Sidebar } from "./components/Sidebar/Sidebar.tsx"
 import { useClickOutside } from "./hooks/useClickOutside.tsx"

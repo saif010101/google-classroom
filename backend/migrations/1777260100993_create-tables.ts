@@ -6,15 +6,15 @@ const up = async (pgm: MigrationBuilder) => {
     // create classes table
     pgm.createTable('classes', {
         class_code: {
-            type: 'varchar(20)',
+            type: 'varchar(6)',
             primaryKey: true,
         },
         name: {
-            type: 'varchar(100)',
+            type: 'varchar(50)',
             notNull: true,
         },
         section: {
-            type: 'varchar(50)',
+            type: 'varchar(25)',
         },
     });
 

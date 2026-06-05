@@ -9,7 +9,6 @@ import { useRef, useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { useQueryClient } from '@tanstack/react-query';
 import { useAlertContext } from '../../hooks/useAlertContext';
-import { Snackbar } from '@mui/material';
 import { useClassContext } from '../../hooks/useClassContext';
 import { PostsAPIService } from '../../api/PostsAPIService';
 import { ArrowUpTrayIcon} from '@heroicons/react/24/outline';
@@ -57,13 +56,6 @@ export function CreatePostDialog() {
                 status: "success",
                 message: "Post created successfully"
             })
-
-            setTimeout(() => {
-                setAlert({
-                    status: "pending",
-                    message: ""
-                })
-            }, 2000)
 
             handleClose()
         }
@@ -113,16 +105,10 @@ export function CreatePostDialog() {
                 // if request was canceled
                 if (axios.isCancel(err)) {
                     setAlert({
-                        status: "failed",
+                        status: "error",
                         message: "Upload cancelled!"
                     })
 
-                    setTimeout(() => {
-                        setAlert({
-                            status: "pending",
-                            message: ""
-                        })
-                    }, 2000)
                     handleClose();
                 }
             }
@@ -157,11 +143,6 @@ export function CreatePostDialog() {
 
     return (
         <>
-            <Snackbar
-                anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
-                message="Operation in progress"
-                open={mutate.isPending}
-            />
             <Dialog fullWidth={true} maxWidth={'sm'} open={activeDialog === "create-post"} onClose={handleClose}>
                 <DialogTitle>Post</DialogTitle>
                 <DialogContent>

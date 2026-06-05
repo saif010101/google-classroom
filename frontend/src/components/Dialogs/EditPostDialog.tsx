@@ -9,7 +9,6 @@ import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { useQueryClient } from '@tanstack/react-query';
 import { useAlertContext } from '../../hooks/useAlertContext';
-import { Snackbar } from '@mui/material';
 import { usePostContext } from '../../hooks/usePostContext';
 import { PostsAPIService } from '../../api/PostsAPIService';
 
@@ -37,13 +36,6 @@ export function EditPostDialog() {
                 status: "success",
                 message: "Post updated successfully"
             })
-
-            setTimeout(() => {
-                setAlert({
-                    status: "pending",
-                    message: ""
-                })
-            }, 2000)
         }
     })
 
@@ -65,11 +57,6 @@ export function EditPostDialog() {
 
     return (
         <>
-            <Snackbar
-                anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
-                message="Operation in progress"
-                open={mutate.isPending}
-            />
             <Dialog fullWidth={true} maxWidth={'sm'} open={activeDialog === "edit-post"} onClose={handleClose}>
                 <DialogTitle>Post</DialogTitle>
                 <DialogContent>
