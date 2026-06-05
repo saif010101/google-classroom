@@ -26,13 +26,6 @@ export const EditCommentBox = ({ setIsEditState, oldComment, comment_id }: EditC
                 status: "success",
                 message: "Comment updated successfully"
             })
-
-            setTimeout(() => {
-                setAlert({
-                    status: "pending",
-                    message: ""
-                })
-            }, 2000)
         }
     })
 

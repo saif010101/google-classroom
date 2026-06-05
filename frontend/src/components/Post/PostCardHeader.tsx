@@ -37,13 +37,6 @@ export const PostCardHeader = ({ post_id, author, date, post_user_id, content }:
                 status: "success",
                 message: "Post deleted successfully"
             })
-
-            setTimeout(() => {
-                setAlert({
-                    status: "pending",
-                    message: ""
-                })
-            }, 2000)
         }
     })
     const { openEditPostDialog } = useDialogContext()
