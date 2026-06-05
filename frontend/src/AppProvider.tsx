@@ -9,7 +9,7 @@ import type { DialogType } from "./types/DialogType"
 export const AppProvider = ({ children }: PropsWithChildren) => {
     const [activeDialog, setActiveDialog] = useState<DialogType | null>(null)
     const [alert, setAlert] = useState<AlertType>({
-        status: "pending",
+        status: "close",
         message: ""
     })
     const [currentClass, setCurrentClass] = useState<CurrentClassInfo | undefined>(undefined)

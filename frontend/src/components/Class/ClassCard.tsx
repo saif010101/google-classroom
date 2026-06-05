@@ -33,14 +33,9 @@ export const ClassCard = ({ class_code, class_name, teacher_name, section, role 
                 status: "success",
                 message: `Class ${role === 'teacher' ? 'deleted' : 'unenrolled'} successfully`
             })
-            setTimeout(() => {
-                setAlert({
-                    status: "pending",
-                    message: ""
-                })
-            }, 2000)
         }
     })
+
     const { anchorElem, handleClick, handleClose, open } = useDropdown()
 
     const handleDeleteClick = () => {

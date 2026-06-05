@@ -36,13 +36,6 @@ export const CommentBox = ({ comment_id, author_id, author, date, content }: Com
                 status: "success",
                 message: "Comment deleted successfully"
             })
-
-            setTimeout(() => {
-                setAlert({
-                    status: "pending",
-                    message: ""
-                })
-            }, 2000)
         }
     })
 
