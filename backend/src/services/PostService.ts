@@ -1,5 +1,8 @@
 import { db } from "../utils/db.js";
 import materialService from "./MaterialService.js";
+import { GoogleGenAI } from "@google/genai";
+
+const ai = new GoogleGenAI({});
 
 interface MaterialType {
     s3_key: string
@@ -41,6 +44,15 @@ class PostService {
     async editPost(content: string, post_id: number) {
         return await db.query(`update posts set content = $1 where post_id = $2`,
             [content, post_id])
+    }
+
+    async getAISummary(content: string) {
+        const response = await ai.models.generateContent({
+            model: "gemini-3-flash-preview",
+            contents: `Summarize in a few lines and give me plain text, ${content}`,
+        });
+
+        return response.text
     }
 }
 

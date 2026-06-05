@@ -21,7 +21,7 @@ export const createPost = asyncHandler(async (req: Request, res: Response) => {
     if (!class_code || Array.isArray(class_code) || typeof class_code !== 'string') {
         return res.status(400).json({ message: 'Required parameters missing' })
     }
-    if (content.trim().length === 0){
+    if (content.trim().length === 0) {
         return res.status(400).json({ message: 'Body is empty.' })
     }
     const { rows } = await postService.createPost(user_id, content.trim(), class_code)
@@ -58,4 +58,15 @@ export const editPost = asyncHandler(async (req: Request, res: Response) => {
         return res.status(200).json({ message: 'Post updated successfully.' })
     }
     return res.status(404).json({ message: 'Post not found.' })
+})
+
+export const getAISummary = asyncHandler(async (req: Request, res: Response) => {
+    const { content } = req.body
+
+    if (!content) {
+        return res.status(400).json({ message: 'Invalid Input.' })
+    }
+    const summary = await postService.getAISummary(content)
+    return res.status(200).json({ summary })
+
 })
