@@ -56,9 +56,13 @@ export const Signup = () => {
 
     return (
         <>
-            <div className="h-screen flex justify-center items-center bg-green-400">
-                <form onSubmit={handleSubmit} className="w-full h-[75%] mt-auto px-13 py-10 flex flex-col gap-5 rounded-t-[2.5rem] bg-white ">
-                    <p className="text-[1.75rem] mb-5">Sign up</p>
+            <div className="h-screen flex max-[1140px]:justify-center justify-around items-center bg-green-400">
+                <div>
+                    <p className="max-[1140px]:hidden text-white font-bold text-[3rem]">Create your first</p>
+                    <p className="px-10 max-[1140px]:hidden text-white font-bold text-[3rem]">Virtual classroom.</p>
+                </div>
+                <form onSubmit={handleSubmit} className="grow-1 max-w-[650px] h-[85%] max-[1140px]:mt-auto px-13 py-5 flex flex-col gap-4 max-[1140px]:rounded-t-[2.5rem] min-[1140px]:rounded-[1rem] bg-white ">
+                    <p className="text-[1.75rem] mb-2">Sign up</p>
                     <TextField required error={!Boolean(isFirstNameFormatValid()) && userData.first_name.length > 0} id="outlined-required" label="First Name" defaultValue="" onChange={handleInputChange} name="first_name" helperText={!Boolean(isFirstNameFormatValid()) && userData.first_name.length > 0 && nameErrorMsg} />
                     <TextField required error={!Boolean(isLastNameFormatValid()) && userData.last_name.length > 0} id="outlined-required" label="Last Name" defaultValue="" onChange={handleInputChange} name="last_name" helperText={!Boolean(isLastNameFormatValid()) && userData.last_name.length > 0 && nameErrorMsg} />
                     <TextField required id="outlined-required" label="Email" defaultValue="" type="email" onChange={handleInputChange} name="email" />

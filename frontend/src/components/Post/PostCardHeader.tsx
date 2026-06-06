@@ -1,6 +1,6 @@
 import { EllipsisVerticalIcon } from "@heroicons/react/16/solid"
 import { UserIcon } from "@heroicons/react/24/outline"
-import { Menu, MenuItem, Snackbar } from "@mui/material"
+import { Menu, MenuItem} from "@mui/material"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { useAlertContext } from "../../hooks/useAlertContext"
 import { useAuthContext } from "../../hooks/useAuthContext"
@@ -40,8 +40,8 @@ export const PostCardHeader = ({ post_id, author, date, post_user_id, content }:
         }
     })
 
-    
-    const { openEditPostDialog,openAISummaryDialog } = useDialogContext()
+
+    const { openEditPostDialog, openAISummaryDialog } = useDialogContext()
     const { setCurrentPost } = usePostContext()
 
     const open = Boolean(anchorElem)
@@ -50,7 +50,7 @@ export const PostCardHeader = ({ post_id, author, date, post_user_id, content }:
     const handleDeleteClick = () => {
         mutate.mutate()
     }
-    
+
     const handleThreeDotsClick = () => {
         setCurrentPost({
             post_id, content
@@ -62,11 +62,6 @@ export const PostCardHeader = ({ post_id, author, date, post_user_id, content }:
 
     return (
         <>
-            <Snackbar
-                anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
-                message="Operation in progress"
-                open={mutate.isPending}
-            />
             <div className="p-5 flex justify-between items-center gap-4 shadow-xs">
                 <UserIcon className="size-8" />
                 <div className='flex flex-col mr-auto'>
@@ -81,6 +76,10 @@ export const PostCardHeader = ({ post_id, author, date, post_user_id, content }:
                         </button>
                         <Menu anchorEl={anchorElem} onClose={handleClose} open={open}>
                             <MenuItem onClick={() => {
+                                openAISummaryDialog()
+                                handleClose()
+                            }}>Summarize with AI (Urdu)</MenuItem>
+                            <MenuItem onClick={() => {
                                 openEditPostDialog()
                                 handleClose()
                             }}>Edit</MenuItem>
@@ -88,10 +87,7 @@ export const PostCardHeader = ({ post_id, author, date, post_user_id, content }:
                                 handleDeleteClick()
                                 handleClose()
                             }}>Delete</MenuItem>
-                            <MenuItem onClick={() => {
-                                openAISummaryDialog()
-                                handleClose()
-                            }}>Summarize with AI (Urdu)</MenuItem>
+
                         </Menu>
                     </div>
                 }
