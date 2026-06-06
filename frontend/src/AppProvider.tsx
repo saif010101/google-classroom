@@ -27,6 +27,7 @@ export const AppProvider = ({ children }: PropsWithChildren) => {
                                 openEditDialog: () => setActiveDialog("edit-class"),
                                 openCreatePostDialog: () => setActiveDialog("create-post"),
                                 openEditPostDialog: () => setActiveDialog("edit-post"),
+                                openAISummaryDialog: () => setActiveDialog("ai-summary"),
                                 closeDialog: () => setActiveDialog(null)
                             }
                         }

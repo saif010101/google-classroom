@@ -7,5 +7,6 @@ export interface DialogContextType {
     openEditDialog: () => void,
     openCreatePostDialog: () => void,
     openEditPostDialog: () => void,
+    openAISummaryDialog: () => void,
     closeDialog: () => void
 }

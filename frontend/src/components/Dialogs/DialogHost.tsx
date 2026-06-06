@@ -1,4 +1,5 @@
 import { useDialogContext } from "../../hooks/useDialogContext.tsx"
+import { AISummaryDialog } from "./AISummaryDialog.tsx"
 import { CreateClassDialog } from "./CreateClassDialog.tsx"
 import { CreatePostDialog } from "./CreatePostDialog.tsx"
 import { EditClassDialog } from "./EditClassDialog.tsx"
@@ -20,8 +21,11 @@ export const DialogHost = () => {
         return <CreatePostDialog />
     } else if (activeDialog === "edit-post") {
         return <EditPostDialog />
+    } else if (activeDialog === "ai-summary") {
+        return <AISummaryDialog />
     }
     return (
-        <CreatePostDialog />
+        <>
+        </>
     )
 }

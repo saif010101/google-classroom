@@ -39,7 +39,9 @@ export const PostCardHeader = ({ post_id, author, date, post_user_id, content }:
             })
         }
     })
-    const { openEditPostDialog } = useDialogContext()
+
+    
+    const { openEditPostDialog,openAISummaryDialog } = useDialogContext()
     const { setCurrentPost } = usePostContext()
 
     const open = Boolean(anchorElem)
@@ -48,7 +50,7 @@ export const PostCardHeader = ({ post_id, author, date, post_user_id, content }:
     const handleDeleteClick = () => {
         mutate.mutate()
     }
-
+    
     const handleThreeDotsClick = () => {
         setCurrentPost({
             post_id, content
@@ -86,6 +88,10 @@ export const PostCardHeader = ({ post_id, author, date, post_user_id, content }:
                                 handleDeleteClick()
                                 handleClose()
                             }}>Delete</MenuItem>
+                            <MenuItem onClick={() => {
+                                openAISummaryDialog()
+                                handleClose()
+                            }}>Summarize with AI (Urdu)</MenuItem>
                         </Menu>
                     </div>
                 }

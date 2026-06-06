@@ -36,4 +36,9 @@ export class PostsAPIService {
         const { data } = await axios.delete(`${PostsAPIService.baseUrl}/${post_id}`, { withCredentials: true })
         return data
     }
+
+    static async getPostSummary(content: string) {
+        const { data } = await axios.post(`${PostsAPIService.baseUrl}/ai/summary`, { content }, { withCredentials: true })
+        return data
+    }
 }

@@ -2,7 +2,7 @@ import { db } from "../utils/db.js";
 import materialService from "./MaterialService.js";
 import { GoogleGenAI } from "@google/genai";
 
-const ai = new GoogleGenAI({});
+const ai = new GoogleGenAI({apiKey : process.env.GEMINI_API_KEY!});
 
 interface MaterialType {
     s3_key: string
@@ -48,8 +48,8 @@ class PostService {
 
     async getAISummary(content: string) {
         const response = await ai.models.generateContent({
-            model: "gemini-3-flash-preview",
-            contents: `Summarize in a few lines and give me plain text, ${content}`,
+            model: process.env.GEMINI_MODEL as string,
+            contents: `Summarize the following paragraph into a concise and well-structured Urdu summary. The Urdu should not be too difficult. Focus only on the key ideas and important information, and keep the summary limited to a few clear sentences. Return plain raw text only, written in Urdu, with no markdown, HTML, bullet points, headings, labels, explanations, or additional commentary.        \n ${content}`,
         });
 
         return response.text

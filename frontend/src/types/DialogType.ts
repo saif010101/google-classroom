@@ -1,1 +1,1 @@
-export type DialogType = "join-class" | "create-class" | "edit-class" | "create-post" | "edit-post" | null
+export type DialogType = "ai-summary" | "join-class" | "create-class" | "edit-class" | "create-post" | "edit-post" | null

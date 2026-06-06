@@ -61,8 +61,9 @@ export const editPost = asyncHandler(async (req: Request, res: Response) => {
 })
 
 export const getAISummary = asyncHandler(async (req: Request, res: Response) => {
-    const { content } = req.body
 
+    const { content } = req.body
+    
     if (!content) {
         return res.status(400).json({ message: 'Invalid Input.' })
     }
