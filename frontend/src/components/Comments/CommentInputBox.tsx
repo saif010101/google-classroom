@@ -28,6 +28,7 @@ export const CommentInputBox = ({ post_id }: CommentInputBoxProps) => {
 
     const handleSubmitClick = () => {
         mutate.mutate()
+        setComment('')
     }
 
     return (
@@ -42,6 +43,7 @@ export const CommentInputBox = ({ post_id }: CommentInputBoxProps) => {
                 variant="outlined"
                 placeholder="Add class comment..."
                 onChange={handleInputChange}
+                value={comment}
             />
             <div onClick={handleSubmitClick} className="p-1 rounded-full cursor-pointer hover:bg-gray-300">
                 {!mutate.isPending && <ArrowRightCircleIcon className={`size-8 ${commentIconStyles}`} />}

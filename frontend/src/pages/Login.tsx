@@ -44,7 +44,7 @@ export const Login = () => {
     const isEmailError = () => mutate.error?.status === 404
     const isPasswordError = () => mutate.error?.status === 401
 
-    let message = mutate.error?.response?.data.message
+    const message = mutate.error?.response?.data.message
 
 
     useEffect(() => {
@@ -56,8 +56,12 @@ export const Login = () => {
 
     return (
         <>
-            <div className="h-screen flex flex-col justify-center items-center bg-green-400">
-                <form autoComplete="off" onSubmit={handleSubmit} className="w-full h-[75%] mt-auto px-15 py-20 flex flex-col gap-5 rounded-t-[2.5rem] bg-white">
+            <div className="h-screen flex max-[1140px]:justify-center justify-around items-center bg-green-400">
+                <div>
+                    <p className="max-[1140px]:hidden text-white font-bold text-[3rem]">Learn Together.</p>
+                    <p className="px-10 max-[1140px]:hidden text-white font-bold text-[3rem]">Grow Together.</p>
+                </div>
+                <form autoComplete="off" onSubmit={handleSubmit} className="grow-1 max-w-[650px] h-[75%] max-[1140px]:mt-auto px-15 py-20 flex flex-col gap-5 bg-white">
                     <p className="text-[1.75rem] mb-10">Sign in</p>
                     <TextField
                         required
@@ -79,7 +83,7 @@ export const Login = () => {
                         type="password"
                         helperText={isPasswordError() && message}
                     />
-                    <SubmitButtonWithSpinner isDisabled={false} label={"Login"} isPending={mutate.isPending}/>
+                    <SubmitButtonWithSpinner isDisabled={false} label={"Login"} isPending={mutate.isPending} />
                     <div className="self-center mt-10">
                         <span className="text-gray-600">Don't have an account? </span>
                         <NavLink to="/signup" className="">Signup</NavLink>

@@ -49,13 +49,8 @@ export const ClassCard = ({ class_code, class_name, teacher_name, section, role 
 
     return (
         <>
-            <Snackbar
-                anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
-                message="Operation in progress"
-                open={mutate.isPending}
-            />
             <div className="w-[375px] border border-gray-400 rounded-xl overflow-hidden hover:shadow-xl hover:cursor-pointer">
-                <div onClick={() => handleClassClick(class_code)} className="p-4 flex flex-col gap-2 bg-green-700 text-white">
+                <div onClick={() => handleClassClick(class_code)} className="p-4 flex flex-col gap-2 bg-[#00c441] text-white">
                     <p className="text-2xl hover:underline truncate">{class_name}</p>
                     <span className="text-sm hover:underline">{section}</span>
                     <span className="text-sm">{teacher_name}</span>
