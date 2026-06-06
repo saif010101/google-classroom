@@ -1,6 +1,6 @@
 import { EllipsisVerticalIcon } from "@heroicons/react/16/solid"
 import { UserIcon } from "@heroicons/react/24/outline"
-import { Menu, MenuItem, Snackbar } from "@mui/material"
+import { Menu, MenuItem} from "@mui/material"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { useAlertContext } from "../../hooks/useAlertContext"
 import { useAuthContext } from "../../hooks/useAuthContext"
