@@ -5,7 +5,6 @@ import { useDropdown } from "../../hooks/useDropdown.tsx"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { useAlertContext } from "../../hooks/useAlertContext.tsx"
 import { useNavigate } from "react-router"
-import { Snackbar } from "@mui/material"
 import { ClassAPIService } from "../../api/ClassAPIService.ts"
 
 interface ClassCardProps {
