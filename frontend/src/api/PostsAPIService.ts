@@ -19,10 +19,8 @@ export class PostsAPIService {
         return data
     }
 
-    static async createPost(class_code: string | undefined, content: string) {
-        if (!class_code) {
-            return null
-        }
+    static async createPost(class_code: string, content: string): Promise<{ post_id: number }> {
+
         const { data } = await axios.post(`${PostsAPIService.baseUrl}/${class_code}`, { content }, { withCredentials: true })
         return data
     }

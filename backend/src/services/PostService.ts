@@ -50,7 +50,7 @@ class PostService {
         const response = await ai.models.generateContent({
             model: process.env.GEMINI_MODEL as string,
             contents: `Summarize the following paragraph into a concise and 
-            well-structured Urdu summary. The Urdu should not be too difficult. 
+            well-structured Urdu summary. The Urdu words should be very easy to understand. 
             Focus only on the key ideas and important information, 
             and keep the summary limited to a few clear sentences. 
             Return plain raw text only, written in Urdu, with no markdown, 

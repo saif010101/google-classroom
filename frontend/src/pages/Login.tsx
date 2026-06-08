@@ -61,7 +61,7 @@ export const Login = () => {
                     <p className="max-[1140px]:hidden text-white font-bold text-[3rem]">Learn Together.</p>
                     <p className="px-10 max-[1140px]:hidden text-white font-bold text-[3rem]">Grow Together.</p>
                 </div>
-                <form autoComplete="off" onSubmit={handleSubmit} className="grow-1 max-w-[650px] h-[75%] max-[1140px]:mt-auto px-15 py-20 flex flex-col gap-5 bg-white">
+                <form autoComplete="off" onSubmit={handleSubmit} className="grow-1 max-w-[650px] h-[75%] max-[1140px]:mt-auto px-15 py-20 flex flex-col justify-center max-[1140px]:rounded-t-[2.5rem] min-[1140px]:rounded-[1rem] gap-5 bg-white">
                     <p className="text-[1.75rem] mb-10">Sign in</p>
                     <TextField
                         required

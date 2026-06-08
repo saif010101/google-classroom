@@ -61,7 +61,7 @@ export const Signup = () => {
                     <p className="max-[1140px]:hidden text-white font-bold text-[3rem]">Create your first</p>
                     <p className="px-10 max-[1140px]:hidden text-white font-bold text-[3rem]">Virtual classroom.</p>
                 </div>
-                <form onSubmit={handleSubmit} className="grow-1 max-w-[650px] h-[85%] max-[1140px]:mt-auto px-13 py-5 flex flex-col gap-4 max-[1140px]:rounded-t-[2.5rem] min-[1140px]:rounded-[1rem] bg-white ">
+                <form onSubmit={handleSubmit} className="grow-1 max-w-[650px] h-[85%] max-[1140px]:mt-auto px-13 py-5 flex flex-col justify-center gap-4 max-[1140px]:rounded-t-[2.5rem] min-[1140px]:rounded-[1rem] bg-white ">
                     <p className="text-[1.75rem] mb-2">Sign up</p>
                     <TextField required error={!Boolean(isFirstNameFormatValid()) && userData.first_name.length > 0} id="outlined-required" label="First Name" defaultValue="" onChange={handleInputChange} name="first_name" helperText={!Boolean(isFirstNameFormatValid()) && userData.first_name.length > 0 && nameErrorMsg} />
                     <TextField required error={!Boolean(isLastNameFormatValid()) && userData.last_name.length > 0} id="outlined-required" label="Last Name" defaultValue="" onChange={handleInputChange} name="last_name" helperText={!Boolean(isLastNameFormatValid()) && userData.last_name.length > 0 && nameErrorMsg} />
