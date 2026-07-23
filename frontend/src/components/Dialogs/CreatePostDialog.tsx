@@ -12,16 +12,14 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useAlertContext } from '../../hooks/useAlertContext';
 import { useClassContext } from '../../hooks/useClassContext';
 import { PostsAPIService } from '../../api/PostsAPIService';
-import { ArrowUpTrayIcon } from '@heroicons/react/24/outline';
 import { MaterialAPIService } from '../../api/MaterialAPIService';
-import { MaterialCard } from '../Material/MaterialCard';
 
 
 
 export function CreatePostDialog() {
 
     const controllerRef = useRef<Map<string, AbortController>>(new Map())
-    const inputRef = useRef<HTMLInputElement | null>(null)
+    // const inputRef = useRef<HTMLInputElement | null>(null)
     const queryClient = useQueryClient()
     const { setAlert } = useAlertContext()
     const { currentClass } = useClassContext()
@@ -123,38 +121,38 @@ export function CreatePostDialog() {
         setPostContent(event.target.value)
     }
 
-    const handleFileChange = () => {
-        const files = inputRef && inputRef.current ? inputRef.current.files : null
+    // const handleFileChange = () => {
+    //     const files = inputRef && inputRef.current ? inputRef.current.files : null
 
-        // extract required info from files list and set the state
-        if (files) {
-            const list: File[] = []
-            for (let i = 0; i < files.length; i++) {
-                list.push(files[i])
-            }
-            setMaterial(list)
-            // progress key = file.name, value = 0 (initial)
-            setProgress(
-                new Map(
-                    list.map(item => [item.name, 0])
-                )
-            )
-        }
-    }
+    //     // extract required info from files list and set the state
+    //     if (files) {
+    //         const list: File[] = []
+    //         for (let i = 0; i < files.length; i++) {
+    //             list.push(files[i])
+    //         }
+    //         setMaterial(list)
+    //         // progress key = file.name, value = 0 (initial)
+    //         setProgress(
+    //             new Map(
+    //                 list.map(item => [item.name, 0])
+    //             )
+    //         )
+    //     }
+    // }
 
-    const handleFileDeselect = (file: File) => {
-        const controller = controllerRef.current.get(file.name)
+    // const handleFileDeselect = (file: File) => {
+    //     const controller = controllerRef.current.get(file.name)
 
-        // cancel upload
-        if (controller) {
-            controller.abort()
-        }
+    //     // cancel upload
+    //     if (controller) {
+    //         controller.abort()
+    //     }
 
-        if (material && progress) {
-            setMaterial(material.filter(item => item.name !== file.name))
-            progress.delete(file.name)
-        }
-    }
+    //     if (material && progress) {
+    //         setMaterial(material.filter(item => item.name !== file.name))
+    //         progress.delete(file.name)
+    //     }
+    // }
 
     return (
         <>
