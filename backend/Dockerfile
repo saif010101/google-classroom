@@ -14,4 +14,4 @@ COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/migrations ./migrations
 COPY --from=builder /app/utils ./utils 
 EXPOSE 3000
-CMD ["sh","-c","npm run migrate up && node dist/server.js"]
+CMD ["node", "dist/server.js"]
