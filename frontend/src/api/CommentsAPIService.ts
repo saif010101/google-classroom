@@ -7,7 +7,7 @@ interface EditCommentPayload {
 }
 
 export class CommentsAPIService {
-    private static baseUrl = `/api/comments`
+    private static baseUrl = `${import.meta.env.VITE_API_URL}/api/comments`
 
     static async getComments(post_id: number): Promise<CommentType[] | null> {
         const { data } = await axios.get(`${CommentsAPIService.baseUrl}/${post_id}`, { withCredentials: true })

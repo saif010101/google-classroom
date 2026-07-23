@@ -5,7 +5,7 @@ import type { MaterialType } from '../types/MaterialType'
 
 export class MaterialAPIService {
 
-    private static baseUrl = `/api/materials`
+    private static baseUrl = `${import.meta.env.VITE_API_URL}/api/materials`
 
 
     static async getAllMaterials(post_id: number): Promise<MaterialType[]> {

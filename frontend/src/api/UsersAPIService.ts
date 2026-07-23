@@ -18,7 +18,7 @@ interface LoginUserResponse {
 }
 
 export class UsersAPIService {
-    private static baseUrl = `/api/users`
+    private static baseUrl = `${import.meta.env.VITE_API_URL}/api/users`
 
     static async loginUser(payload: LoginPayload) : Promise<LoginUserResponse>{
         const { data } = await axios.post(`${UsersAPIService.baseUrl}/login`, payload, { withCredentials: true })

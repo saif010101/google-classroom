@@ -8,7 +8,7 @@ interface CreateClassType {
 
 export class ClassAPIService {
 
-    private static baseUrl = `/api/classes`
+    private static baseUrl = `${import.meta.env.VITE_API_URL}/api/classes`
 
 
     static async getAllClasses(): Promise<ClassData[]> {
