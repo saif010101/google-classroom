@@ -10,12 +10,9 @@ import cookieParser from "cookie-parser"
 
 export const app = express();
 
-app.use((req, res, next) => {
-  console.log(`Incoming: ${req.method} ${req.originalUrl}`)
-  next()
-})
+
 app.use(cors({
-    origin : `http://${process.env.ORIGIN ?? 'localhost'}:5173`,
+    origin : process.env.environment === "production" ? process.env.ORIGIN : "http://localhost:5173",
     credentials : true
 }));
 app.use(express.json());

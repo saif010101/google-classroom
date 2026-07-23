@@ -5,7 +5,7 @@ const seedClasses = (pgm: MigrationBuilder) => {
   pgm.sql(`
     INSERT INTO classes (class_code, name, section) VALUES
       ('CS101', 'Introduction to Computer Science', 'A'),
-      ('MATH201', 'Calculus II', 'B'),
+      ('MAT201', 'Calculus II', 'B'),
       ('ENG105', 'Academic Writing', 'C');
   `);
 }
@@ -25,7 +25,7 @@ const seedEnrollment = (pgm: MigrationBuilder) => {
     INSERT INTO enrollment (class_code, user_id, role) VALUES
       ('CS101',   100, 'teacher'),
       ('CS101',   101, 'student'),
-      ('MATH201', 102, 'teacher');
+      ('MAT201', 102, 'teacher');
   `);
 }
 const seedPosts = (pgm: MigrationBuilder) => {
@@ -33,7 +33,7 @@ const seedPosts = (pgm: MigrationBuilder) => {
     INSERT INTO posts (content, user_id, class_code) VALUES
       ('Welcome to CS101! Please review the syllabus.', 100, 'CS101'),
       ('Can someone explain recursion?',                101, 'CS101'),
-      ('Anyone else struggling with integrals?',        102, 'MATH201');
+      ('Anyone else struggling with integrals?',        102, 'MAT201');
   `);
 }
 const seedComments = (pgm: MigrationBuilder) => {

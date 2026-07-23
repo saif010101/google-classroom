@@ -163,7 +163,7 @@ export function CreatePostDialog() {
                 <DialogContent>
                     <form className="flex flex-col items-start gap-3 p-3" onSubmit={handleSubmit} id="subscription-form">
                         <TextField id="outlined-multiline-static" label="Write your message." multiline minRows={4} className="w-full" name="content" onChange={handleChange} />
-                        <label className="flex items-center gap-2" htmlFor="fileInput">
+                        {/* <label className="flex items-center gap-2" htmlFor="fileInput">
                             <ArrowUpTrayIcon className='p-1 size-8 border border-gray-800 text-gray-800 rounded-full hover:bg-gray-200 cursor-pointer' />
                         </label>
                         <input multiple onChange={handleFileChange} ref={inputRef} name="file" id="fileInput" className="hidden" type="file" />
@@ -171,7 +171,7 @@ export function CreatePostDialog() {
                             material
                             &&
                             material.map(item => <MaterialCard key={item.name} handleFileDeselect={() => handleFileDeselect(item)} material={item} progress={progress?.get(item.name) as number} />)
-                        }
+                        } */}
                     </form>
                 </DialogContent>
                 <DialogActions>
